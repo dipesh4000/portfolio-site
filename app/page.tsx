@@ -1,6 +1,7 @@
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { GitHubStatsSection, DSAStatsSection } from "@/components/stats";
 import {
   AboutSection,
   ProjectsSection,
@@ -14,6 +15,8 @@ export default function Home() {
       <Navbar />
       <Hero />
       <AboutSection />
+      <GitHubStatsSection />
+      <DSAStatsSection />
       <ProjectsSection />
       <ExperienceSection />
       <ContactSection />

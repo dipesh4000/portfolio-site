@@ -20,7 +20,7 @@ const socialLinks = [
     label: "Email",
   },
   {
-    href: "https://twitter.com/GoPokemon20",
+    href: "https://x.com/dipesh400",
     icon: Twitter,
     label: "Twitter/X",
   },
