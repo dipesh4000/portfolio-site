@@ -42,21 +42,32 @@ export function Navbar() {
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo */}
+            {/* Logo with ASCII Avatar */}
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="group flex items-center gap-2"
+              className="group flex items-center gap-3"
             >
-              <span className="text-lg font-bold text-white group-hover:text-white/70 transition-colors tracking-tight">
-                dipesh
-              </span>
-              <span className="text-lg font-light text-white/40 group-hover:text-white/30 transition-colors">
-                kumar
-              </span>
+              {/* ASCII Avatar */}
+              <div className="hidden sm:flex flex-col items-center text-[6px] leading-[5px] font-mono text-white/60 group-hover:text-white/80 transition-colors select-none">
+                <span>{`  .-"""-.`}</span>
+                <span>{` /        \\`}</span>
+                <span>{`|  O    O  |`}</span>
+                <span>{`|    __    |`}</span>
+                <span>{` \\  \\__/  /`}</span>
+                <span>{`  '-.___.-'`}</span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="text-lg font-bold text-white group-hover:text-white/70 transition-colors tracking-tight">
+                  dipesh
+                </span>
+                <span className="text-lg font-light text-white/40 group-hover:text-white/30 transition-colors">
+                  kumar
+                </span>
+              </div>
             </a>
 
             {/* Desktop Navigation */}
