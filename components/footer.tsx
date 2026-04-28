@@ -3,98 +3,44 @@
 import { Github, Linkedin, Mail, Twitter } from "lucide-react";
 
 const socialLinks = [
-  { href: "https://github.com/dipesh4036", icon: Github, label: "GitHub" },
-  { href: "https://www.linkedin.com/in/dipeshkumar4000/", icon: Linkedin, label: "LinkedIn" },
-  { href: "mailto:dipeshkumar4036@gmail.com", icon: Mail, label: "Email" },
+  { href: "https://github.com/dipesh4000", icon: Github, label: "GitHub" },
+  { href: "https://linkedin.com/in/dipesh4000", icon: Linkedin, label: "LinkedIn" },
+  { href: "mailto:dipeshkumar0853822@gmail.com", icon: Mail, label: "Email" },
   { href: "https://x.com/dipesh400", icon: Twitter, label: "Twitter" },
-];
-
-const quickLinks = [
-  { href: "#about", label: "About" },
-  { href: "#coding-stats", label: "Stats" },
-  { href: "#projects", label: "Projects" },
-  { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
 ];
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10" style={{ backgroundColor: "#0a0a0a" }}>
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-10 mb-10">
+    <footer className="border-t border-white/5 py-12 px-6" style={{ backgroundColor: "#0a0a0a" }}>
+      <div className="max-w-6xl mx-auto">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-white">Dipesh Kumar</h3>
-            <p className="text-white/50 text-sm leading-relaxed">
-              ML Engineer & Data Scientist building production-grade machine learning systems.
-            </p>
-            <div className="flex items-center gap-2">
-              {socialLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="p-2 rounded-lg bg-white/5 text-white/50 hover:text-white hover:bg-white/10 transition-colors"
-                  aria-label={link.label}
-                >
-                  <link.icon className="w-4 h-4" />
-                </a>
-              ))}
-            </div>
+          <div className="text-center md:text-left">
+            <h3 className="text-lg font-bold text-white mb-1">Dipesh Kumar</h3>
+            <p className="text-sm text-white/40">ML Engineer & Data Scientist</p>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-4">
-              Quick Links
-            </h4>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.href}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-white/50 hover:text-white transition-colors"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          {/* Contact */}
-          <div>
-            <h4 className="text-xs font-semibold text-white/40 uppercase tracking-wider mb-4">
-              Get In Touch
-            </h4>
-            <div className="space-y-3">
+          {/* Social Links */}
+          <div className="flex items-center gap-3">
+            {socialLinks.map((link) => (
               <a
-                href="mailto:dipeshkumar4036@gmail.com"
-                className="text-sm text-white/50 hover:text-white transition-colors block"
-              >
-                dipeshkumar4036@gmail.com
-              </a>
-              <a
-                href="https://codolio.com/profile/dipesh4000"
+                key={link.label}
+                href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-sm text-purple-400 hover:text-purple-300 transition-colors"
+                className="p-2.5 rounded-full border border-white/10 text-white/40 hover:text-white hover:border-white/30 transition-all"
+                aria-label={link.label}
               >
-                View Coding Profile
+                <link.icon className="w-4 h-4" />
               </a>
-            </div>
+            ))}
           </div>
         </div>
 
         {/* Bottom */}
-        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-xs text-white/30">
-            © {new Date().getFullYear()} Dipesh Kumar. All rights reserved.
-          </p>
-          <p className="text-xs text-white/30">
-            Built with Next.js & Tailwind CSS
-          </p>
+        <div className="mt-8 pt-8 border-t border-white/5 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-white/30">
+          <p>© {new Date().getFullYear()} Dipesh Kumar</p>
+          <p>Built with Next.js & Tailwind CSS</p>
         </div>
       </div>
     </footer>

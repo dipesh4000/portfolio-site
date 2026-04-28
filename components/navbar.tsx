@@ -49,7 +49,7 @@ export function Navbar() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="text-xl font-bold text-white hover:text-purple-400 transition-colors"
+              className="text-xl font-bold text-white hover:text-white/70 transition-colors"
             >
               DK
             </a>
@@ -60,16 +60,16 @@ export function Navbar() {
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  className="px-4 py-2 text-sm text-white/60 hover:text-white transition-colors cursor-pointer"
+                  className="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors cursor-pointer"
                 >
                   {link.label}
                 </button>
               ))}
               <a
-                href="https://github.com/dipesh4036"
+                href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium transition-colors"
+                className="ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
               >
                 GitHub
               </a>
@@ -105,7 +105,7 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full py-4 text-lg text-white hover:text-purple-400 transition-colors cursor-pointer"
+                  className="w-full py-4 text-lg text-white/70 hover:text-white transition-colors cursor-pointer"
                 >
                   {link.label}
                 </motion.button>
@@ -114,10 +114,10 @@ export function Navbar() {
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.05 }}
-                href="https://github.com/dipesh4036"
+                href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 mt-4 text-lg font-medium text-white text-center bg-purple-600 rounded-lg"
+                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full"
               >
                 GitHub
               </motion.a>

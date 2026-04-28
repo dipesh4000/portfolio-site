@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown, Github, Linkedin, Mail, Twitter } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { ChevronDown, Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 
 const greetings = [
   { text: "Hi", lang: "en" },
@@ -14,69 +14,95 @@ const greetings = [
 
 export function Hero() {
   const [phase, setPhase] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        mouseX.set((e.clientX - centerX) / 50);
+        mouseY.set((e.clientY - centerY) / 50);
+      }
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  useEffect(() => {
+    // Extended timing for 5-6 second sequence
     const timers = [
-      setTimeout(() => setPhase(1), 400),      // Show "Hi"
-      setTimeout(() => setPhase(2), 1800),     // Fan out greetings
-      setTimeout(() => setPhase(3), 4000),     // Dissolve, show Welcome
-      setTimeout(() => setPhase(4), 5000),     // Show name
-      setTimeout(() => setPhase(5), 6000),     // Show subtitle & socials
+      setTimeout(() => setPhase(1), 300),      // Show "Hi" (0.3s)
+      setTimeout(() => setPhase(2), 1500),     // Fan out greetings (1.5s)
+      setTimeout(() => setPhase(3), 3500),     // Show Welcome (3.5s)
+      setTimeout(() => setPhase(4), 4500),     // Show name (4.5s)
+      setTimeout(() => setPhase(5), 5500),     // Show subtitle & socials (5.5s)
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
     <section
+      ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: "#0a0a0a" }}
     >
-      {/* Subtle grid background */}
+      {/* Subtle animated particles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {[...Array(30)].map((_, i) => (
+          <motion.div
+            key={i}
+            className="absolute w-1 h-1 bg-white/20 rounded-full"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+            }}
+            animate={{
+              y: [0, -100, 0],
+              opacity: [0, 1, 0],
+            }}
+            transition={{
+              duration: 3 + Math.random() * 4,
+              repeat: Infinity,
+              delay: Math.random() * 3,
+              ease: "easeInOut",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Very subtle grid */}
       <div
-        className="absolute inset-0 opacity-[0.03]"
+        className="absolute inset-0 opacity-[0.02]"
         style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-          backgroundSize: "80px 80px",
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
+          backgroundSize: "100px 100px",
         }}
       />
 
-      {/* Subtle gradient orbs - very minimal */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute w-[600px] h-[600px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(139,92,246,0.08) 0%, transparent 70%)",
-            left: "-10%",
-            top: "10%",
-            filter: "blur(60px)",
-          }}
-          animate={{ x: [0, 30, 0], y: [0, -20, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          className="absolute w-[500px] h-[500px] rounded-full"
-          style={{
-            background: "radial-gradient(circle, rgba(236,72,153,0.06) 0%, transparent 70%)",
-            right: "-5%",
-            bottom: "10%",
-            filter: "blur(80px)",
-          }}
-          animate={{ x: [0, -20, 0], y: [0, 30, 0] }}
-          transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
-        />
-      </div>
-
-      <div className="relative z-10 text-center px-6 max-w-5xl">
+      {/* Main content with parallax */}
+      <motion.div 
+        className="relative z-10 text-center px-6 max-w-5xl"
+        style={{ x: springX, y: springY }}
+      >
         <AnimatePresence mode="wait">
-          {/* Phase 1: Single "Hi" centered */}
+          {/* Phase 0: Nothing - brief pause */}
+          
+          {/* Phase 1: Single "Hi" centered with dramatic entrance */}
           {phase === 1 && (
             <motion.div
               key="hi-single"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 1.1 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[8rem] md:text-[12rem] font-black text-white leading-none"
+              initial={{ opacity: 0, scale: 0.5, filter: "blur(20px)" }}
+              animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+              exit={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="text-[10rem] md:text-[14rem] font-black text-white leading-none tracking-tighter"
             >
               Hi
             </motion.div>
@@ -86,24 +112,25 @@ export function Hero() {
           {phase === 2 && (
             <motion.div
               key="greetings"
-              className="flex flex-wrap items-center justify-center gap-4 md:gap-10"
+              className="flex flex-wrap items-center justify-center gap-6 md:gap-12"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5 }}
+              exit={{ opacity: 0, y: -30, filter: "blur(10px)" }}
+              transition={{ duration: 0.6 }}
             >
               {greetings.map((g, i) => (
                 <motion.span
                   key={g.lang}
-                  initial={{ opacity: 0, y: 40, scale: 0.5 }}
-                  animate={{ opacity: 0.85, y: 0, scale: 1 }}
+                  initial={{ opacity: 0, y: 60, rotateX: -90 }}
+                  animate={{ opacity: 0.9, y: 0, rotateX: 0 }}
                   transition={{ 
-                    delay: i * 0.15, 
+                    delay: i * 0.12, 
                     type: "spring", 
-                    stiffness: 120, 
-                    damping: 12 
+                    stiffness: 100, 
+                    damping: 15 
                   }}
-                  className="text-4xl md:text-6xl lg:text-7xl font-bold text-white"
+                  className="text-5xl md:text-7xl lg:text-8xl font-bold text-white"
+                  style={{ textShadow: "0 0 60px rgba(255,255,255,0.3)" }}
                 >
                   {g.text}
                 </motion.span>
@@ -117,71 +144,94 @@ export function Hero() {
               key="main" 
               initial={{ opacity: 0 }} 
               animate={{ opacity: 1 }} 
-              className="space-y-6"
+              className="space-y-8"
             >
               {/* Welcome */}
               <motion.p
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-3xl md:text-5xl font-light italic text-white/50"
-                style={{ fontFamily: "Georgia, serif" }}
+                transition={{ duration: 0.8, ease: "easeOut" }}
+                className="text-4xl md:text-6xl font-light text-white/40"
+                style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: "italic" }}
               >
                 Welcome
               </motion.p>
 
               {/* Name - Phase 4 */}
               {phase >= 4 && (
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="text-5xl md:text-8xl font-black"
+                  transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <span className="text-white">I&apos;m </span>
-                  <span className="text-purple-500">Dipesh Kumar</span>
-                </motion.h1>
+                  <h1 className="text-6xl md:text-9xl font-black tracking-tight">
+                    <span className="text-white/60">I&apos;m </span>
+                    <span className="text-white relative">
+                      Dipesh Kumar
+                      <motion.span
+                        className="absolute -bottom-2 left-0 h-1 bg-white"
+                        initial={{ width: 0 }}
+                        animate={{ width: "100%" }}
+                        transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                      />
+                    </span>
+                  </h1>
+                </motion.div>
               )}
 
               {/* Subtitle & socials - Phase 5 */}
               {phase >= 5 && (
                 <motion.div
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6 }}
-                  className="space-y-8"
+                  transition={{ duration: 0.8 }}
+                  className="space-y-10"
                 >
-                  <p className="text-xl md:text-2xl text-white/60 font-medium">
-                    ML Engineer · Data Science · Backend
+                  <p className="text-xl md:text-3xl text-white/50 font-light tracking-wide">
+                    ML Engineer <span className="text-white/20 mx-3">|</span> 
+                    Data Science <span className="text-white/20 mx-3">|</span> 
+                    Backend
                   </p>
 
                   {/* Social links */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.3 }}
+                    transition={{ delay: 0.4 }}
                     className="flex items-center justify-center gap-4"
                   >
                     {[
-                      { icon: Github, href: "https://github.com/dipesh4036", label: "GitHub" },
-                      { icon: Linkedin, href: "https://www.linkedin.com/in/dipeshkumar4000/", label: "LinkedIn" },
-                      { icon: Mail, href: "mailto:dipeshkumar4036@gmail.com", label: "Email" },
-                      { icon: Twitter, href: "https://x.com/dipesh400", label: "Twitter" },
+                      { icon: Github, href: "https://github.com/dipesh4000", label: "GitHub" },
+                      { icon: Linkedin, href: "https://linkedin.com/in/dipesh4000", label: "LinkedIn" },
+                      { icon: Mail, href: "mailto:dipeshkumar0853822@gmail.com", label: "Email" },
+                      { icon: ExternalLink, href: "https://www.dipesh4000.xyz", label: "Portfolio" },
                     ].map(({ icon: Icon, href, label }) => (
                       <motion.a
-                        key={href}
+                        key={label}
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.1)" }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-3 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-white/20 transition-all"
+                        className="p-4 rounded-full border border-white/10 bg-transparent transition-all duration-300"
                         aria-label={label}
                       >
-                        <Icon className="w-5 h-5 text-white/70 hover:text-white transition-colors" />
+                        <Icon className="w-5 h-5 text-white/60 hover:text-white transition-colors" />
                       </motion.a>
                     ))}
                   </motion.div>
+
+                  {/* Resume button - subtle */}
+                  <motion.a
+                    href="/resume.pdf"
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 0.6 }}
+                    className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors border-b border-white/20 hover:border-white/50 pb-1"
+                  >
+                    Download Resume
+                    <ExternalLink className="w-3 h-3" />
+                  </motion.a>
                 </motion.div>
               )}
             </motion.div>
@@ -194,19 +244,19 @@ export function Hero() {
             href="#about"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8 }}
-            className="absolute left-1/2 -translate-x-1/2 bottom-[-120px] flex flex-col items-center gap-2 text-white/30 hover:text-white/60 transition-colors cursor-pointer"
+            transition={{ delay: 1 }}
+            className="absolute left-1/2 -translate-x-1/2 bottom-[-140px] flex flex-col items-center gap-2 text-white/20 hover:text-white/50 transition-colors cursor-pointer group"
           >
-            <span className="text-xs tracking-[0.2em] uppercase font-medium">Scroll</span>
+            <span className="text-[10px] tracking-[0.3em] uppercase font-medium">Scroll</span>
             <motion.div
-              animate={{ y: [0, 6, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity }}
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
             >
-              <ChevronDown className="w-5 h-5" />
+              <ChevronDown className="w-4 h-4" />
             </motion.div>
           </motion.a>
         )}
-      </div>
+      </motion.div>
     </section>
   );
 }
