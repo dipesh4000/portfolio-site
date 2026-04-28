@@ -5,7 +5,16 @@ import { useInView } from "framer-motion";
 import { useRef } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, Code, GraduationCap, Sparkles } from "lucide-react";
+import {
+  Briefcase,
+  ExternalLink,
+  Github,
+  GraduationCap,
+  Rocket,
+  Server,
+  Database,
+  MessageSquare,
+} from "lucide-react";
 
 function SectionWrapper({
   id,
@@ -46,52 +55,59 @@ function SectionTitle({ children }: { children: React.ReactNode }) {
 }
 
 export function AboutSection() {
-  const skills = [
-    "Python",
-    "TensorFlow",
-    "PyTorch",
-    "Scikit-learn",
-    "FastAPI",
-    "Node.js",
-    "PostgreSQL",
-    "Docker",
-    "AWS",
-    "MLOps",
-  ];
+  const skills = {
+    "ML & AI": ["Python", "scikit-learn", "YOLOv8", "PyTorch", "Pandas", "NumPy"],
+    "Backend & APIs": ["FastAPI", "Flask", "PostgreSQL", "MongoDB", "Docker", "SQLAlchemy"],
+    "Data Engineering": ["ETL Pipelines", "Medallion Architecture", "SQL", "Git"],
+  };
 
   return (
     <SectionWrapper id="about">
       <SectionTitle>About Me</SectionTitle>
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
+      <div className="grid lg:grid-cols-5 gap-12 items-start">
+        <div className="lg:col-span-3 space-y-6">
           <p className="text-lg text-muted-foreground leading-relaxed">
-            {
-              "I'm a passionate ML Engineer and Data Scientist with expertise in building intelligent systems that solve real-world problems. With a strong foundation in backend development, I bridge the gap between data science and production-ready applications."
-            }
+            {"I'm a Data Science + CS student pursuing a dual degree at "}
+            <span className="text-foreground font-medium">IIT Madras</span>
+            {" (B.S. Data Science) and "}
+            <span className="text-foreground font-medium">MSIT</span>
+            {" (B.Tech Computer Science), building production-grade ML pipelines, data warehouses, and FastAPI backends."}
           </p>
-          <p className="text-lg text-muted-foreground leading-relaxed">
-            My work spans across machine learning pipelines, deep learning
-            models, and scalable backend architectures. I thrive on turning
-            complex data into actionable insights and deploying models that make
-            a difference.
+          <div className="flex flex-wrap items-center gap-3">
+            <Badge className="bg-green-100 text-green-800 hover:bg-green-100 border-green-200">
+              Currently at LearnQ.ai
+            </Badge>
+            <Badge variant="outline" className="border-foreground/20">
+              Open to Roles
+            </Badge>
+          </div>
+          <p className="text-muted-foreground leading-relaxed">
+            {"My work spans machine learning pipelines, deep learning models, and scalable backend architectures. I focus on turning complex data into actionable insights and deploying models that make a real difference."}
           </p>
         </div>
-        <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-          {skills.map((skill, index) => (
-            <motion.div
-              key={skill}
-              initial={{ opacity: 0, scale: 0.8 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ delay: index * 0.05 }}
-              viewport={{ once: true }}
-            >
-              <Badge
-                variant="secondary"
-                className="text-sm px-3 py-1 bg-secondary hover:bg-primary/20 transition-colors"
-              >
-                {skill}
-              </Badge>
-            </motion.div>
+        <div className="lg:col-span-2 space-y-6">
+          {Object.entries(skills).map(([category, skillList]) => (
+            <div key={category}>
+              <h4 className="text-sm font-semibold text-foreground mb-3">{category}</h4>
+              <div className="flex flex-wrap gap-2">
+                {skillList.map((skill, index) => (
+                  <motion.div
+                    key={skill}
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    whileInView={{ opacity: 1, scale: 1 }}
+                    transition={{ delay: index * 0.03 }}
+                    viewport={{ once: true }}
+                  >
+                    <Badge
+                      variant="secondary"
+                      className="text-xs px-2.5 py-1"
+                    >
+                      {skill}
+                    </Badge>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           ))}
         </div>
       </div>
@@ -102,32 +118,44 @@ export function AboutSection() {
 export function ProjectsSection() {
   const projects = [
     {
-      title: "AI-Powered Analytics Platform",
+      title: "Spacestation Object Detection",
       description:
-        "End-to-end ML pipeline for real-time business analytics with predictive modeling and automated reporting.",
-      tags: ["Python", "TensorFlow", "FastAPI", "React"],
-      icon: Sparkles,
+        "YOLOv8 object detection model trained on synthetic space station imagery and validated on real NASA datasets. Multi-class detection with precision/recall benchmarking.",
+      tags: ["Python", "YOLOv8", "Computer Vision", "Synthetic Data"],
+      icon: Rocket,
+      featured: true,
+      github: "https://github.com/dipesh4000/Spacestation_objects_detection_duality",
     },
     {
-      title: "Natural Language Processing Engine",
+      title: "End-to-End ML Pipeline + FastAPI",
       description:
-        "Advanced NLP system for text classification, sentiment analysis, and entity extraction at scale.",
-      tags: ["PyTorch", "Transformers", "Docker", "AWS"],
-      icon: Code,
+        "Full pipeline (ingest → clean → train → evaluate → serve) with FastAPI REST endpoint, PostgreSQL inference logging, containerised with Docker.",
+      tags: ["scikit-learn", "FastAPI", "PostgreSQL", "Docker"],
+      icon: Server,
+      github: "https://github.com/dipesh4000/Database_Projects",
     },
     {
-      title: "Computer Vision Pipeline",
+      title: "SQL Data Warehouse",
       description:
-        "Real-time object detection and image classification system deployed on edge devices.",
-      tags: ["OpenCV", "YOLO", "TensorRT", "Kubernetes"],
-      icon: Sparkles,
+        "Medallion Architecture (Bronze/Silver/Gold) with progressive data cleaning, schema standardisation, and feature-ready Gold tables for ML.",
+      tags: ["PostgreSQL", "ETL", "Python", "Data Engineering"],
+      icon: Database,
+      github: "https://github.com/dipesh4000/Database_Projects",
+    },
+    {
+      title: "Reddit-like REST API",
+      description:
+        "Full-featured REST API with JWT authentication, role-based access control, owner-only edit/delete, and secure password hashing with Argon2.",
+      tags: ["FastAPI", "PostgreSQL", "JWT", "Argon2"],
+      icon: MessageSquare,
+      github: "https://github.com/dipesh4000/redditAPI",
     },
   ];
 
   return (
-    <SectionWrapper id="projects" className="bg-card/30">
+    <SectionWrapper id="projects" className="bg-muted/30">
       <SectionTitle>Projects</SectionTitle>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid md:grid-cols-2 gap-6">
         {projects.map((project, index) => (
           <motion.div
             key={project.title}
@@ -136,13 +164,30 @@ export function ProjectsSection() {
             transition={{ delay: index * 0.1 }}
             viewport={{ once: true }}
           >
-            <Card className="h-full bg-card border-border hover:border-primary/50 transition-colors group">
+            <Card className="h-full bg-background border-border hover:border-foreground/20 transition-all hover:shadow-lg group">
               <CardHeader>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary group-hover:bg-primary/20 transition-colors">
-                    <project.icon className="w-5 h-5" />
+                <div className="flex items-start justify-between gap-3">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 rounded-lg bg-muted text-foreground group-hover:bg-foreground group-hover:text-background transition-colors">
+                      <project.icon className="w-5 h-5" />
+                    </div>
+                    <div>
+                      <CardTitle className="text-lg">{project.title}</CardTitle>
+                      {project.featured && (
+                        <Badge className="mt-1 bg-foreground text-background text-xs">
+                          Featured
+                        </Badge>
+                      )}
+                    </div>
                   </div>
-                  <CardTitle className="text-lg">{project.title}</CardTitle>
+                  <a
+                    href={project.github}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-muted transition-colors"
+                  >
+                    <Github className="w-5 h-5" />
+                  </a>
                 </div>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -172,59 +217,120 @@ export function ProjectsSection() {
 export function ExperienceSection() {
   const experiences = [
     {
-      title: "Senior ML Engineer",
-      company: "Tech Company",
-      period: "2022 - Present",
+      title: "Product Quality Intern",
+      company: "LearnQ.ai",
+      period: "Oct - Dec 2025",
       description:
-        "Leading ML initiatives, designing scalable pipelines, and mentoring junior engineers.",
+        "ML validation, data quality pipelines, and ensuring model performance meets production standards.",
       icon: Briefcase,
     },
     {
-      title: "Data Scientist",
-      company: "Analytics Firm",
-      period: "2020 - 2022",
+      title: "Implementation Intern",
+      company: "LearnQ.ai",
+      period: "Apr - Jun 2025",
       description:
-        "Developed predictive models and data-driven solutions for enterprise clients.",
-      icon: Code,
+        "Technical documentation, data workflows, and supporting ML implementation processes.",
+      icon: Briefcase,
+    },
+  ];
+
+  const education = [
+    {
+      degree: "B.S. Data Science & Applications",
+      school: "IIT Madras",
+      period: "2024 - 2028",
+      gpa: "GPA: 7.80",
     },
     {
-      title: "Software Engineer",
-      company: "Startup",
-      period: "2018 - 2020",
-      description:
-        "Built backend services and APIs for data-intensive applications.",
-      icon: GraduationCap,
+      degree: "B.Tech Computer Science",
+      school: "MSIT",
+      period: "2024 - 2028",
+      gpa: "GPA: 8.25",
     },
+  ];
+
+  const roles = [
+    "Deputy Head PR & Sponsorship, Microsoft Student Chapter, MSIT",
+    "Member AI/ML Dept, GeekRoom, MSIT",
   ];
 
   return (
     <SectionWrapper id="experience">
-      <SectionTitle>Experience</SectionTitle>
-      <div className="space-y-8">
-        {experiences.map((exp, index) => (
-          <motion.div
-            key={exp.title}
-            initial={{ opacity: 0, x: -20 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            transition={{ delay: index * 0.1 }}
-            viewport={{ once: true }}
-            className="flex gap-4 md:gap-6"
-          >
-            <div className="flex-shrink-0">
-              <div className="p-3 rounded-full bg-primary/10 text-primary">
-                <exp.icon className="w-5 h-5" />
-              </div>
-            </div>
-            <div className="space-y-1">
-              <h3 className="text-xl font-semibold text-foreground">
-                {exp.title}
-              </h3>
-              <p className="text-primary font-medium">{exp.company}</p>
-              <p className="text-sm text-muted-foreground">{exp.period}</p>
-              <p className="text-muted-foreground mt-2">{exp.description}</p>
-            </div>
-          </motion.div>
-        ))}
+      <SectionTitle>Experience & Education</SectionTitle>
+      
+      <div className="grid lg:grid-cols-2 gap-12">
+        {/* Experience */}
+        <div>
+          <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
+            <Briefcase className="w-5 h-5" /> Experience
+          </h3>
+          <div className="space-y-6">
+            {experiences.map((exp, index) => (
+              <motion.div
+                key={exp.title}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-6 border-l-2 border-border"
+              >
+                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-foreground" />
+                <div className="space-y-1">
+                  <h4 className="text-lg font-semibold text-foreground">
+                    {exp.title}
+                  </h4>
+                  <p className="text-foreground font-medium">{exp.company}</p>
+                  <p className="text-sm text-muted-foreground">{exp.period}</p>
+                  <p className="text-muted-foreground mt-2 text-sm">{exp.description}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        {/* Education */}
+        <div>
+          <h3 className="text-xl font-semibold text-foreground mb-6 flex items-center gap-2">
+            <GraduationCap className="w-5 h-5" /> Education
+          </h3>
+          <div className="space-y-6">
+            {education.map((edu, index) => (
+              <motion.div
+                key={edu.school}
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ delay: index * 0.1 }}
+                viewport={{ once: true }}
+                className="relative pl-6 border-l-2 border-border"
+              >
+                <div className="absolute -left-[9px] top-0 w-4 h-4 rounded-full bg-foreground" />
+                <div className="space-y-1">
+                  <h4 className="text-lg font-semibold text-foreground">
+                    {edu.degree}
+                  </h4>
+                  <p className="text-foreground font-medium">{edu.school}</p>
+                  <p className="text-sm text-muted-foreground">{edu.period}</p>
+                  <Badge variant="secondary" className="mt-2 text-xs">
+                    {edu.gpa}
+                  </Badge>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Roles */}
+          <div className="mt-8">
+            <h4 className="text-sm font-semibold text-foreground mb-3">Leadership Roles</h4>
+            <ul className="space-y-2">
+              {roles.map((role) => (
+                <li key={role} className="text-sm text-muted-foreground flex items-start gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-foreground mt-2 flex-shrink-0" />
+                  {role}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </SectionWrapper>
   );
@@ -232,22 +338,36 @@ export function ExperienceSection() {
 
 export function ContactSection() {
   return (
-    <SectionWrapper id="contact" className="bg-card/30">
+    <SectionWrapper id="contact" className="bg-muted/30">
       <SectionTitle>Get In Touch</SectionTitle>
       <div className="max-w-2xl mx-auto text-center space-y-6">
         <p className="text-lg text-muted-foreground leading-relaxed">
           {
-            "I'm always interested in hearing about new opportunities, collaborations, or just having a chat about ML and data science. Feel free to reach out!"
+            "I'm open to Junior ML Engineer, Data Scientist, MLOps Engineer, or Backend (ML focus) roles. Feel free to reach out for opportunities, collaborations, or just to chat about ML and data science!"
           }
         </p>
-        <motion.a
-          href="mailto:hello@example.com"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          className="inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground rounded-lg font-semibold hover:bg-primary/90 transition-colors"
-        >
-          Say Hello
-        </motion.a>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <motion.a
+            href="mailto:dipeshkumar0853822@gmail.com"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 px-8 py-4 bg-foreground text-background rounded-lg font-semibold hover:bg-foreground/90 transition-colors"
+          >
+            Say Hello
+            <ExternalLink className="w-4 h-4" />
+          </motion.a>
+          <motion.a
+            href="https://linkedin.com/in/dipesh4000"
+            target="_blank"
+            rel="noopener noreferrer"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 px-8 py-4 border border-foreground text-foreground rounded-lg font-semibold hover:bg-foreground hover:text-background transition-colors"
+          >
+            LinkedIn
+            <ExternalLink className="w-4 h-4" />
+          </motion.a>
+        </div>
       </div>
     </SectionWrapper>
   );
