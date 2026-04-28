@@ -1,7 +1,7 @@
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
-import { GitHubStatsSection, DSAStatsSection } from "@/components/stats";
+import { CodingStatsSection } from "@/components/stats";
 import {
   AboutSection,
   ProjectsSection,
@@ -11,12 +11,11 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0c0a1d 0%, #1a0a2e 50%, #0d1117 100%)" }}>
       <Navbar />
       <Hero />
       <AboutSection />
-      <GitHubStatsSection />
-      <DSAStatsSection />
+      <CodingStatsSection />
       <ProjectsSection />
       <ExperienceSection />
       <ContactSection />

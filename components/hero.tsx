@@ -1,326 +1,342 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Github, Linkedin, Mail, Twitter } from "lucide-react";
 
 const greetings = [
-  { text: "HI", lang: "English" },
-  { text: "नमस्ते", lang: "Hindi" },
-  { text: "こんにちは", lang: "Japanese" },
-  { text: "안녕", lang: "Korean" },
-  { text: "你好", lang: "Chinese" },
+  { text: "Hi", lang: "en" },
+  { text: "नमस्ते", lang: "hi" },
+  { text: "こんにちは", lang: "ja" },
+  { text: "안녕", lang: "ko" },
+  { text: "你好", lang: "zh" },
 ];
 
-type AnimationPhase = "initial" | "fanout" | "welcome" | "name" | "complete";
-
-// Floating particles component
-function FloatingParticles() {
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; size: number; duration: number }>>([]);
+// Interactive particle system
+function ParticleField() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const mouseRef = useRef({ x: 0, y: 0 });
 
   useEffect(() => {
-    const newParticles = Array.from({ length: 50 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 4 + 1,
-      duration: Math.random() * 20 + 10,
-    }));
-    setParticles(newParticles);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animationId: number;
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      color: string;
+      alpha: number;
+    }> = [];
+
+    const colors = ["#a855f7", "#ec4899", "#06b6d4", "#3b82f6", "#8b5cf6"];
+
+    const resize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+
+    const init = () => {
+      particles.length = 0;
+      const count = Math.min(100, Math.floor((canvas.width * canvas.height) / 12000));
+      for (let i = 0; i < count; i++) {
+        particles.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.8,
+          vy: (Math.random() - 0.5) * 0.8,
+          size: Math.random() * 2.5 + 0.5,
+          color: colors[Math.floor(Math.random() * colors.length)],
+          alpha: Math.random() * 0.6 + 0.2,
+        });
+      }
+    };
+
+    const animate = () => {
+      ctx.fillStyle = "rgba(12, 10, 29, 0.1)";
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        // Mouse interaction
+        const dx = mouseRef.current.x - p.x;
+        const dy = mouseRef.current.y - p.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        if (dist < 150) {
+          const force = (150 - dist) / 150;
+          p.vx -= (dx / dist) * force * 0.02;
+          p.vy -= (dy / dist) * force * 0.02;
+        }
+
+        // Update
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+
+        // Bounds
+        if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+        if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+
+        // Connections
+        for (let j = i + 1; j < particles.length; j++) {
+          const p2 = particles[j];
+          const d = Math.hypot(p.x - p2.x, p.y - p2.y);
+          if (d < 100) {
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = p.color;
+            ctx.globalAlpha = (1 - d / 100) * 0.2;
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+          }
+        }
+      });
+
+      ctx.globalAlpha = 1;
+      animationId = requestAnimationFrame(animate);
+    };
+
+    const handleMouse = (e: MouseEvent) => {
+      mouseRef.current = { x: e.clientX, y: e.clientY };
+    };
+
+    resize();
+    init();
+    animate();
+
+    window.addEventListener("resize", () => { resize(); init(); });
+    window.addEventListener("mousemove", handleMouse);
+
+    return () => {
+      cancelAnimationFrame(animationId);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("mousemove", handleMouse);
+    };
   }, []);
 
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle) => (
-        <motion.div
-          key={particle.id}
-          className="absolute rounded-full bg-foreground/10"
-          style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: particle.size,
-            height: particle.size,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
+  return <canvas ref={canvasRef} className="absolute inset-0" style={{ zIndex: 1 }} />;
 }
 
-// Animated grid background
-function AnimatedGrid() {
+// 3D floating orbs
+function FloatingOrbs() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-[0.03]">
-      <div
-        className="absolute inset-0"
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" style={{ zIndex: 0 }}>
+      <motion.div
+        className="absolute w-[700px] h-[700px] rounded-full"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, currentColor 1px, transparent 1px),
-            linear-gradient(to bottom, currentColor 1px, transparent 1px)
-          `,
-          backgroundSize: "60px 60px",
+          background: "radial-gradient(circle, rgba(139,92,246,0.3) 0%, rgba(139,92,246,0) 70%)",
+          left: "-15%",
+          top: "5%",
+          filter: "blur(40px)",
         }}
+        animate={{ x: [0, 60, 0], y: [0, -40, 0], scale: [1, 1.15, 1] }}
+        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
       />
       <motion.div
-        className="absolute inset-0 bg-gradient-to-br from-transparent via-foreground/5 to-transparent"
-        animate={{
-          backgroundPosition: ["0% 0%", "100% 100%"],
+        className="absolute w-[500px] h-[500px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(236,72,153,0.35) 0%, rgba(236,72,153,0) 70%)",
+          right: "-10%",
+          top: "15%",
+          filter: "blur(50px)",
         }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          repeatType: "reverse",
+        animate={{ x: [0, -50, 0], y: [0, 50, 0], scale: [1, 0.9, 1] }}
+        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <motion.div
+        className="absolute w-[600px] h-[600px] rounded-full"
+        style={{
+          background: "radial-gradient(circle, rgba(6,182,212,0.25) 0%, rgba(6,182,212,0) 70%)",
+          left: "25%",
+          bottom: "-20%",
+          filter: "blur(60px)",
         }}
+        animate={{ x: [0, 40, 0], y: [0, -60, 0] }}
+        transition={{ duration: 25, repeat: Infinity, ease: "easeInOut" }}
+      />
+      
+      {/* Geometric shapes */}
+      <motion.div
+        className="absolute w-24 h-24 border-2 border-purple-500/20 rounded-2xl"
+        style={{ left: "12%", top: "20%" }}
+        animate={{ rotate: 360, y: [0, -30, 0] }}
+        transition={{ rotate: { duration: 30, repeat: Infinity, ease: "linear" }, y: { duration: 8, repeat: Infinity } }}
+      />
+      <motion.div
+        className="absolute w-16 h-16 border-2 border-pink-500/20 rounded-full"
+        style={{ right: "18%", top: "30%" }}
+        animate={{ rotate: -360, scale: [1, 1.3, 1] }}
+        transition={{ rotate: { duration: 25, repeat: Infinity, ease: "linear" }, scale: { duration: 6, repeat: Infinity } }}
+      />
+      <motion.div
+        className="absolute w-20 h-20 border-2 border-cyan-500/20"
+        style={{ left: "55%", bottom: "25%", rotate: "45deg" }}
+        animate={{ rotate: [45, 225, 45], y: [0, 40, 0] }}
+        transition={{ rotate: { duration: 20, repeat: Infinity }, y: { duration: 7, repeat: Infinity } }}
       />
     </div>
   );
 }
 
 export function Hero() {
-  const [phase, setPhase] = useState<AnimationPhase>("initial");
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [phase, setPhase] = useState(0);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-  useEffect(() => {
-    const timeline = [
-      { phase: "fanout" as const, delay: 1500 },
-      { phase: "welcome" as const, delay: 4000 },
-      { phase: "name" as const, delay: 5500 },
-      { phase: "complete" as const, delay: 7000 },
-    ];
-
-    const timeouts = timeline.map(({ phase, delay }) =>
-      setTimeout(() => setPhase(phase), delay)
-    );
-
-    return () => timeouts.forEach(clearTimeout);
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+  const handleMouse = useCallback((e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
-    setMousePosition({
-      x: (e.clientX - rect.left - rect.width / 2) / 50,
-      y: (e.clientY - rect.top - rect.height / 2) / 50,
+    setMousePos({
+      x: (e.clientX - rect.left - rect.width / 2) / 40,
+      y: (e.clientY - rect.top - rect.height / 2) / 40,
     });
   }, []);
 
-  const handleScrollDown = () => {
-    const aboutSection = document.getElementById("about");
-    aboutSection?.scrollIntoView({ behavior: "smooth" });
-  };
+  useEffect(() => {
+    const timers = [
+      setTimeout(() => setPhase(1), 600),
+      setTimeout(() => setPhase(2), 2200),
+      setTimeout(() => setPhase(3), 4200),
+      setTimeout(() => setPhase(4), 5200),
+      setTimeout(() => setPhase(5), 6200),
+    ];
+    return () => timers.forEach(clearTimeout);
+  }, []);
 
   return (
     <section
-      className="relative min-h-screen flex flex-col items-center justify-center overflow-hidden bg-background"
-      onMouseMove={handleMouseMove}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      onMouseMove={handleMouse}
+      style={{ background: "linear-gradient(135deg, #0c0a1d 0%, #1a0a2e 50%, #0d1117 100%)" }}
     >
-      {/* Background effects */}
-      <AnimatedGrid />
-      <FloatingParticles />
-
-      {/* Gradient orbs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <motion.div
-          className="absolute -top-40 -right-40 w-96 h-96 bg-gradient-to-br from-foreground/5 to-transparent rounded-full blur-3xl"
-          animate={{
-            scale: [1, 1.2, 1],
-            rotate: [0, 90, 0],
-          }}
-          transition={{ duration: 20, repeat: Infinity }}
-        />
-        <motion.div
-          className="absolute -bottom-40 -left-40 w-96 h-96 bg-gradient-to-tr from-foreground/5 to-transparent rounded-full blur-3xl"
-          animate={{
-            scale: [1.2, 1, 1.2],
-            rotate: [0, -90, 0],
-          }}
-          transition={{ duration: 25, repeat: Infinity }}
-        />
-      </div>
-
-      {/* Main content */}
-      <motion.div
-        className="relative z-10 flex flex-col items-center justify-center text-center px-4"
+      <div
+        className="absolute inset-0 opacity-[0.02]"
         style={{
-          transform: `translate(${mousePosition.x}px, ${mousePosition.y}px)`,
+          backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+          backgroundSize: "60px 60px",
         }}
+      />
+
+      <FloatingOrbs />
+      <ParticleField />
+
+      <motion.div
+        className="relative z-10 text-center px-6 max-w-5xl"
+        style={{ transform: `translate(${mousePos.x}px, ${mousePos.y}px)` }}
       >
         <AnimatePresence mode="wait">
-          {/* Phase 1: Initial "Hi" */}
-          {phase === "initial" && (
+          {phase === 1 && (
             <motion.div
-              key="initial-hi"
-              initial={{ opacity: 0, scale: 0.5, filter: "blur(20px)" }}
+              key="hi"
+              initial={{ opacity: 0, scale: 0.5, filter: "blur(30px)" }}
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-              exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}
+              exit={{ opacity: 0, scale: 1.2, filter: "blur(20px)" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="relative"
+              className="text-[10rem] md:text-[14rem] font-black gradient-text leading-none"
             >
-              <motion.span
-                className="text-8xl md:text-[12rem] lg:text-[16rem] font-black text-foreground tracking-tighter"
-                style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
-                animate={{
-                  textShadow: [
-                    "0 0 0px rgba(0,0,0,0)",
-                    "0 0 40px rgba(0,0,0,0.1)",
-                    "0 0 0px rgba(0,0,0,0)",
-                  ],
-                }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                Hi
-              </motion.span>
+              Hi
             </motion.div>
           )}
 
-          {/* Phase 2: Fan-out greetings */}
-          {phase === "fanout" && (
+          {phase === 2 && (
             <motion.div
-              key="fanout"
-              className="flex flex-col items-center gap-8"
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.5 }}
+              key="greetings"
+              className="flex flex-wrap items-center justify-center gap-6 md:gap-12"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, y: -30 }}
             >
-              <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 lg:gap-10">
-                {greetings.map((greeting, index) => (
-                  <motion.span
-                    key={greeting.lang}
-                    initial={{
-                      opacity: 0,
-                      x: 0,
-                      y: 50,
-                      scale: 0,
-                      rotate: -10,
-                    }}
-                    animate={{
-                      opacity: 1,
-                      x: 0,
-                      y: 0,
-                      scale: 1,
-                      rotate: 0,
-                    }}
-                    transition={{
-                      duration: 0.6,
-                      delay: index * 0.15,
-                      ease: [0.22, 1, 0.36, 1],
-                    }}
-                    className="text-4xl md:text-6xl lg:text-7xl font-bold text-foreground relative"
-                    style={{ fontFamily: "system-ui, -apple-system, sans-serif" }}
-                  >
-                    <motion.span
-                      animate={{
-                        opacity: [1, 0.7, 1],
-                      }}
-                      transition={{
-                        duration: 2,
-                        delay: index * 0.2,
-                        repeat: Infinity,
-                      }}
-                    >
-                      {greeting.text}
-                    </motion.span>
-                  </motion.span>
-                ))}
-              </div>
-
-              {/* Welcome text */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 1, ease: [0.22, 1, 0.36, 1] }}
-                className="text-5xl md:text-7xl lg:text-8xl font-light italic text-foreground mt-4"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
-              >
-                Welcome
-              </motion.div>
+              {greetings.map((g, i) => (
+                <motion.span
+                  key={g.lang}
+                  initial={{ opacity: 0, y: 50, scale: 0, rotate: -15 }}
+                  animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+                  transition={{ delay: i * 0.12, type: "spring", stiffness: 150, damping: 12 }}
+                  className="text-5xl md:text-7xl font-bold text-white/90"
+                >
+                  {g.text}
+                </motion.span>
+              ))}
             </motion.div>
           )}
 
-          {/* Phase 3+: Welcome + Name + Role */}
-          {(phase === "welcome" || phase === "name" || phase === "complete") && (
-            <motion.div
-              key="welcome-section"
-              className="flex flex-col items-center gap-6"
-            >
-              <motion.h1
+          {phase >= 3 && (
+            <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+              <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                className="text-5xl md:text-7xl lg:text-8xl font-light italic text-foreground"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif" }}
+                className="text-3xl md:text-5xl font-light italic text-white/60"
+                style={{ fontFamily: "Georgia, serif" }}
               >
                 Welcome
-              </motion.h1>
+              </motion.p>
 
-              {(phase === "name" || phase === "complete") && (
+              {phase >= 4 && (
+                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+                  <h1 className="text-5xl md:text-8xl font-black mb-6">
+                    <span className="text-white">I&apos;m </span>
+                    <span className="gradient-text">Dipesh Kumar</span>
+                  </h1>
+                </motion.div>
+              )}
+
+              {phase >= 5 && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                  className="flex flex-col items-center gap-6"
+                  transition={{ delay: 0.4 }}
+                  className="space-y-10"
                 >
-                  <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold text-foreground">
-                    {"I'm "}
-                    <span className="relative">
-                      <span className="relative z-10">Dipesh Kumar</span>
+                  <div className="flex flex-wrap items-center justify-center gap-4">
+                    {["ML Engineer", "Data Scientist", "Backend Developer"].map((role, i) => (
                       <motion.span
-                        className="absolute bottom-2 left-0 right-0 h-3 bg-foreground/20 -z-0"
-                        initial={{ scaleX: 0 }}
-                        animate={{ scaleX: 1 }}
-                        transition={{ duration: 0.6, delay: 0.4 }}
-                        style={{ originX: 0 }}
-                      />
-                    </span>
-                  </h2>
+                        key={role}
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: 0.15 * i }}
+                        className="px-6 py-3 rounded-full glass text-white/80 text-lg md:text-xl font-medium"
+                      >
+                        {role}
+                      </motion.span>
+                    ))}
+                  </div>
 
-                  {/* Animated role text */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5, delay: 0.5 }}
-                    className="flex flex-wrap items-center justify-center gap-3 text-lg md:text-xl lg:text-2xl text-muted-foreground font-medium"
+                    transition={{ delay: 0.7 }}
+                    className="flex items-center justify-center gap-5"
                   >
-                    <motion.span
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 0.6 }}
-                    >
-                      ML Engineer
-                    </motion.span>
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.7, type: "spring" }}
-                      className="w-2 h-2 rounded-full bg-foreground"
-                    />
-                    <motion.span
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                    >
-                      Data Science
-                    </motion.span>
-                    <motion.span
-                      initial={{ scale: 0 }}
-                      animate={{ scale: 1 }}
-                      transition={{ delay: 0.9, type: "spring" }}
-                      className="w-2 h-2 rounded-full bg-foreground"
-                    />
-                    <motion.span
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: 1 }}
-                    >
-                      Backend
-                    </motion.span>
+                    {[
+                      { icon: Github, href: "https://github.com/dipesh4036" },
+                      { icon: Linkedin, href: "https://www.linkedin.com/in/dipeshkumar4000/" },
+                      { icon: Mail, href: "mailto:dipeshkumar4036@gmail.com" },
+                      { icon: Twitter, href: "https://x.com/dipesh400" },
+                    ].map(({ icon: Icon, href }) => (
+                      <motion.a
+                        key={href}
+                        href={href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.15, y: -3 }}
+                        whileTap={{ scale: 0.95 }}
+                        className="p-4 rounded-2xl glass hover:bg-white/10 transition-all group glow"
+                      >
+                        <Icon className="w-6 h-6 text-white/70 group-hover:text-white transition-colors" />
+                      </motion.a>
+                    ))}
                   </motion.div>
                 </motion.div>
               )}
@@ -328,36 +344,25 @@ export function Hero() {
           )}
         </AnimatePresence>
 
-        {/* Scroll indicator */}
-        {phase === "complete" && (
-          <motion.button
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            onClick={handleScrollDown}
-            className="absolute -bottom-32 left-1/2 -translate-x-1/2 cursor-pointer group"
-            aria-label="Scroll down"
+        {phase >= 5 && (
+          <motion.a
+            href="#about"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1.2 }}
+            className="absolute left-1/2 -translate-x-1/2 -bottom-28 flex flex-col items-center gap-3 text-white/40 hover:text-white/80 transition-colors cursor-pointer"
           >
-            <motion.div
-              animate={{ y: [0, 10, 0] }}
-              transition={{
-                duration: 2,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              className="flex flex-col items-center gap-2"
+            <motion.span
+              animate={{ y: [0, 8, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="text-sm tracking-[0.3em] uppercase font-medium"
             >
-              <span className="text-sm text-muted-foreground group-hover:text-foreground transition-colors font-medium tracking-widest uppercase">
-                Explore
-              </span>
-              <motion.div
-                animate={{ scaleY: [1, 1.5, 1] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              >
-                <ChevronDown className="w-6 h-6 text-muted-foreground group-hover:text-foreground transition-colors" />
-              </motion.div>
+              Scroll
+            </motion.span>
+            <motion.div animate={{ y: [0, 5, 0] }} transition={{ duration: 2, repeat: Infinity, delay: 0.2 }}>
+              <ChevronDown className="w-6 h-6" />
             </motion.div>
-          </motion.button>
+          </motion.a>
         )}
       </motion.div>
     </section>
