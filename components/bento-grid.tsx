@@ -153,7 +153,8 @@ export function BentoGrid() {
                 src="/dipesh.jpg"
                 alt="Dipesh Kumar"
                 fill
-                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                style={{ objectPosition: "center 20%" }}
                 priority
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />

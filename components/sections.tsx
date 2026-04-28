@@ -181,12 +181,13 @@ export function ExperienceSection() {
       degree: "B.S. Data Science and Applications",
       school: "IIT Madras",
       period: "2024 - 2028",
+      gpa: "7.80 / 10",
     },
     {
       degree: "B.Tech Computer Science",
-      school: "MSIT",
+      school: "Maharaja Surajmal Institute of Technology",
       period: "2024 - 2028",
-      gpa: "7.80 / 8.25",
+      gpa: "8.25 / 10",
     },
   ];
 

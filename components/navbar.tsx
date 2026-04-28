@@ -49,9 +49,14 @@ export function Navbar() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="text-xl font-bold text-white hover:text-white/70 transition-colors"
+              className="group flex items-center gap-2"
             >
-              DK
+              <span className="text-lg font-bold text-white group-hover:text-white/70 transition-colors tracking-tight">
+                dipesh
+              </span>
+              <span className="text-lg font-light text-white/40 group-hover:text-white/30 transition-colors">
+                kumar
+              </span>
             </a>
 
             {/* Desktop Navigation */}

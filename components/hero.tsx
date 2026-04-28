@@ -13,7 +13,7 @@ const greetings = [
 ];
 
 export function Hero() {
-  const [phase, setPhase] = useState(0);
+  const [phase, setPhase] = useState(1); // Start with phase 1 to show Hi immediately
   const containerRef = useRef<HTMLDivElement>(null);
   
   const mouseX = useMotionValue(0);
@@ -38,11 +38,10 @@ export function Hero() {
   useEffect(() => {
     // Extended timing for 5-6 second sequence
     const timers = [
-      setTimeout(() => setPhase(1), 300),      // Show "Hi" (0.3s)
-      setTimeout(() => setPhase(2), 1500),     // Fan out greetings (1.5s)
-      setTimeout(() => setPhase(3), 3500),     // Show Welcome (3.5s)
-      setTimeout(() => setPhase(4), 4500),     // Show name (4.5s)
-      setTimeout(() => setPhase(5), 5500),     // Show subtitle & socials (5.5s)
+      setTimeout(() => setPhase(2), 1200),     // Fan out greetings (1.2s after Hi)
+      setTimeout(() => setPhase(3), 3200),     // Show Welcome (3.2s)
+      setTimeout(() => setPhase(4), 4200),     // Show name (4.2s)
+      setTimeout(() => setPhase(5), 5200),     // Show subtitle & socials (5.2s)
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
