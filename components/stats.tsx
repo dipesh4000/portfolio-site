@@ -2,7 +2,32 @@
 
 import { motion, useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
-import { Code2, Trophy, Target, Flame, Calendar, Zap, Award, TrendingUp, ExternalLink } from "lucide-react";
+import useSWR from "swr";
+import { Code2, Trophy, Target, Flame, Calendar, Zap, Award, TrendingUp, ExternalLink, RefreshCw } from "lucide-react";
+
+// Fetcher for SWR
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+// Default stats (from your Codolio screenshot)
+const DEFAULT_STATS = {
+  totalQuestions: 166,
+  totalActiveDays: 102,
+  submissions: 203,
+  maxStreak: 24,
+  currentStreak: 1,
+  awards: 2,
+  dsa: { total: 155, easy: 72, medium: 75, hard: 8 },
+  fundamentals: { total: 9, gfg: 1, hackerrank: 8 },
+  topics: [
+    { name: "Arrays", count: 85 },
+    { name: "Binary Search", count: 38 },
+    { name: "HashMap & Set", count: 28 },
+    { name: "Two Pointers", count: 27 },
+    { name: "String", count: 25 },
+    { name: "Linked Lists", count: 23 },
+  ],
+  lastUpdated: null as string | null,
+};
 
 // Animated counter
 function Counter({ value, duration = 2 }: { value: number; duration?: number }) {
@@ -29,8 +54,8 @@ function Counter({ value, duration = 2 }: { value: number; duration?: number }) 
 function CircularProgress({ 
   value, 
   max, 
-  size = 160, 
-  strokeWidth = 12,
+  size = 140, 
+  strokeWidth = 10,
   color = "stroke-purple-500",
   label,
 }: { 
@@ -71,22 +96,22 @@ function CircularProgress({
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-4xl font-bold text-white">
+        <span className="text-3xl font-bold text-white">
           <Counter value={value} />
         </span>
-        {label && <span className="text-sm text-white/60 mt-1">{label}</span>}
+        {label && <span className="text-xs text-white/50 mt-1">{label}</span>}
       </div>
     </div>
   );
 }
 
-// Topic bar for DSA analysis
+// Topic bar
 function TopicBar({ 
   topic, 
   count, 
   maxCount, 
   delay = 0,
-  color = "bg-gradient-to-r from-purple-500 to-pink-500",
+  color = "bg-purple-500",
 }: { 
   topic: string; 
   count: number; 
@@ -100,80 +125,69 @@ function TopicBar({
     <motion.div
       initial={{ opacity: 0, x: -20 }}
       whileInView={{ opacity: 1, x: 0 }}
-      transition={{ delay, duration: 0.5 }}
+      transition={{ delay, duration: 0.4 }}
       viewport={{ once: true }}
-      className="group"
     >
-      <div className="flex justify-between mb-2 text-sm">
-        <span className="text-white/80 font-medium">{topic}</span>
-        <span className="text-white/60">{count}</span>
+      <div className="flex justify-between mb-1.5 text-sm">
+        <span className="text-white/70">{topic}</span>
+        <span className="text-white/50">{count}</span>
       </div>
-      <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+      <div className="h-2 bg-white/10 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${percentage}%` }}
-          transition={{ delay: delay + 0.2, duration: 0.8, ease: "easeOut" }}
+          transition={{ delay: delay + 0.1, duration: 0.6, ease: "easeOut" }}
           viewport={{ once: true }}
-          className={`h-full rounded-full ${color} group-hover:shadow-lg group-hover:shadow-purple-500/30 transition-shadow`}
+          className={`h-full rounded-full ${color}`}
         />
       </div>
     </motion.div>
   );
 }
 
-// Stat card with glow
-function GlowCard({
+// Stat card
+function StatCard({
   icon: Icon,
   label,
   value,
   suffix = "",
   delay = 0,
-  gradient = "from-purple-500/20 to-pink-500/20",
 }: {
   icon: typeof Code2;
   label: string;
   value: number;
   suffix?: string;
   delay?: number;
-  gradient?: string;
 }) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30, scale: 0.9 }}
-      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-      transition={{ delay, duration: 0.5, type: "spring" }}
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ delay, duration: 0.4 }}
       viewport={{ once: true }}
-      whileHover={{ scale: 1.05, y: -8 }}
-      className="relative group"
+      className="p-5 rounded-2xl bg-white/5 border border-white/10 hover:bg-white/[0.07] hover:border-white/15 transition-all"
     >
-      <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-3xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
-      <div className="relative glass-strong rounded-3xl p-6 hover:border-white/20 transition-all">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-3 rounded-2xl bg-gradient-to-br from-purple-500/20 to-pink-500/20">
-            <Icon className="w-6 h-6 text-purple-400" />
-          </div>
-          <span className="text-sm text-white/60 font-medium">{label}</span>
-        </div>
-        <div className="text-4xl font-black text-white">
-          <Counter value={value} />
-          <span className="text-xl font-medium text-white/60">{suffix}</span>
-        </div>
+      <div className="flex items-center gap-2 mb-3">
+        <Icon className="w-5 h-5 text-purple-400" />
+        <span className="text-sm text-white/50">{label}</span>
+      </div>
+      <div className="text-3xl font-bold text-white">
+        <Counter value={value} />
+        <span className="text-lg text-white/50">{suffix}</span>
       </div>
     </motion.div>
   );
 }
 
-// Contribution heatmap (simulated based on real streak data)
-function ContributionHeatmap() {
+// Contribution heatmap
+function ContributionHeatmap({ submissions, maxStreak }: { submissions: number; maxStreak: number }) {
   const months = ["Nov", "Dec", "Jan", "Feb", "Mar", "Apr"];
   
-  // Generate contribution data based on real streak patterns
   const generateContributions = () => {
     const data: number[][] = [];
     for (let week = 0; week < 24; week++) {
       const weekData: number[] = [];
       for (let day = 0; day < 7; day++) {
-        // More activity in recent weeks (March-April)
         const recentBoost = week > 16 ? 2 : week > 8 ? 1 : 0;
         const randomValue = Math.random();
         let level = 0;
@@ -207,18 +221,18 @@ function ContributionHeatmap() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="glass-strong rounded-3xl p-6 overflow-hidden"
+      className="p-6 rounded-2xl bg-white/5 border border-white/10"
     >
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl font-bold text-white flex items-center gap-3">
-          <Calendar className="w-6 h-6 text-green-400" />
+      <div className="flex items-center justify-between mb-5">
+        <h3 className="text-lg font-semibold text-white flex items-center gap-2">
+          <Calendar className="w-5 h-5 text-green-400" />
           Coding Activity
         </h3>
-        <div className="flex items-center gap-4 text-sm text-white/60">
-          <span>203 Submissions</span>
+        <div className="flex items-center gap-4 text-sm text-white/50">
+          <span>{submissions} submissions</span>
           <span className="flex items-center gap-1">
             <Flame className="w-4 h-4 text-orange-400" />
-            24 Max Streak
+            {maxStreak} max streak
           </span>
         </div>
       </div>
@@ -232,10 +246,9 @@ function ContributionHeatmap() {
                   key={`${wi}-${di}`}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: wi * 0.02 + di * 0.01, duration: 0.2 }}
+                  transition={{ delay: wi * 0.015 + di * 0.005, duration: 0.15 }}
                   viewport={{ once: true }}
-                  whileHover={{ scale: 1.5 }}
-                  className={`w-3 h-3 rounded-sm ${getColor(level)} cursor-pointer transition-transform`}
+                  className={`w-3 h-3 rounded-sm ${getColor(level)}`}
                 />
               ))}
             </div>
@@ -244,12 +257,10 @@ function ContributionHeatmap() {
       </div>
       
       <div className="flex items-center justify-between mt-4">
-        <div className="flex gap-8 text-xs text-white/40">
-          {months.map((m) => (
-            <span key={m}>{m}</span>
-          ))}
+        <div className="flex gap-6 text-xs text-white/30">
+          {months.map((m) => <span key={m}>{m}</span>)}
         </div>
-        <div className="flex items-center gap-2 text-xs text-white/40">
+        <div className="flex items-center gap-1.5 text-xs text-white/30">
           <span>Less</span>
           {[0, 1, 2, 3, 4].map((l) => (
             <div key={l} className={`w-3 h-3 rounded-sm ${getColor(l)}`} />
@@ -262,123 +273,108 @@ function ContributionHeatmap() {
 }
 
 export function CodingStatsSection() {
-  // Your REAL stats from Codolio
-  const stats = {
-    totalQuestions: 166,
-    totalActiveDays: 102,
-    submissions: 203,
-    maxStreak: 24,
-    currentStreak: 1,
-    awards: 2,
-    // DSA breakdown
-    dsa: {
-      total: 155,
-      easy: 72,
-      medium: 75,
-      hard: 8,
-    },
-    fundamentals: {
-      total: 9,
-      gfg: 1,
-      hackerrank: 8,
-    },
-    // Topic analysis
-    topics: [
-      { name: "Arrays", count: 85 },
-      { name: "Binary Search", count: 38 },
-      { name: "HashMap & Set", count: 28 },
-      { name: "Two Pointers", count: 27 },
-      { name: "String", count: 25 },
-      { name: "Linked Lists", count: 23 },
-    ],
+  // Fetch stats from API with SWR (caches and revalidates)
+  const { data: stats, isLoading, mutate } = useSWR("/api/codolio", fetcher, {
+    fallbackData: DEFAULT_STATS,
+    revalidateOnFocus: false,
+    refreshInterval: 48 * 60 * 60 * 1000, // 48 hours
+  });
+
+  const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const handleRefresh = async () => {
+    setIsRefreshing(true);
+    await mutate();
+    setIsRefreshing(false);
   };
 
   return (
-    <section id="coding-stats" className="py-24 md:py-32 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background decorations */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl" />
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
+    <section id="coding-stats" className="py-20 md:py-28 px-4 sm:px-6 lg:px-8" style={{ backgroundColor: "#0a0a0a" }}>
+      <div className="max-w-6xl mx-auto">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-16"
+          className="text-center mb-12"
         >
-          <motion.div
-            initial={{ scale: 0 }}
-            whileInView={{ scale: 1 }}
-            transition={{ type: "spring", stiffness: 200 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6"
-          >
-            <Code2 className="w-5 h-5 text-purple-400" />
-            <span className="text-sm font-medium text-white/80">Problem Solving</span>
-          </motion.div>
-          <h2 className="text-4xl md:text-6xl font-black text-white mb-4">
-            Coding <span className="gradient-text">Statistics</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 mb-4">
+            <Code2 className="w-4 h-4 text-purple-400" />
+            <span className="text-sm text-white/60">Problem Solving</span>
+          </div>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-3">
+            Coding Statistics
           </h2>
-          <p className="text-lg text-white/60 max-w-2xl mx-auto">
-            Real-time stats from LeetCode, GeeksforGeeks, and HackerRank
-          </p>
+          <div className="flex items-center justify-center gap-4 text-sm text-white/40">
+            <span>LeetCode + GeeksforGeeks + HackerRank</span>
+            <button
+              onClick={handleRefresh}
+              disabled={isRefreshing}
+              className="flex items-center gap-1 hover:text-white/60 transition-colors"
+            >
+              <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? "animate-spin" : ""}`} />
+              Refresh
+            </button>
+          </div>
         </motion.div>
 
-        {/* Top stats row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-8">
-          <GlowCard icon={Target} label="Total Questions" value={stats.totalQuestions} delay={0} />
-          <GlowCard icon={Calendar} label="Active Days" value={stats.totalActiveDays} delay={0.1} />
-          <GlowCard icon={Flame} label="Max Streak" value={stats.maxStreak} suffix=" days" delay={0.2} gradient="from-orange-500/20 to-red-500/20" />
-          <GlowCard icon={Award} label="Awards" value={stats.awards} delay={0.3} gradient="from-yellow-500/20 to-orange-500/20" />
+        {/* Top stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+          <StatCard icon={Target} label="Total Questions" value={stats.totalQuestions} delay={0} />
+          <StatCard icon={Calendar} label="Active Days" value={stats.totalActiveDays} delay={0.1} />
+          <StatCard icon={Flame} label="Max Streak" value={stats.maxStreak} suffix=" days" delay={0.2} />
+          <StatCard icon={Award} label="Awards" value={stats.awards} delay={0.3} />
         </div>
 
         {/* Contribution heatmap */}
-        <div className="mb-8">
-          <ContributionHeatmap />
+        <div className="mb-6">
+          <ContributionHeatmap submissions={stats.submissions} maxStreak={stats.maxStreak} />
         </div>
 
-        {/* Problems solved section */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-8">
+        {/* Problems solved & Topic analysis */}
+        <div className="grid lg:grid-cols-2 gap-6 mb-8">
           {/* Left: Circular charts */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
+            initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-strong rounded-3xl p-8"
+            className="p-6 rounded-2xl bg-white/5 border border-white/10"
           >
-            <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
-              <TrendingUp className="w-6 h-6 text-cyan-400" />
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+              <TrendingUp className="w-5 h-5 text-cyan-400" />
               Problems Solved
             </h3>
 
-            <div className="flex flex-wrap justify-center gap-8">
+            <div className="flex flex-wrap justify-center gap-10">
               {/* DSA Problems */}
               <div className="flex flex-col items-center">
                 <CircularProgress
                   value={stats.dsa.total}
                   max={300}
-                  size={140}
                   color="stroke-yellow-400"
                   label="DSA"
                 />
-                <div className="mt-6 space-y-2 text-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-green-500" />
-                    <span className="text-white/60">Easy</span>
-                    <span className="text-white font-semibold ml-auto">{stats.dsa.easy}</span>
+                <div className="mt-4 space-y-1.5 text-sm w-32">
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-500" />
+                      <span className="text-white/50">Easy</span>
+                    </span>
+                    <span className="text-white">{stats.dsa.easy}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-yellow-500" />
-                    <span className="text-white/60">Medium</span>
-                    <span className="text-white font-semibold ml-auto">{stats.dsa.medium}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-yellow-500" />
+                      <span className="text-white/50">Medium</span>
+                    </span>
+                    <span className="text-white">{stats.dsa.medium}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-red-500" />
-                    <span className="text-white/60">Hard</span>
-                    <span className="text-white font-semibold ml-auto">{stats.dsa.hard}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-red-500" />
+                      <span className="text-white/50">Hard</span>
+                    </span>
+                    <span className="text-white">{stats.dsa.hard}</span>
                   </div>
                 </div>
               </div>
@@ -388,20 +384,23 @@ export function CodingStatsSection() {
                 <CircularProgress
                   value={stats.fundamentals.total}
                   max={20}
-                  size={140}
                   color="stroke-cyan-400"
                   label="Fundamentals"
                 />
-                <div className="mt-6 space-y-2 text-sm">
-                  <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-green-600" />
-                    <span className="text-white/60">GFG</span>
-                    <span className="text-white font-semibold ml-auto">{stats.fundamentals.gfg}</span>
+                <div className="mt-4 space-y-1.5 text-sm w-32">
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-green-600" />
+                      <span className="text-white/50">GFG</span>
+                    </span>
+                    <span className="text-white">{stats.fundamentals.gfg}</span>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
-                    <span className="text-white/60">HackerRank</span>
-                    <span className="text-white font-semibold ml-auto">{stats.fundamentals.hackerrank}</span>
+                  <div className="flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="text-white/50">HackerRank</span>
+                    </span>
+                    <span className="text-white">{stats.fundamentals.hackerrank}</span>
                   </div>
                 </div>
               </div>
@@ -410,28 +409,25 @@ export function CodingStatsSection() {
 
           {/* Right: Topic Analysis */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="glass-strong rounded-3xl p-8"
+            className="p-6 rounded-2xl bg-white/5 border border-white/10"
           >
-            <h3 className="text-xl font-bold text-white mb-8 flex items-center gap-3">
-              <Zap className="w-6 h-6 text-yellow-400" />
+            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
+              <Zap className="w-5 h-5 text-yellow-400" />
               DSA Topic Analysis
             </h3>
 
-            <div className="space-y-5">
-              {stats.topics.map((topic, i) => (
+            <div className="space-y-4">
+              {stats.topics.map((topic: { name: string; count: number }, i: number) => (
                 <TopicBar
                   key={topic.name}
                   topic={topic.name}
                   count={topic.count}
                   maxCount={100}
-                  delay={i * 0.1}
-                  color={i % 2 === 0 
-                    ? "bg-gradient-to-r from-purple-500 to-pink-500" 
-                    : "bg-gradient-to-r from-cyan-500 to-blue-500"
-                  }
+                  delay={i * 0.08}
+                  color={i % 2 === 0 ? "bg-purple-500" : "bg-cyan-500"}
                 />
               ))}
             </div>
@@ -443,41 +439,43 @@ export function CodingStatsSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-4"
+          className="flex flex-wrap justify-center gap-3"
         >
           <motion.a
             href="https://codolio.com/profile/dipesh4000"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-shadow"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-purple-600 hover:bg-purple-500 text-white font-medium transition-colors"
           >
-            View Full Profile
-            <ExternalLink className="w-5 h-5" />
+            View Codolio Profile
+            <ExternalLink className="w-4 h-4" />
           </motion.a>
           <motion.a
-            href="https://leetcode.com/dipesh4000"
+            href="https://leetcode.com/u/dipesh4000/"
             target="_blank"
             rel="noopener noreferrer"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl glass text-white font-bold hover:bg-white/10 transition-colors"
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white font-medium transition-colors"
           >
-            <Code2 className="w-5 h-5 text-yellow-400" />
+            <Code2 className="w-4 h-4 text-yellow-400" />
             LeetCode Profile
           </motion.a>
         </motion.div>
+
+        {/* Last updated */}
+        {stats.lastUpdated && (
+          <p className="text-center text-xs text-white/30 mt-6">
+            Last updated: {new Date(stats.lastUpdated).toLocaleString()}
+          </p>
+        )}
       </div>
     </section>
   );
 }
 
-// Export both for backwards compatibility
-export function GitHubStatsSection() {
-  return null; // Merged into CodingStatsSection
-}
-
-export function DSAStatsSection() {
-  return null; // Merged into CodingStatsSection
-}
+// Legacy exports for compatibility
+export function GitHubStatsSection() { return null; }
+export function DSAStatsSection() { return null; }

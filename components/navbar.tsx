@@ -20,7 +20,6 @@ export function Navbar() {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -36,69 +35,54 @@ export function Navbar() {
       <motion.nav
         initial={{ y: -100 }}
         animate={{ y: 0 }}
-        transition={{ duration: 0.6, delay: 6 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          isScrolled
-            ? "glass-strong"
-            : "bg-transparent"
+        transition={{ duration: 0.5, delay: 5.5 }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-20">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
             {/* Logo */}
-            <motion.a
+            <a
               href="#"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="relative group"
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+              className="text-xl font-bold text-white hover:text-purple-400 transition-colors"
             >
-              <span className="text-2xl font-black gradient-text">DK</span>
-              <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-purple-500 to-pink-500 transition-all duration-300 group-hover:w-full" />
-            </motion.a>
+              DK
+            </a>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
-                <motion.button
+                <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  className="px-5 py-2.5 rounded-xl text-white/70 hover:text-white hover:bg-white/10 transition-all text-sm font-medium cursor-pointer"
+                  className="px-4 py-2 text-sm text-white/60 hover:text-white transition-colors cursor-pointer"
                 >
                   {link.label}
-                </motion.button>
+                </button>
               ))}
-              <motion.a
+              <a
                 href="https://github.com/dipesh4036"
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="ml-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white text-sm font-semibold"
+                className="ml-2 px-4 py-2 rounded-lg bg-purple-600 hover:bg-purple-500 text-white text-sm font-medium transition-colors"
               >
                 GitHub
-              </motion.a>
+              </a>
             </div>
 
             {/* Mobile Menu Button */}
-            <motion.button
+            <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="md:hidden p-3 rounded-xl glass text-white cursor-pointer"
+              className="md:hidden p-2 text-white cursor-pointer"
               aria-label="Toggle menu"
             >
-              {isMobileMenuOpen ? (
-                <X className="w-5 h-5" />
-              ) : (
-                <Menu className="w-5 h-5" />
-              )}
-            </motion.button>
+              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+            </button>
           </div>
         </div>
       </motion.nav>
@@ -111,45 +95,33 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 md:hidden"
+            style={{ backgroundColor: "#0a0a0a" }}
           >
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0"
-              style={{ background: "linear-gradient(135deg, #0c0a1d 0%, #1a0a2e 50%, #0d1117 100%)" }}
-              onClick={() => setIsMobileMenuOpen(false)}
-            />
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="relative pt-28 px-8 flex flex-col items-center gap-4"
-            >
+            <div className="pt-20 px-6 flex flex-col items-center gap-2">
               {navLinks.map((link, index) => (
                 <motion.button
                   key={link.href}
-                  initial={{ opacity: 0, y: 20 }}
+                  initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.1 }}
+                  transition={{ delay: index * 0.05 }}
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full py-4 text-xl font-medium text-white hover:text-white/80 transition-colors cursor-pointer glass rounded-2xl"
+                  className="w-full py-4 text-lg text-white hover:text-purple-400 transition-colors cursor-pointer"
                 >
                   {link.label}
                 </motion.button>
               ))}
               <motion.a
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: navLinks.length * 0.1 }}
+                transition={{ delay: navLinks.length * 0.05 }}
                 href="https://github.com/dipesh4036"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 text-xl font-semibold text-white text-center bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl"
+                className="w-full py-4 mt-4 text-lg font-medium text-white text-center bg-purple-600 rounded-lg"
               >
                 GitHub
               </motion.a>
-            </motion.div>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

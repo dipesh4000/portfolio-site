@@ -11,7 +11,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ background: "linear-gradient(135deg, #0c0a1d 0%, #1a0a2e 50%, #0d1117 100%)" }}>
+    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "#0a0a0a" }}>
       <Navbar />
       <Hero />
       <AboutSection />
