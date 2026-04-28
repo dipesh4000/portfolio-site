@@ -6,13 +6,19 @@ import { Github, ExternalLink, MapPin, GraduationCap, Briefcase, Code2, Database
 import { TechCube } from "./tech-cube";
 import Image from "next/image";
 
-const skills = [
-  { name: "Python", level: 95 },
-  { name: "Machine Learning", level: 85 },
-  { name: "SQL & Databases", level: 90 },
-  { name: "Computer Vision", level: 80 },
-  { name: "FastAPI/Flask", level: 85 },
-  { name: "Data Engineering", level: 82 },
+const skills = {
+  languages: ["Python", "SQL", "JavaScript", "C++"],
+  ml: ["PyTorch", "TensorFlow", "Scikit-learn", "YOLOv8", "OpenCV"],
+  backend: ["FastAPI", "Flask", "PostgreSQL", "REST APIs"],
+  tools: ["Git", "Docker", "Pandas", "NumPy", "Matplotlib"],
+};
+
+// Top languages from Codolio
+const topLanguages = [
+  { name: "Python", percentage: 65, color: "bg-[#3572A5]" },
+  { name: "SQL", percentage: 20, color: "bg-[#e38c00]" },
+  { name: "JavaScript", percentage: 10, color: "bg-[#f7df1e]" },
+  { name: "C++", percentage: 5, color: "bg-[#f34b7d]" },
 ];
 
 const projects = [
@@ -78,25 +84,30 @@ function ASCIICat() {
   );
 }
 
-function SkillBar({ name, level, delay }: { name: string; level: number; delay: number }) {
+function LanguageBar({ name, percentage, color, delay }: { name: string; percentage: number; color: string; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <div ref={ref} className="space-y-2">
-      <div className="flex justify-between text-sm">
-        <span className="text-white/70">{name}</span>
-        <span className="text-white/40">{level}%</span>
-      </div>
-      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+    <motion.div 
+      ref={ref} 
+      className="flex items-center gap-3"
+      initial={{ opacity: 0, x: -10 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ delay: delay * 0.1 }}
+    >
+      <div className={`w-3 h-3 rounded-full ${color}`} />
+      <span className="text-xs text-white/60 w-20">{name}</span>
+      <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
         <motion.div
-          className="h-full bg-white rounded-full"
+          className={`h-full rounded-full ${color}`}
           initial={{ width: 0 }}
-          animate={isInView ? { width: `${level}%` } : { width: 0 }}
-          transition={{ duration: 1, delay: delay * 0.1, ease: "easeOut" }}
+          animate={isInView ? { width: `${percentage}%` } : { width: 0 }}
+          transition={{ duration: 0.8, delay: delay * 0.1, ease: "easeOut" }}
         />
       </div>
-    </div>
+      <span className="text-xs text-white/40 w-8 text-right">{percentage}%</span>
+    </motion.div>
   );
 }
 
@@ -225,21 +236,63 @@ export function BentoGrid() {
             </div>
           </BentoCard>
 
-          {/* Skills with animated bars */}
+          {/* Skills with tags */}
           <BentoCard className="md:col-span-2 md:row-span-2" delay={6}>
-            <h3 className="text-white font-semibold mb-6 flex items-center gap-2">
+            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Brain className="w-4 h-4 text-white/60" />
               Skills
             </h3>
             <div className="space-y-4">
-              {skills.map((skill, i) => (
-                <SkillBar key={skill.name} name={skill.name} level={skill.level} delay={i} />
+              <div>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Languages</p>
+                <div className="flex flex-wrap gap-2">
+                  {skills.languages.map((s) => (
+                    <span key={s} className="px-3 py-1.5 bg-white/10 text-white/80 rounded-lg text-xs font-medium hover:bg-white/20 transition-colors">{s}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">ML / AI</p>
+                <div className="flex flex-wrap gap-2">
+                  {skills.ml.map((s) => (
+                    <span key={s} className="px-3 py-1.5 bg-white/5 text-white/60 rounded-lg text-xs hover:bg-white/10 transition-colors">{s}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Backend</p>
+                <div className="flex flex-wrap gap-2">
+                  {skills.backend.map((s) => (
+                    <span key={s} className="px-3 py-1.5 bg-white/5 text-white/60 rounded-lg text-xs hover:bg-white/10 transition-colors">{s}</span>
+                  ))}
+                </div>
+              </div>
+              <div>
+                <p className="text-[10px] text-white/30 uppercase tracking-wider mb-2">Tools</p>
+                <div className="flex flex-wrap gap-2">
+                  {skills.tools.map((s) => (
+                    <span key={s} className="px-3 py-1.5 bg-white/5 text-white/60 rounded-lg text-xs hover:bg-white/10 transition-colors">{s}</span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Top Languages from GitHub */}
+          <BentoCard className="md:col-span-2" delay={7}>
+            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+              <Code2 className="w-4 h-4 text-white/60" />
+              Top Languages
+            </h3>
+            <div className="space-y-3">
+              {topLanguages.map((lang, i) => (
+                <LanguageBar key={lang.name} name={lang.name} percentage={lang.percentage} color={lang.color} delay={i} />
               ))}
             </div>
           </BentoCard>
 
           {/* Featured Projects */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={7}>
+          <BentoCard className="md:col-span-2 md:row-span-2" delay={8}>
             <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Terminal className="w-4 h-4 text-white/60" />
               Featured Projects
@@ -275,7 +328,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Experience */}
-          <BentoCard className="md:col-span-1" delay={8}>
+          <BentoCard className="md:col-span-1" delay={9}>
             <div className="flex flex-col h-full">
               <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
                 <Briefcase className="w-4 h-4 text-white/60" />
@@ -287,7 +340,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Resume Download */}
-          <BentoCard className="md:col-span-1 group cursor-pointer" delay={9}>
+          <BentoCard className="md:col-span-1 group cursor-pointer" delay={10}>
             <a href="/resume.pdf" download className="flex flex-col h-full items-center justify-center text-center">
               <div className="p-3 bg-white/5 rounded-xl mb-3 group-hover:bg-white/10 transition-colors">
                 <Download className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
@@ -297,7 +350,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Positions */}
-          <BentoCard className="md:col-span-2" delay={10}>
+          <BentoCard className="md:col-span-2" delay={11}>
             <div className="flex items-start gap-4">
               <div className="p-2 bg-white/5 rounded-xl">
                 <Database className="w-4 h-4 text-white/60" />

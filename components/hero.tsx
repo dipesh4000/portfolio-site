@@ -36,12 +36,12 @@ export function Hero() {
   }, [mouseX, mouseY]);
 
   useEffect(() => {
-    // Extended timing for 5-6 second sequence
+    // Extended timing for 8-10 second sequence
     const timers = [
-      setTimeout(() => setPhase(2), 1200),     // Fan out greetings (1.2s after Hi)
-      setTimeout(() => setPhase(3), 3200),     // Show Welcome (3.2s)
-      setTimeout(() => setPhase(4), 4200),     // Show name (4.2s)
-      setTimeout(() => setPhase(5), 5200),     // Show subtitle & socials (5.2s)
+      setTimeout(() => setPhase(2), 2000),     // Fan out greetings (2s after Hi)
+      setTimeout(() => setPhase(3), 5000),     // Show Welcome (5s)
+      setTimeout(() => setPhase(4), 7000),     // Show name (7s)
+      setTimeout(() => setPhase(5), 9000),     // Show subtitle & socials (9s)
     ];
     return () => timers.forEach(clearTimeout);
   }, []);

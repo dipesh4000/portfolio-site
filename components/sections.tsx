@@ -166,13 +166,13 @@ export function ExperienceSection() {
       title: "Product Quality Intern",
       company: "LearnQ.ai",
       period: "Oct 2025 - Dec 2025",
-      description: "Analyzed user behavior data and supported model input-output validation. Developed data validation pipelines ensuring reliable datasets for ML model training.",
+      description: "Analyzed production issues with engineering teams and implemented technical fixes reducing recurring bugs. Structured product workflows and testing documentation improving team clarity and execution.",
     },
     {
       title: "Implementation Intern",
       company: "LearnQ.ai",
       period: "Apr 2025 - Jun 2025",
-      description: "Built structured documentation and supported iterative data workflows improving data quality and ML readiness.",
+      description: "Built technical documentation systems enabling faster onboarding and consistent implementation processes. Executed technical deliverables within fast-paced startup environment, improving cross-team coordination.",
     },
   ];
 
