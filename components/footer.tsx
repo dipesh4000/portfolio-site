@@ -6,7 +6,7 @@ const socialLinks = [
   { href: "https://github.com/dipesh4000", icon: Github, label: "GitHub" },
   { href: "https://linkedin.com/in/dipesh4000", icon: Linkedin, label: "LinkedIn" },
   { href: "mailto:dipeshkumar0853822@gmail.com", icon: Mail, label: "Email" },
-  { href: "https://x.com/dipesh400", icon: Twitter, label: "Twitter" },
+  { href: "https://x.com/dipesh4000", icon: Twitter, label: "Twitter" },
 ];
 
 export function Footer() {

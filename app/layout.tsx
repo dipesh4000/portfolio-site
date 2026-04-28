@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { CustomCursor } from '@/components/custom-cursor'
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -36,7 +37,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background scroll-smooth">
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased cursor-none">
+        <CustomCursor />
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

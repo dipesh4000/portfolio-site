@@ -1,9 +1,10 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
-import { Github, ExternalLink, MapPin, GraduationCap, Briefcase, Code2, Database, Brain, Terminal } from "lucide-react";
+import { useRef, useState, useEffect } from "react";
+import { Github, ExternalLink, MapPin, GraduationCap, Briefcase, Code2, Database, Brain, Terminal, Download } from "lucide-react";
 import { TechCube } from "./tech-cube";
+import Image from "next/image";
 
 const skills = [
   { name: "Python", level: 95 },
@@ -34,6 +35,48 @@ const projects = [
     link: "https://github.com/dipesh4000/Database_Projects/tree/main/fastapi-crud-app",
   },
 ];
+
+// ASCII Cat Animation frames
+const catFrames = [
+  `
+  /\\_/\\  
+ ( o.o ) 
+  > ^ <
+  `,
+  `
+  /\\_/\\  
+ ( -.- ) 
+  > ^ <
+  `,
+  `
+  /\\_/\\  
+ ( o.o ) 
+  > ^ <
+ /|   |\\
+  `,
+  `
+  /\\_/\\  
+ ( ^.^ ) 
+  > ^ <
+  `,
+];
+
+function ASCIICat() {
+  const [frame, setFrame] = useState(0);
+  
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFrame((prev) => (prev + 1) % catFrames.length);
+    }, 800);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <pre className="text-[10px] md:text-xs font-mono text-white/60 leading-tight whitespace-pre select-none">
+      {catFrames[frame]}
+    </pre>
+  );
+}
 
 function SkillBar({ name, level, delay }: { name: string; level: number; delay: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -103,21 +146,38 @@ export function BentoGrid() {
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
           
-          {/* Bio card - large */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={0}>
+          {/* Profile Photo Card */}
+          <BentoCard className="md:col-span-1 md:row-span-2 overflow-hidden p-0" delay={0}>
+            <div className="relative w-full h-full group">
+              <Image
+                src="/dipesh.jpg"
+                alt="Dipesh Kumar"
+                fill
+                className="object-cover object-top transition-transform duration-700 group-hover:scale-105"
+                priority
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4">
+                <h3 className="text-white font-bold text-lg">Dipesh Kumar</h3>
+                <p className="text-white/60 text-sm">ML Engineer</p>
+              </div>
+            </div>
+          </BentoCard>
+
+          {/* Bio card */}
+          <BentoCard className="md:col-span-2 md:row-span-1" delay={1}>
             <div className="h-full flex flex-col justify-between">
               <div>
-                <div className="flex items-center gap-2 text-white/40 text-sm mb-4">
+                <div className="flex items-center gap-2 text-white/40 text-sm mb-3">
                   <MapPin className="w-4 h-4" />
                   <span>Noida, India</span>
                 </div>
-                <p className="text-white/70 leading-relaxed">
+                <p className="text-white/70 text-sm leading-relaxed">
                   ML Engineer with hands-on experience in computer vision, model training, and production ML systems. 
-                  Strong foundation in Python, SQL, and data engineering with practical expertise in YOLOv8, 
-                  feature engineering, and ETL workflows.
+                  Strong foundation in Python, SQL, and data engineering.
                 </p>
               </div>
-              <div className="flex flex-wrap gap-2 mt-4">
+              <div className="flex flex-wrap gap-2 mt-3">
                 {["Open Source", "ML Systems", "Data Pipelines"].map((tag) => (
                   <span key={tag} className="px-3 py-1 bg-white/5 rounded-full text-xs text-white/50">
                     {tag}
@@ -127,41 +187,45 @@ export function BentoGrid() {
             </div>
           </BentoCard>
 
+          {/* ASCII Cat Card */}
+          <BentoCard className="md:col-span-1 flex items-center justify-center" delay={2}>
+            <div className="text-center">
+              <ASCIICat />
+              <p className="text-[10px] text-white/30 mt-2">meow, hire me!</p>
+            </div>
+          </BentoCard>
+
           {/* 3D Tech Cube */}
-          <BentoCard className="md:col-span-2 md:row-span-2 flex items-center justify-center" delay={1}>
+          <BentoCard className="md:col-span-2 md:row-span-2 flex items-center justify-center" delay={3}>
             <TechCube />
           </BentoCard>
 
           {/* Education */}
-          <BentoCard className="md:col-span-2" delay={2}>
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-white/5 rounded-xl">
-                <GraduationCap className="w-5 h-5 text-white/60" />
+          <BentoCard className="md:col-span-1" delay={4}>
+            <div className="flex flex-col h-full">
+              <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
+                <GraduationCap className="w-4 h-4 text-white/60" />
               </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Education</h3>
-                <p className="text-sm text-white/50">IIT Madras - B.S. Data Science</p>
-                <p className="text-sm text-white/50">MSIT - B.Tech CS (CGPA: 7.80/8.25)</p>
-              </div>
+              <h3 className="text-white font-semibold text-sm mb-1">Education</h3>
+              <p className="text-xs text-white/50">IIT Madras - B.S. Data Science</p>
+              <p className="text-xs text-white/40">MSIT - B.Tech CS</p>
             </div>
           </BentoCard>
 
           {/* Current Status */}
-          <BentoCard className="md:col-span-2" delay={3}>
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-white/5 rounded-xl">
-                <Code2 className="w-5 h-5 text-white/60" />
+          <BentoCard className="md:col-span-1" delay={5}>
+            <div className="flex flex-col h-full">
+              <div className="flex items-center gap-2 mb-3">
+                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <span className="text-xs text-white/40">Status</span>
               </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Currently</h3>
-                <p className="text-sm text-white/50">Contributing to Open Source</p>
-                <p className="text-sm text-white/50">Building ML projects</p>
-              </div>
+              <h3 className="text-white font-semibold text-sm mb-1">Open Source</h3>
+              <p className="text-xs text-white/50">Contributing & building ML projects</p>
             </div>
           </BentoCard>
 
           {/* Skills with animated bars */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={4}>
+          <BentoCard className="md:col-span-2 md:row-span-2" delay={6}>
             <h3 className="text-white font-semibold mb-6 flex items-center gap-2">
               <Brain className="w-4 h-4 text-white/60" />
               Skills
@@ -174,7 +238,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Featured Projects */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={5}>
+          <BentoCard className="md:col-span-2 md:row-span-2" delay={7}>
             <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Terminal className="w-4 h-4 text-white/60" />
               Featured Projects
@@ -210,29 +274,37 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Experience */}
-          <BentoCard className="md:col-span-2" delay={6}>
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-white/5 rounded-xl">
-                <Briefcase className="w-5 h-5 text-white/60" />
+          <BentoCard className="md:col-span-1" delay={8}>
+            <div className="flex flex-col h-full">
+              <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
+                <Briefcase className="w-4 h-4 text-white/60" />
               </div>
-              <div>
-                <h3 className="text-white font-semibold mb-1">Past Experience</h3>
-                <p className="text-sm text-white/50">LearnQ.ai - Product Quality Intern</p>
-                <p className="text-xs text-white/30">Oct 2025 - Dec 2025</p>
-              </div>
+              <h3 className="text-white font-semibold text-sm mb-1">Past Work</h3>
+              <p className="text-xs text-white/50">LearnQ.ai</p>
+              <p className="text-[10px] text-white/30">Product Quality Intern</p>
             </div>
           </BentoCard>
 
+          {/* Resume Download */}
+          <BentoCard className="md:col-span-1 group cursor-pointer" delay={9}>
+            <a href="/resume.pdf" download className="flex flex-col h-full items-center justify-center text-center">
+              <div className="p-3 bg-white/5 rounded-xl mb-3 group-hover:bg-white/10 transition-colors">
+                <Download className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
+              </div>
+              <span className="text-white/60 text-sm group-hover:text-white transition-colors">Download CV</span>
+            </a>
+          </BentoCard>
+
           {/* Positions */}
-          <BentoCard className="md:col-span-2" delay={7}>
+          <BentoCard className="md:col-span-2" delay={10}>
             <div className="flex items-start gap-4">
-              <div className="p-3 bg-white/5 rounded-xl">
-                <Database className="w-5 h-5 text-white/60" />
+              <div className="p-2 bg-white/5 rounded-xl">
+                <Database className="w-4 h-4 text-white/60" />
               </div>
               <div>
-                <h3 className="text-white font-semibold mb-1">Leadership</h3>
-                <p className="text-sm text-white/50">Deputy Head PR, Microsoft Student Chapter</p>
-                <p className="text-sm text-white/50">Member, AI ML Dept, GeekRoom</p>
+                <h3 className="text-white font-semibold text-sm mb-1">Leadership</h3>
+                <p className="text-xs text-white/50">Deputy Head PR, Microsoft Student Chapter</p>
+                <p className="text-xs text-white/50">Member, AI ML Dept, GeekRoom</p>
               </div>
             </div>
           </BentoCard>
