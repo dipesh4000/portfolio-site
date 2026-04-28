@@ -203,7 +203,6 @@ export function Hero() {
                       { icon: Github, href: "https://github.com/dipesh4000", label: "GitHub" },
                       { icon: Linkedin, href: "https://linkedin.com/in/dipesh4000", label: "LinkedIn" },
                       { icon: Mail, href: "mailto:dipeshkumar0853822@gmail.com", label: "Email" },
-                      { icon: ExternalLink, href: "https://www.dipesh4000.xyz", label: "Portfolio" },
                     ].map(({ icon: Icon, href, label }) => (
                       <motion.a
                         key={label}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
+import Image from "next/image";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -42,7 +43,7 @@ export function Navbar() {
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo with ASCII Avatar */}
+            {/* Logo with Photo Avatar */}
             <a
               href="#"
               onClick={(e) => {
@@ -51,14 +52,15 @@ export function Navbar() {
               }}
               className="group flex items-center gap-3"
             >
-              {/* ASCII Avatar */}
-              <div className="hidden sm:flex flex-col items-center text-[6px] leading-[5px] font-mono text-white/60 group-hover:text-white/80 transition-colors select-none">
-                <span>{`  .-"""-.`}</span>
-                <span>{` /        \\`}</span>
-                <span>{`|  O    O  |`}</span>
-                <span>{`|    __    |`}</span>
-                <span>{` \\  \\__/  /`}</span>
-                <span>{`  '-.___.-'`}</span>
+              {/* Photo Avatar */}
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-white/40 transition-colors">
+                <Image
+                  src="/dipesh.jpg"
+                  alt="Dipesh Kumar"
+                  fill
+                  className="object-cover"
+                  style={{ objectPosition: "center 20%" }}
+                />
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="text-lg font-bold text-white group-hover:text-white/70 transition-colors tracking-tight">
