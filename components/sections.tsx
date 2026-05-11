@@ -21,20 +21,23 @@ import {
 
 function SectionWrapper({
   id,
+  variant = "surface",
   children,
 }: {
   id: string;
+  variant?: "surface" | "surface-alt";
   children: React.ReactNode;
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const bg = variant === "surface-alt" ? "#0c0c0c" : "#0a0a0a";
 
   return (
     <section
       id={id}
       ref={ref}
       className="py-32 px-6"
-      style={{ backgroundColor: "#0a0a0a" }}
+      style={{ backgroundColor: bg }}
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
@@ -108,7 +111,7 @@ export function ProjectsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group block p-6 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/15 transition-all"
+            className="group block p-6 rounded-2xl bg-[#111111] border border-white/5 hover:border-teal-500/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/35"
           >
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
@@ -152,7 +155,7 @@ export function ProjectsSection() {
           href="https://github.com/dipesh4000"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white transition-colors border-b border-white/20 hover:border-white/50 pb-1"
+            className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-teal-300/90 transition-colors border-b border-white/20 hover:border-teal-400/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:rounded-sm"
         >
           View all projects on GitHub
           <ExternalLink className="w-3 h-3" />
@@ -201,7 +204,7 @@ export function ExperienceSection() {
   ];
 
   return (
-    <SectionWrapper id="experience">
+    <SectionWrapper id="experience" variant="surface-alt">
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -396,10 +399,20 @@ export function ContactSection() {
           </div>
 
           <div className="flex items-center justify-center gap-6 pt-4 text-white/30">
-            <a href="https://github.com/dipesh4000" target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">
+            <a
+              href="https://github.com/dipesh4000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+            >
               <Github className="w-5 h-5" />
             </a>
-            <a href="https://codolio.com/profile/dipesh4000" target="_blank" rel="noopener noreferrer" className="hover:text-white/60 transition-colors">
+            <a
+              href="https://codolio.com/profile/dipesh4000"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+            >
               <Code2 className="w-5 h-5" />
             </a>
             <span className="flex items-center gap-2 text-sm">

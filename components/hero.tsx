@@ -12,9 +12,19 @@ const greetings = [
   { text: "你好", lang: "zh" },
 ];
 
+/** Deterministic layout so SSR/CSR match (avoids random() per render). */
+function particleLayout(i: number) {
+  const left = ((i * 17 + 13) % 100).toFixed(2);
+  const top = ((i * 23 + 7) % 100).toFixed(2);
+  const duration = 3 + (i % 5) * 0.75;
+  const delay = ((i * 11) % 10) * 0.35;
+  return { left: `${left}%`, top: `${top}%`, duration, delay };
+}
+
 export function Hero() {
   const [phase, setPhase] = useState(1);
   const [mounted, setMounted] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const mouseX = useMotionValue(0);
@@ -24,6 +34,15 @@ export function Hero() {
 
   useEffect(() => {
     setMounted(true);
+    const mq = window.matchMedia("(prefers-reduced-motion: reduce)");
+    setPrefersReducedMotion(mq.matches);
+    const onChange = () => setPrefersReducedMotion(mq.matches);
+    mq.addEventListener("change", onChange);
+    return () => mq.removeEventListener("change", onChange);
+  }, []);
+
+  useEffect(() => {
+    if (prefersReducedMotion) return;
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -35,50 +54,50 @@ export function Hero() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY]);
+  }, [mouseX, mouseY, prefersReducedMotion]);
 
   useEffect(() => {
-    // Extended timing for 8-10 second sequence
+    // Same phase timing as before when motion is preferred
     const timers = [
-      setTimeout(() => setPhase(2), 2000),     // Fan out greetings (2s after Hi)
-      setTimeout(() => setPhase(3), 5000),     // Show Welcome (5s)
-      setTimeout(() => setPhase(4), 7000),     // Show name (7s)
-      setTimeout(() => setPhase(5), 9000),     // Show subtitle & socials (9s)
+      setTimeout(() => setPhase(2), 2000),
+      setTimeout(() => setPhase(3), 5000),
+      setTimeout(() => setPhase(4), 7000),
+      setTimeout(() => setPhase(5), 9000),
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
 
   return (
     <section
+      id="top"
       ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: "#0a0a0a" }}
     >
-      {/* Subtle animated particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {mounted && [...Array(30)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-white/20 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -100, 0],
-              opacity: [0, 1, 0],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 4,
-              repeat: Infinity,
-              delay: Math.random() * 3,
-              ease: "easeInOut",
-            }}
-          />
-        ))}
+        {mounted && !prefersReducedMotion &&
+          [...Array(30)].map((_, i) => {
+            const { left, top, duration, delay } = particleLayout(i);
+            return (
+              <motion.div
+                key={i}
+                className="absolute w-1 h-1 bg-white/20 rounded-full"
+                style={{ left, top }}
+                animate={{
+                  y: [0, -100, 0],
+                  opacity: [0, 1, 0],
+                }}
+                transition={{
+                  duration,
+                  repeat: Infinity,
+                  delay,
+                  ease: "easeInOut",
+                }}
+              />
+            );
+          })}
       </div>
 
-      {/* Very subtle grid */}
       <div
         className="absolute inset-0 opacity-[0.02]"
         style={{
@@ -87,15 +106,11 @@ export function Hero() {
         }}
       />
 
-      {/* Main content with parallax */}
       <motion.div
         className="relative z-10 text-center px-6 max-w-5xl"
-        style={{ x: springX, y: springY }}
+        style={prefersReducedMotion ? undefined : { x: springX, y: springY }}
       >
         <AnimatePresence mode="wait">
-          {/* Phase 0: Nothing - brief pause */}
-
-          {/* Phase 1: Single "Hi" centered with dramatic entrance */}
           {phase === 1 && (
             <motion.div
               key="hi-single"
@@ -109,7 +124,6 @@ export function Hero() {
             </motion.div>
           )}
 
-          {/* Phase 2: Fan out to 5 languages */}
           {phase === 2 && (
             <motion.div
               key="greetings"
@@ -128,7 +142,7 @@ export function Hero() {
                     delay: i * 0.12,
                     type: "spring",
                     stiffness: 100,
-                    damping: 15
+                    damping: 15,
                   }}
                   className="text-5xl md:text-7xl lg:text-8xl font-bold text-white"
                   style={{ textShadow: "0 0 60px rgba(255,255,255,0.3)" }}
@@ -139,15 +153,8 @@ export function Hero() {
             </motion.div>
           )}
 
-          {/* Phase 3+: Welcome and main content */}
           {phase >= 3 && (
-            <motion.div
-              key="main"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="space-y-8"
-            >
-              {/* Welcome */}
+            <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -158,7 +165,6 @@ export function Hero() {
                 Welcome
               </motion.p>
 
-              {/* Name - Phase 4 */}
               {phase >= 4 && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -173,14 +179,13 @@ export function Hero() {
                         className="absolute -bottom-2 left-0 h-1 bg-white"
                         initial={{ width: 0 }}
                         animate={{ width: "100%" }}
-                        transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
+                        transition={{ delay: 0.5, duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
                       />
                     </span>
                   </h1>
                 </motion.div>
               )}
 
-              {/* Subtitle & socials - Phase 5 */}
               {phase >= 5 && (
                 <motion.div
                   initial={{ opacity: 0, y: 30 }}
@@ -194,7 +199,6 @@ export function Hero() {
                     Backend
                   </p>
 
-                  {/* Social links */}
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -211,17 +215,16 @@ export function Hero() {
                         href={href}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.1)" }}
-                        whileTap={{ scale: 0.95 }}
-                        className="p-4 rounded-full border border-white/10 bg-transparent transition-all duration-300"
+                        whileHover={prefersReducedMotion ? undefined : { scale: 1.1, backgroundColor: "rgba(255,255,255,0.1)" }}
+                        whileTap={prefersReducedMotion ? undefined : { scale: 0.95 }}
+                        className="p-4 rounded-full border border-white/10 bg-transparent transition-all duration-300 hover:border-teal-400/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/50"
                         aria-label={label}
                       >
-                        <Icon className="w-5 h-5 text-white/60 hover:text-white transition-colors" />
+                        <Icon className="w-5 h-5 text-white/60 hover:text-teal-300/90 transition-colors" />
                       </motion.a>
                     ))}
                   </motion.div>
 
-                  {/* Resume button - subtle */}
                   <motion.a
                     href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa"
                     target="_blank"
@@ -229,7 +232,7 @@ export function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
-                    className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors border-b border-white/20 hover:border-white/50 pb-1"
+                    className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-teal-300/90 transition-colors border-b border-white/20 hover:border-teal-400/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
                   >
                     View Resume
                     <ExternalLink className="w-3 h-3" />
@@ -240,19 +243,22 @@ export function Hero() {
           )}
         </AnimatePresence>
 
-        {/* Scroll CTA */}
         {phase >= 5 && (
           <motion.a
             href="#about"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="absolute left-1/2 -translate-x-1/2 bottom-[-140px] flex flex-col items-center gap-2 text-white/20 hover:text-white/50 transition-colors cursor-pointer group"
+            className="absolute left-1/2 -translate-x-1/2 bottom-[-140px] flex flex-col items-center gap-2 text-white/20 hover:text-teal-300/70 transition-colors cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-md focus-visible:py-1"
           >
             <span className="text-[10px] tracking-[0.3em] uppercase font-medium">Scroll</span>
             <motion.div
-              animate={{ y: [0, 8, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+              animate={prefersReducedMotion ? { y: 0 } : { y: [0, 8, 0] }}
+              transition={
+                prefersReducedMotion
+                  ? { duration: 0 }
+                  : { duration: 2, repeat: Infinity, ease: "easeInOut" }
+              }
             >
               <ChevronDown className="w-4 h-4" />
             </motion.div>

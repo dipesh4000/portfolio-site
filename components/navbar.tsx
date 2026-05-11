@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import Image from "next/image";
@@ -13,9 +13,13 @@ const navLinks = [
   { href: "#contact", label: "Contact" },
 ];
 
+const navBtnClass =
+  "px-4 py-2 text-sm text-white/50 hover:text-teal-300/90 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]";
+
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const mobileMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,6 +28,37 @@ export function Navbar() {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return;
+
+    const menu = mobileMenuRef.current;
+    const focusables = menu?.querySelectorAll<HTMLElement>('button, a[href]');
+    const list = focusables ? Array.from(focusables) : [];
+    const first = list[0];
+    const last = list[list.length - 1];
+    requestAnimationFrame(() => first?.focus());
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileMenuOpen(false);
+        return;
+      }
+      if (e.key !== "Tab" || list.length === 0) return;
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else if (document.activeElement === last) {
+        e.preventDefault();
+        first?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [isMobileMenuOpen]);
 
   const handleNavClick = (href: string) => {
     setIsMobileMenuOpen(false);
@@ -43,17 +78,15 @@ export function Navbar() {
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            {/* Logo with Photo Avatar */}
             <a
-              href="#"
+              href="#top"
               onClick={(e) => {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="group flex items-center gap-3"
+              className="group flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
             >
-              {/* Photo Avatar */}
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-white/40 transition-colors">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-teal-400/35 transition-colors">
                 <Image
                   src="/dipesh.jpg"
                   alt="Dipesh Kumar"
@@ -63,23 +96,18 @@ export function Navbar() {
                 />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-lg font-bold text-white group-hover:text-white/70 transition-colors tracking-tight">
+                <span className="text-lg font-bold text-white group-hover:text-teal-200/90 transition-colors tracking-tight">
                   dipesh
                 </span>
-                <span className="text-lg font-light text-white/40 group-hover:text-white/30 transition-colors">
+                <span className="text-lg font-light text-white/40 group-hover:text-white/50 transition-colors">
                   kumar
                 </span>
               </div>
             </a>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-1">
               {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => handleNavClick(link.href)}
-                  className="px-4 py-2 text-sm text-white/50 hover:text-white transition-colors cursor-pointer"
-                >
+                <button key={link.href} type="button" onClick={() => handleNavClick(link.href)} className={navBtnClass}>
                   {link.label}
                 </button>
               ))}
@@ -87,16 +115,18 @@ export function Navbar() {
                 href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors"
+                className="ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
               >
                 GitHub
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
             <button
+              type="button"
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-white cursor-pointer"
+              className="md:hidden p-2 text-white cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+              aria-expanded={isMobileMenuOpen}
+              aria-controls="mobile-nav-menu"
               aria-label="Toggle menu"
             >
               {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -105,10 +135,14 @@ export function Navbar() {
         </div>
       </motion.nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isMobileMenuOpen && (
           <motion.div
+            ref={mobileMenuRef}
+            id="mobile-nav-menu"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -119,11 +153,12 @@ export function Navbar() {
               {navLinks.map((link, index) => (
                 <motion.button
                   key={link.href}
+                  type="button"
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full py-4 text-lg text-white/70 hover:text-white transition-colors cursor-pointer"
+                  className="w-full py-4 text-lg text-white/70 hover:text-teal-300/90 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
                 >
                   {link.label}
                 </motion.button>
@@ -135,7 +170,7 @@ export function Navbar() {
                 href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full"
+                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
               >
                 GitHub
               </motion.a>

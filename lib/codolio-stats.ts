@@ -10,10 +10,19 @@ export type CodioSiteStats = {
   maxStreak: number;
   currentStreak: number;
   awards: number;
-  dsa: { total: number; easy: number; medium: number; hard: number };
+  /** `total` = Codolio card aggregate; difficulties summed across platforms; `other` = remainder on card. */
+  dsa: { total: number; easy: number; medium: number; hard: number; other: number };
   fundamentals: { total: number; gfg: number; hackerrank: number };
   topics: { name: string; count: number }[];
-  github: { repos: number; stars: number; followers: number; following: number };
+  /** Synced from Codolio GitHub integration (not the public GitHub API). */
+  github: {
+    stars: number;
+    commits: number;
+    contributions: number;
+    pullRequests: number;
+    issues: number;
+    activeDays: number;
+  };
   lastUpdated: string;
 };
 
@@ -105,16 +114,64 @@ function nint(v: unknown): number {
   return Number.isFinite(x) ? Math.trunc(x) : 0;
 }
 
-function topicTop6(lc: Record<string, unknown> | null): { name: string; count: number }[] {
-  const topicRoot = lc?.topicAnalysisStats as { topicWiseDistribution?: Record<string, number> } | undefined;
-  const dist = topicRoot?.topicWiseDistribution;
-  if (!dist || typeof dist !== "object") return [];
-  const rows = Object.entries(dist).map(([name, count]) => ({
-    name,
-    count: nint(count),
-  }));
+function listPlatformProfiles(profile: Record<string, unknown>): Record<string, unknown>[] {
+  const root = profile.platformProfiles as { platformProfiles?: unknown[] } | undefined;
+  const list = root?.platformProfiles;
+  if (!Array.isArray(list)) return [];
+  return list.filter((p): p is Record<string, unknown> => !!p && typeof p === "object") as Record<
+    string,
+    unknown
+  >[];
+}
+
+function topicTop6Merged(platforms: Record<string, unknown>[]): { name: string; count: number }[] {
+  const merged = new Map<string, number>();
+  for (const p of platforms) {
+    const dist = (p.topicAnalysisStats as { topicWiseDistribution?: Record<string, unknown> } | undefined)
+      ?.topicWiseDistribution;
+    if (!dist || typeof dist !== "object") continue;
+    for (const [name, raw] of Object.entries(dist)) {
+      merged.set(name, (merged.get(name) ?? 0) + nint(raw));
+    }
+  }
+  const rows = [...merged.entries()].map(([name, count]) => ({ name, count }));
   rows.sort((a, b) => b.count - a.count);
   return rows.slice(0, 6);
+}
+
+function aggregateDifficultyAcrossPlatforms(platforms: Record<string, unknown>[]): {
+  easy: number;
+  medium: number;
+  hard: number;
+} {
+  let easy = 0;
+  let medium = 0;
+  let hard = 0;
+  for (const p of platforms) {
+    const t = p.totalQuestionStats as Record<string, unknown> | undefined;
+    if (!t) continue;
+    easy += nint(t.easyQuestionCounts) + nint(t.basicQuestionCounts) + nint(t.schoolQuestionCounts);
+    medium += nint(t.mediumQuestionCounts);
+    hard += nint(t.hardQuestionCounts);
+  }
+  return { easy, medium, hard };
+}
+
+function mergeSubmissionCalendars(
+  platforms: Record<string, unknown>[],
+): Record<string, unknown> | undefined {
+  const merged: Record<string, number> = {};
+  for (const p of platforms) {
+    const cal = (p.dailyActivityStatsResponse as { submissionCalendar?: Record<string, unknown> } | undefined)
+      ?.submissionCalendar;
+    if (!cal || typeof cal !== "object") continue;
+    for (const [k, raw] of Object.entries(cal)) {
+      const n = nint(raw);
+      if (n <= 0) continue;
+      merged[k] = (merged[k] ?? 0) + n;
+    }
+  }
+  return Object.keys(merged).length > 0 ? merged : undefined;
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -165,24 +222,8 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
     | { totalQuestionsSolved?: unknown; totalActiveDays?: unknown }
     | undefined;
 
-  const lc = getPlatform(profile, "leetcode");
   const gfg = getPlatform(profile, "geeksforgeeks");
   const hr = getPlatform(profile, "hackerrank");
-
-  const tqs = lc?.totalQuestionStats as
-    | {
-        totalQuestionCounts?: unknown;
-        easyQuestionCounts?: unknown;
-        mediumQuestionCounts?: unknown;
-        hardQuestionCounts?: unknown;
-      }
-    | undefined;
-
-  const daily = lc?.dailyActivityStatsResponse as
-    | {
-        submissionCalendar?: Record<string, unknown>;
-      }
-    | undefined;
 
   const gfgT = gfg?.totalQuestionStats as { totalQuestionCounts?: unknown } | undefined;
   const hrT = hr?.totalQuestionStats as { totalQuestionCounts?: unknown } | undefined;
@@ -190,14 +231,28 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
   const gfgN = nint(gfgT?.totalQuestionCounts);
   const hrN = nint(hrT?.totalQuestionCounts);
 
-  const { submissions, maxStreak, currentStreak } = submissionStatsFromCalendar(
-    daily?.submissionCalendar,
-  );
+  const platformList = listPlatformProfiles(profile);
+  const mergedCalendar = mergeSubmissionCalendars(platformList);
+  const { submissions, maxStreak, currentStreak } = submissionStatsFromCalendar(mergedCalendar);
 
   const platforms = (profile.platformProfiles as { platformProfiles?: unknown[] } | undefined)
     ?.platformProfiles;
 
-  const gh = githubRes?.data as { stars?: unknown } | undefined;
+  const cardTotalQuestions = nint(card?.totalQuestionsSolved);
+  const { easy: aggEasy, medium: aggMedium, hard: aggHard } = aggregateDifficultyAcrossPlatforms(platformList);
+  const difficultySum = aggEasy + aggMedium + aggHard;
+  const otherProblems = Math.max(0, cardTotalQuestions - difficultySum);
+
+  const gh = githubRes?.data as
+    | {
+        stars?: unknown;
+        commitCounts?: unknown;
+        totalContributions?: unknown;
+        pushRequestsCount?: unknown;
+        issues?: unknown;
+        totalActiveDays?: unknown;
+      }
+    | undefined;
 
   const stats: CodioSiteStats = {
     totalQuestions: nint(card?.totalQuestionsSolved),
@@ -207,22 +262,25 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
     currentStreak,
     awards: countBadges(platforms),
     dsa: {
-      total: nint(tqs?.totalQuestionCounts),
-      easy: nint(tqs?.easyQuestionCounts),
-      medium: nint(tqs?.mediumQuestionCounts),
-      hard: nint(tqs?.hardQuestionCounts),
+      total: cardTotalQuestions,
+      easy: aggEasy,
+      medium: aggMedium,
+      hard: aggHard,
+      other: otherProblems,
     },
     fundamentals: {
       total: gfgN + hrN,
       gfg: gfgN,
       hackerrank: hrN,
     },
-    topics: topicTop6(lc),
+    topics: topicTop6Merged(platformList),
     github: {
-      repos: 0,
       stars: nint(gh?.stars),
-      followers: 0,
-      following: 0,
+      commits: nint(gh?.commitCounts),
+      contributions: nint(gh?.totalContributions),
+      pullRequests: nint(gh?.pushRequestsCount),
+      issues: nint(gh?.issues),
+      activeDays: nint(gh?.totalActiveDays),
     },
     lastUpdated: new Date().toISOString(),
   };

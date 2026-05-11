@@ -30,7 +30,7 @@ const FALLBACK_STATS = {
   maxStreak: 24,
   currentStreak: 1,
   awards: 2,
-  dsa: { total: 155, easy: 72, medium: 75, hard: 8 },
+  dsa: { total: 155, easy: 72, medium: 75, hard: 8, other: 0 },
   fundamentals: { total: 9, gfg: 1, hackerrank: 8 },
   topics: [
     { name: "Arrays", count: 85 },
@@ -40,7 +40,14 @@ const FALLBACK_STATS = {
     { name: "String", count: 25 },
     { name: "Linked Lists", count: 23 },
   ],
-  github: { repos: 0, stars: 0, followers: 0, following: 0 },
+  github: {
+    stars: 0,
+    commits: 0,
+    contributions: 0,
+    pullRequests: 0,
+    issues: 0,
+    activeDays: 0,
+  },
   lastUpdated: new Date().toISOString(),
 };
 

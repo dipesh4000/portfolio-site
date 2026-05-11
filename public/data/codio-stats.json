@@ -1,15 +1,16 @@
 {
   "totalQuestions": 189,
   "totalActiveDays": 112,
-  "submissions": 370,
+  "submissions": 414,
   "maxStreak": 24,
-  "currentStreak": 1,
+  "currentStreak": 2,
   "awards": 2,
   "dsa": {
-    "total": 141,
-    "easy": 70,
-    "medium": 65,
-    "hard": 6
+    "total": 189,
+    "easy": 84,
+    "medium": 80,
+    "hard": 8,
+    "other": 17
   },
   "fundamentals": {
     "total": 40,
@@ -17,36 +18,20 @@
     "hackerrank": 9
   },
   "topics": [
-    {
-      "name": "Arrays",
-      "count": 86
-    },
-    {
-      "name": "Binary Search",
-      "count": 34
-    },
-    {
-      "name": "HashMap and Set",
-      "count": 29
-    },
-    {
-      "name": "Two Pointers",
-      "count": 27
-    },
-    {
-      "name": "String",
-      "count": 27
-    },
-    {
-      "name": "Math",
-      "count": 19
-    }
+    { "name": "Arrays", "count": 87 },
+    { "name": "Binary Search", "count": 38 },
+    { "name": "HashMap and Set", "count": 29 },
+    { "name": "Two Pointers", "count": 27 },
+    { "name": "String", "count": 27 },
+    { "name": "Linked Lists", "count": 23 }
   ],
   "github": {
-    "repos": 0,
     "stars": 6,
-    "followers": 0,
-    "following": 0
+    "commits": 383,
+    "contributions": 416,
+    "pullRequests": 5,
+    "issues": 2,
+    "activeDays": 100
   },
   "lastUpdated": "2026-05-11T17:53:38.730629Z"
 }
