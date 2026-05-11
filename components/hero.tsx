@@ -13,15 +13,17 @@ const greetings = [
 ];
 
 export function Hero() {
-  const [phase, setPhase] = useState(1); // Start with phase 1 to show Hi immediately
+  const [phase, setPhase] = useState(1);
+  const [mounted, setMounted] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
-  
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
   const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
   const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   useEffect(() => {
+    setMounted(true);
     const handleMouseMove = (e: MouseEvent) => {
       if (containerRef.current) {
         const rect = containerRef.current.getBoundingClientRect();
@@ -54,7 +56,7 @@ export function Hero() {
     >
       {/* Subtle animated particles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(30)].map((_, i) => (
+        {mounted && [...Array(30)].map((_, i) => (
           <motion.div
             key={i}
             className="absolute w-1 h-1 bg-white/20 rounded-full"
@@ -86,13 +88,13 @@ export function Hero() {
       />
 
       {/* Main content with parallax */}
-      <motion.div 
+      <motion.div
         className="relative z-10 text-center px-6 max-w-5xl"
         style={{ x: springX, y: springY }}
       >
         <AnimatePresence mode="wait">
           {/* Phase 0: Nothing - brief pause */}
-          
+
           {/* Phase 1: Single "Hi" centered with dramatic entrance */}
           {phase === 1 && (
             <motion.div
@@ -122,11 +124,11 @@ export function Hero() {
                   key={g.lang}
                   initial={{ opacity: 0, y: 60, rotateX: -90 }}
                   animate={{ opacity: 0.9, y: 0, rotateX: 0 }}
-                  transition={{ 
-                    delay: i * 0.12, 
-                    type: "spring", 
-                    stiffness: 100, 
-                    damping: 15 
+                  transition={{
+                    delay: i * 0.12,
+                    type: "spring",
+                    stiffness: 100,
+                    damping: 15
                   }}
                   className="text-5xl md:text-7xl lg:text-8xl font-bold text-white"
                   style={{ textShadow: "0 0 60px rgba(255,255,255,0.3)" }}
@@ -139,10 +141,10 @@ export function Hero() {
 
           {/* Phase 3+: Welcome and main content */}
           {phase >= 3 && (
-            <motion.div 
-              key="main" 
-              initial={{ opacity: 0 }} 
-              animate={{ opacity: 1 }} 
+            <motion.div
+              key="main"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
               className="space-y-8"
             >
               {/* Welcome */}
@@ -187,8 +189,8 @@ export function Hero() {
                   className="space-y-10"
                 >
                   <p className="text-xl md:text-3xl text-white/50 font-light tracking-wide">
-                    ML Engineer <span className="text-white/20 mx-3">|</span> 
-                    Data Science <span className="text-white/20 mx-3">|</span> 
+                    ML Engineer <span className="text-white/20 mx-3">|</span>
+                    Data Science <span className="text-white/20 mx-3">|</span>
                     Backend
                   </p>
 
@@ -221,13 +223,15 @@ export function Hero() {
 
                   {/* Resume button - subtle */}
                   <motion.a
-                    href="/resume.pdf"
+                    href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa"
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.6 }}
                     className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors border-b border-white/20 hover:border-white/50 pb-1"
                   >
-                    Download Resume
+                    View Resume
                     <ExternalLink className="w-3 h-3" />
                   </motion.a>
                 </motion.div>

@@ -15,10 +15,10 @@ const techStack = {
 export function TechCube() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isHovered, setIsHovered] = useState(false);
-  
+
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
-  
+
   const rotateX = useSpring(useTransform(mouseY, [-1, 1], [30, -30]), { stiffness: 100, damping: 30 });
   const rotateY = useSpring(useTransform(mouseX, [-1, 1], [-30, 30]), { stiffness: 100, damping: 30 });
 
@@ -76,7 +76,7 @@ export function TechCube() {
         >
           <FaceContent skills={techStack.front} label="Languages" />
         </div>
-        
+
         {/* Back face */}
         <div
           className="absolute w-full h-full"
@@ -84,7 +84,7 @@ export function TechCube() {
         >
           <FaceContent skills={techStack.back} label="Backend" />
         </div>
-        
+
         {/* Left face */}
         <div
           className="absolute w-full h-full"
@@ -92,7 +92,7 @@ export function TechCube() {
         >
           <FaceContent skills={techStack.left} label="ML & CV" />
         </div>
-        
+
         {/* Right face */}
         <div
           className="absolute w-full h-full"
@@ -100,7 +100,7 @@ export function TechCube() {
         >
           <FaceContent skills={techStack.right} label="Data" />
         </div>
-        
+
         {/* Top face */}
         <div
           className="absolute w-full h-full"
@@ -108,7 +108,7 @@ export function TechCube() {
         >
           <FaceContent skills={techStack.top} label="Tools" />
         </div>
-        
+
         {/* Bottom face */}
         <div
           className="absolute w-full h-full"
@@ -117,7 +117,7 @@ export function TechCube() {
           <FaceContent skills={techStack.bottom} label="Domains" />
         </div>
       </motion.div>
-      
+
       {/* Glow effect */}
       <div className="absolute inset-0 rounded-full bg-white/5 blur-3xl -z-10" />
     </div>

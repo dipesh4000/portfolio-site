@@ -1,0 +1,52 @@
+{
+  "totalQuestions": 189,
+  "totalActiveDays": 112,
+  "submissions": 370,
+  "maxStreak": 24,
+  "currentStreak": 1,
+  "awards": 2,
+  "dsa": {
+    "total": 141,
+    "easy": 70,
+    "medium": 65,
+    "hard": 6
+  },
+  "fundamentals": {
+    "total": 40,
+    "gfg": 31,
+    "hackerrank": 9
+  },
+  "topics": [
+    {
+      "name": "Arrays",
+      "count": 86
+    },
+    {
+      "name": "Binary Search",
+      "count": 34
+    },
+    {
+      "name": "HashMap and Set",
+      "count": 29
+    },
+    {
+      "name": "Two Pointers",
+      "count": 27
+    },
+    {
+      "name": "String",
+      "count": 27
+    },
+    {
+      "name": "Math",
+      "count": 19
+    }
+  ],
+  "github": {
+    "repos": 0,
+    "stars": 6,
+    "followers": 0,
+    "following": 0
+  },
+  "lastUpdated": "2026-05-11T17:53:38.730629Z"
+}

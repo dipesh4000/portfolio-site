@@ -15,6 +15,8 @@ import {
   Mail,
   ArrowRight,
   Code2,
+  Star,
+  Award,
 } from "lucide-react";
 
 function SectionWrapper({
@@ -124,11 +126,11 @@ export function ProjectsSection() {
               </div>
               <Github className="w-5 h-5 text-white/20 group-hover:text-white/60 transition-colors" />
             </div>
-            
+
             <p className="text-white/50 text-sm leading-relaxed mb-4">
               {project.description}
             </p>
-            
+
             <div className="flex flex-wrap gap-2">
               {project.tags.map((tag) => (
                 <span key={tag} className="px-2 py-1 rounded text-xs bg-white/5 text-white/40">
@@ -182,12 +184,14 @@ export function ExperienceSection() {
       school: "IIT Madras",
       period: "2024 - 2028",
       gpa: "7.80 / 10",
+      relevantCourses: ["Data Structures and Algorithms", "Database Management Systems", "Machine Learning", "Probability and Statistics", "Calculus", "Linear Algebra"]
     },
     {
       degree: "B.Tech Computer Science",
       school: "Maharaja Surajmal Institute of Technology",
       period: "2024 - 2028",
       gpa: "8.25 / 10",
+      relevantCourses: ["Object Oriented Programming", "Software Engineering", "Operating Systems", "Computer Networks"]
     },
   ];
 
@@ -214,13 +218,13 @@ export function ExperienceSection() {
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="space-y-6"
+          className="space-y-6 flex flex-col h-full"
         >
           <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider flex items-center gap-2">
             <Briefcase className="w-4 h-4" />
             Past Experience
           </h3>
-          
+
           <div className="space-y-6">
             {experiences.map((exp, index) => (
               <motion.div
@@ -229,14 +233,20 @@ export function ExperienceSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
                 viewport={{ once: true }}
-                className="p-5 rounded-2xl bg-[#111111] border border-white/5"
+                whileHover={{ x: 4 }}
+                className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group relative overflow-hidden flex flex-col justify-between min-h-[180px]"
               >
-                <div className="flex items-start justify-between mb-2">
-                  <h4 className="font-semibold text-white">{exp.title}</h4>
-                  <span className="text-xs text-white/30">{exp.period}</span>
+                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                  <Briefcase className="w-12 h-12" />
                 </div>
-                <p className="text-sm text-white/50 mb-3">{exp.company}</p>
-                <p className="text-sm text-white/40">{exp.description}</p>
+                <div className="flex items-start justify-between mb-2">
+                  <div>
+                    <h4 className="font-bold text-white text-lg">{exp.title}</h4>
+                    <p className="text-sm text-white/60 font-medium">{exp.company}</p>
+                  </div>
+                                      <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest whitespace-nowrap bg-white/5 px-2 py-1 rounded-md">{exp.period}</span>
+                </div>
+                <ul className="list-disc list-inside text-sm text-white/40 leading-relaxed max-w-[90%] space-y-1">{exp.description.split('. ').filter(Boolean).map((item, i) => (<li key={i}>{item.trim()}</li>))}</ul>
               </motion.div>
             ))}
           </div>
@@ -246,7 +256,7 @@ export function ExperienceSection() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-5 rounded-2xl bg-[#111111] border border-white/5"
+            className="p-5 rounded-2xl bg-[#111111] border border-white/5 flex-1 flex flex-col"
           >
             <div className="flex items-center gap-2 mb-2">
               <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -257,7 +267,7 @@ export function ExperienceSection() {
         </motion.div>
 
         {/* Education & Roles */}
-        <div className="space-y-6">
+        <div className="space-y-6 flex flex-col h-full">
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -267,7 +277,7 @@ export function ExperienceSection() {
               <GraduationCap className="w-4 h-4" />
               Education
             </h3>
-            
+
             <div className="space-y-4">
               {education.map((edu, index) => (
                 <motion.div
@@ -276,16 +286,37 @@ export function ExperienceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  className="p-5 rounded-2xl bg-[#111111] border border-white/5"
+                  whileHover={{ y: -4 }}
+                  className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group flex flex-col justify-between min-h-[180px]"
                 >
-                  <h4 className="font-semibold text-white mb-1">{edu.degree}</h4>
-                  <p className="text-sm text-white/50">{edu.school}</p>
-                  <div className="flex items-center justify-between mt-2">
-                    <span className="text-xs text-white/30">{edu.period}</span>
+                  <div className="flex justify-between items-start mb-3">
+                    <div>
+                      <h4 className="font-bold text-white group-hover:text-white transition-colors">{edu.degree}</h4>
+                      <p className="text-sm text-white/50">{edu.school}</p>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{edu.period}</span>
+                    </div>
+                  </div>
+
+                  {edu.relevantCourses && (
+                    <div className="mt-4 flex flex-wrap gap-1.5">
+                      {edu.relevantCourses.map((course: string) => (
+                        <span 
+                          key={course} 
+                          className="text-[10px] px-2.5 py-1 rounded-full bg-white/[0.03] text-white/40 border border-white/5 hover:border-white/10 hover:text-white/60 transition-all"
+                        >
+                          {course}
+                        </span>
+                      ))}
+                    </div>
+                  )}
+
+                  <div className="flex justify-end mt-4 pt-4 border-t border-white/5">
                     {edu.gpa && (
-                      <span className="text-xs px-2 py-1 rounded-full bg-white/5 text-white/50">
-                        CGPA: {edu.gpa}
-                      </span>
+                      <div className="px-2 py-1 rounded-md bg-white/5 border border-white/10">
+                        <span className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">CGPA: {edu.gpa}</span>
+                      </div>
                     )}
                   </div>
                 </motion.div>
@@ -298,19 +329,22 @@ export function ExperienceSection() {
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="p-5 rounded-2xl bg-[#111111] border border-white/5"
+            className="p-6 rounded-2xl bg-[#111111] border border-white/5"
           >
-            <h4 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-4">
-              Leadership
+            <h4 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-6 flex items-center gap-2">
+              <Award className="w-4 h-4" />
+              Leadership & Activities
             </h4>
-            <ul className="space-y-3">
-              {roles.map((role) => (
-                <li key={role} className="text-sm text-white/60 flex items-start gap-2">
-                  <span className="w-1 h-1 rounded-full bg-white/40 mt-2 flex-shrink-0" />
-                  {role}
-                </li>
+            <div className="space-y-4">
+              {roles.map((role, i) => (
+                <div key={i} className="flex gap-4 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
+                  <div className="p-2 bg-white/5 rounded-lg h-fit">
+                    <Star className="w-3 h-3 text-white/60" />
+                  </div>
+                  <p className="text-sm text-white/70 leading-snug">{role}</p>
+                </div>
               ))}
-            </ul>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -331,11 +365,11 @@ export function ContactSection() {
           <h2 className="text-4xl md:text-6xl font-bold text-white">
             Let&apos;s Connect
           </h2>
-          
+
           <p className="text-white/40 text-lg">
             Open to internships, collaborations, and interesting ML projects
           </p>
-          
+
           <div className="flex flex-col sm:flex-row justify-center gap-4 pt-4">
             <motion.a
               href="mailto:dipeshkumar0853822@gmail.com"
@@ -347,7 +381,7 @@ export function ContactSection() {
               Send Email
               <ArrowRight className="w-4 h-4" />
             </motion.a>
-            
+
             <motion.a
               href="https://linkedin.com/in/dipesh4000"
               target="_blank"

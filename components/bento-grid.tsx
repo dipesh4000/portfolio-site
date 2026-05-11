@@ -69,7 +69,7 @@ const catFrames = [
 
 function ASCIICat() {
   const [frame, setFrame] = useState(0);
-  
+
   useEffect(() => {
     const interval = setInterval(() => {
       setFrame((prev) => (prev + 1) % catFrames.length);
@@ -89,8 +89,8 @@ function LanguageBar({ name, percentage, color, delay }: { name: string; percent
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
-    <motion.div 
-      ref={ref} 
+    <motion.div
+      ref={ref}
       className="flex items-center gap-3"
       initial={{ opacity: 0, x: -10 }}
       animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -111,13 +111,13 @@ function LanguageBar({ name, percentage, color, delay }: { name: string; percent
   );
 }
 
-function BentoCard({ 
-  children, 
-  className = "", 
-  delay = 0 
-}: { 
-  children: React.ReactNode; 
-  className?: string; 
+function BentoCard({
+  children,
+  className = "",
+  delay = 0
+}: {
+  children: React.ReactNode;
+  className?: string;
   delay?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -156,7 +156,7 @@ export function BentoGrid() {
 
         {/* Bento Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
-          
+
           {/* Profile Photo Card */}
           <BentoCard className="md:col-span-1 md:row-span-2 overflow-hidden p-0" delay={0}>
             <div className="relative w-full h-full group">
@@ -185,7 +185,7 @@ export function BentoGrid() {
                   <span>Noida, India</span>
                 </div>
                 <p className="text-white/70 text-sm leading-relaxed">
-                  ML Engineer with hands-on experience in computer vision, model training, and production ML systems. 
+                  ML Engineer with hands-on experience in computer vision, model training, and production ML systems.
                   Strong foundation in Python, SQL, and data engineering.
                 </p>
               </div>
@@ -213,14 +213,34 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Education */}
-          <BentoCard className="md:col-span-1" delay={4}>
+          <BentoCard className="md:col-span-1 md:row-span-2" delay={4}>
             <div className="flex flex-col h-full">
               <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
                 <GraduationCap className="w-4 h-4 text-white/60" />
               </div>
-              <h3 className="text-white font-semibold text-sm mb-1">Education</h3>
-              <p className="text-xs text-white/50">IIT Madras - B.S. Data Science</p>
-              <p className="text-xs text-white/40">MSIT - B.Tech CS</p>
+              <h3 className="text-white font-semibold text-sm mb-4">Education</h3>
+
+              <div className="space-y-6">
+                <div className="relative pl-4 border-l border-white/10">
+                  <p className="text-sm text-white/80 font-medium">IIT Madras</p>
+                  <p className="text-xs text-white/40 mb-1">B.S. Data Science</p>
+                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+                    <span className="text-[10px] text-white/60">CGPA: 7.8 / 10</span>
+                  </div>
+                </div>
+
+                <div className="relative pl-4 border-l border-white/10">
+                  <p className="text-sm text-white/80 font-medium">MSIT</p>
+                  <p className="text-xs text-white/40 mb-1">B.Tech Computer Science</p>
+                  <div className="inline-flex items-center px-2 py-0.5 rounded-full bg-white/5 border border-white/10">
+                    <span className="text-[10px] text-white/60">CGPA: 8.25 / 10</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="mt-auto pt-6">
+                <p className="text-[10px] text-white/20 uppercase tracking-widest font-bold">Academic Background</p>
+              </div>
             </div>
           </BentoCard>
 
@@ -341,7 +361,7 @@ export function BentoGrid() {
 
           {/* Resume Download */}
           <BentoCard className="md:col-span-1 group cursor-pointer" delay={10}>
-            <a href="/resume.pdf" download className="flex flex-col h-full items-center justify-center text-center">
+            <a href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa" download className="flex flex-col h-full items-center justify-center text-center">
               <div className="p-3 bg-white/5 rounded-xl mb-3 group-hover:bg-white/10 transition-colors">
                 <Download className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
               </div>

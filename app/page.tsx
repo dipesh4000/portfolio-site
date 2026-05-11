@@ -11,7 +11,7 @@ import {
 
 export default function Home() {
   return (
-    <main className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "#0a0a0a" }}>
+    <main id="main-content" className="min-h-screen relative overflow-hidden" style={{ backgroundColor: "#0a0a0a" }}>
       <Navbar />
       <Hero />
       <BentoGrid />
