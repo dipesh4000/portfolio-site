@@ -119,6 +119,162 @@ curl -X POST http://localhost:3000/api/codolio
 | **"Codolio API returned empty profile"** | Check that your Codolio username/user key is correct and your profile is public |
 | **Latest stats not showing** | The stats are cached for 48 hours. Clear your browser cache or wait for the next automated update |
 
+## SEO Optimization
+
+This portfolio is fully optimized for search engines with comprehensive metadata, structured data, and best practices. All SEO configurations are automated and maintained through GitHub Actions.
+
+### SEO Features
+
+✓ **Metadata & Tags**
+- Comprehensive Open Graph tags for social sharing (Facebook, LinkedIn, etc.)
+- Twitter Card support for better sharing on Twitter/X
+- Canonical URLs to prevent duplicate content issues
+- Robots meta directives (`index`, `follow`) for search engine crawling
+- Viewport and color scheme meta tags for all devices
+
+✓ **Structured Data (JSON-LD)**
+- Person schema for author information with skills and social profiles
+- WebSite schema for enhanced search result appearance
+- Breadcrumb schema for navigation hierarchy
+- CreativeWork schema for projects (extensible)
+
+✓ **Technical SEO**
+- XML sitemap at `/sitemap.xml` for search engine discovery
+- `robots.txt` with crawler directives and sitemap reference
+- Image optimization enabled (WebP/AVIF formats via Next.js)
+- Semantic HTML with proper heading hierarchy (`<main>`, `<section>`, `<header>`, `<footer>`, `<nav>`)
+- Performance optimization (compression, minification, ETags)
+
+✓ **Social Sharing**
+- OG image at `/og-image.png` (1200x630px) for rich previews
+- Unique meta descriptions for search results
+- Author and creator attribution
+- Twitter handle and site configuration
+
+### Environment Variables Required for Full SEO
+
+Add these optional environment variables to unlock advanced SEO features:
+
+```bash
+# Optional: Google Search Console verification
+GOOGLE_SITE_VERIFICATION=your_google_verification_token
+
+# Optional: Custom base URL (defaults to https://dipeshkumar.com)
+NEXT_PUBLIC_BASE_URL=https://your-domain.com
+```
+
+### How to Verify SEO Configuration
+
+**In Browser DevTools:**
+1. Open your site in Chrome/Firefox
+2. Right-click → **Inspect** → **Head** tab
+3. Look for:
+   - `<meta name="description">` — Site description
+   - `<meta property="og:image">` — Social sharing image
+   - `<meta name="robots">` — Crawler directives
+   - `<script type="application/ld+json">` — Structured data
+   - `<link rel="canonical">` — Canonical URL
+
+**Verify Metadata:**
+```bash
+# Check for metadata object in layout.tsx
+grep -A 50 "export const metadata" app/layout.tsx
+
+# Check for JSON-LD schema
+grep -r "json-ld" components/
+```
+
+**Verify XML Sitemap:**
+- Visit `/sitemap.xml` — Should display XML with URL entries
+- Check `<lastmod>` timestamps are recent
+- Verify all important pages are included
+
+**Verify robots.txt:**
+- Visit `/robots.txt` — Should display text directives
+- Check `User-agent` sections for specific crawlers
+- Verify `Sitemap:` line points to correct URL
+
+**Verify Structured Data:**
+- Use [Google Rich Results Test](https://search.google.com/test/rich-results)
+- Visit your site homepage and paste the URL
+- Should show Person schema with name, job titles, social profiles
+- Should show WebSite schema for site branding
+
+**Check Image Optimization:**
+Open DevTools → **Network** tab → reload page
+- Images should be served as WebP/AVIF (modern browsers)
+- Check `Content-Type` header shows `image/webp` or `image/avif`
+- File sizes should be significantly smaller than originals
+
+**Verify Open Graph Tags:**
+```bash
+curl -s https://your-domain.com | grep -E "og:|twitter:"
+```
+
+Should show tags like:
+- `<meta property="og:title">` — Page title for social sharing
+- `<meta property="og:description">` — Page description
+- `<meta property="og:image">` — Social preview image
+- `<meta name="twitter:card">` — Twitter card type
+
+### GitHub Actions SEO Checks
+
+The `.github/workflows/seo-check.yml` workflow automatically validates SEO configuration on every push to `main` and pull requests.
+
+**What it checks:**
+- XML sitemap structure and validity
+- robots.txt format and directives
+- OG image file existence
+- Metadata object configuration
+- JSON-LD schema files
+- Image alt text attributes
+- Semantic HTML elements
+- Canonical URL configuration
+- Robots meta tags
+
+**View SEO check results:**
+1. Go to **Actions** tab in GitHub
+2. Click **SEO Validation & Checks**
+3. View latest workflow run
+4. Click on "Validate SEO Configuration" to see detailed checks
+
+### Troubleshooting SEO Issues
+
+| Issue | Solution |
+|-------|----------|
+| **Google can't find my site** | Submit sitemap to Google Search Console at https://search.google.com/search-console |
+| **Social preview shows generic text** | Check that `/og-image.png` exists and is 1200x630px. Clear cache and retry. |
+| **Sitemap shows 404** | Ensure `/public/sitemap.xml` exists. Run `npm run build` to verify. |
+| **Images not optimizing** | Check `next.config.mjs` has `unoptimized: false`. Images must be in `/public` or use `next/image`. |
+| **Structured data not showing in test** | Use Google's Rich Results Test at https://search.google.com/test/rich-results. Clear browser cache. |
+| **Robots.txt blocked my site** | Check `/public/robots.txt` doesn't have `Disallow: /`. Ensure `User-agent: *` allows your content. |
+
+### Additional Resources
+
+**Detailed SEO Guides:**
+- `SEO_VERIFICATION.md` — Step-by-step verification with screenshots
+- `SEO_QUICK_REFERENCE.md` — Quick reference for common SEO tasks
+
+**For Stats Updates:**
+- `STATS_SETUP.md` — Configure Codolio API integration
+- `STATS_QUICK_REFERENCE.md` — Quick reference for stats updates
+
+### Manual SEO Checks (Advanced)
+
+```bash
+# Validate XML sitemap syntax
+xmllint --noout public/sitemap.xml
+
+# Check for all meta tags
+grep -E "meta|canonical|og:" app/layout.tsx
+
+# Search for image optimization config
+grep -A 5 "images:" next.config.mjs
+
+# Find all JSON-LD schemas
+grep -r "ld+json\|@context" components/ lib/
+```
+
 ## Learn More
 
 To learn more, take a look at the following resources:
@@ -127,5 +283,7 @@ To learn more, take a look at the following resources:
 - [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 - [v0 Documentation](https://v0.app/docs) - learn about v0 and how to use it.
 - [Codolio API Docs](https://codolio.com) - learn about the Codolio platform.
+- [Google Search Central](https://developers.google.com/search) - Official SEO documentation.
+- [Schema.org](https://schema.org) - Structured data vocabulary reference.
 
 <a href="https://v0.app/chat/api/kiro/clone/dipesh4000/portfolio-site" alt="Open in Kiro"><img src="https://pdgvvgmkdvyeydso.public.blob.vercel-storage.com/open%20in%20kiro.svg?sanitize=true" /></a>

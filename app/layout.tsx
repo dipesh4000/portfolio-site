@@ -1,16 +1,103 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { JsonLdScript } from '@/components/json-ld-script'
 
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://dipeshkumar.com'
+const siteName = 'Dipesh Kumar | Portfolio'
+const siteDescription = 'Portfolio of Dipesh Kumar - ML Engineer specializing in ML/Data Science and Backend development. Explore my projects, skills, and experience in Python, FastAPI, and Computer Vision.'
+
 export const metadata: Metadata = {
-  title: 'Dipesh Kumar | Portfolio',
-  description: 'Portfolio of Dipesh Kumar - ML Engineer, Data Science, and Backend Developer',
+  title: {
+    default: siteName,
+    template: '%s | Dipesh Kumar',
+  },
+  description: siteDescription,
   generator: 'v0.app',
+  applicationName: siteName,
+  authors: [
+    {
+      name: 'Dipesh Kumar',
+      url: 'https://github.com/dipesh4000',
+    },
+  ],
+  creator: 'Dipesh Kumar',
+  publisher: 'Dipesh Kumar',
+  
+  // Canonical URL for SEO
+  metadataBase: new URL(baseUrl),
+  canonical: `${baseUrl}/`,
+  
+  // Keywords for search
+  keywords: [
+    'ML Engineer',
+    'Machine Learning',
+    'Data Science',
+    'Backend Developer',
+    'Python Developer',
+    'FastAPI',
+    'PostgreSQL',
+    'Computer Vision',
+    'YOLOv8',
+    'Deep Learning',
+    'Data Engineering',
+    'REST API',
+    'Dipesh Kumar',
+  ],
+  
+  // Open Graph for social sharing
+  openGraph: {
+    type: 'website',
+    locale: 'en_US',
+    url: baseUrl,
+    siteName: siteName,
+    title: siteName,
+    description: siteDescription,
+    images: [
+      {
+        url: `${baseUrl}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'Dipesh Kumar - ML Engineer Portfolio',
+        type: 'image/png',
+      },
+    ],
+  },
+  
+  // Twitter Card
+  twitter: {
+    card: 'summary_large_image',
+    site: '@dipesh4000',
+    creator: '@dipesh4000',
+    title: siteName,
+    description: siteDescription,
+    images: [`${baseUrl}/og-image.png`],
+  },
+  
+  // Robots configuration
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  
+  // Verification tags (add your actual values in environment)
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION,
+  },
+  
+  // Icons
   icons: {
     icon: [
       {
@@ -28,6 +115,21 @@ export const metadata: Metadata = {
     ],
     apple: '/apple-icon.png',
   },
+  
+  // Prefers reduced motion
+  other: {
+    'format-detection': 'telephone=no',
+  },
+}
+
+// Viewport configuration (separate from metadata export for Next.js 15+)
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  minimumScale: 1,
+  userScalable: true,
+  viewportFit: 'cover',
+  colorScheme: 'dark',
 }
 
 export default function RootLayout({
@@ -37,6 +139,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-background scroll-smooth">
+      <head>
+        <JsonLdScript />
+      </head>
       <body className="font-sans antialiased">
         <a
           href="#main-content"
