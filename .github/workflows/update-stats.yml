@@ -1,0 +1,92 @@
+name: Update Codolio Stats
+
+on:
+  schedule:
+    # Update stats daily at 12:00 AM UTC
+    - cron: "0 0 * * *"
+  # Allow manual trigger from Actions tab
+  workflow_dispatch:
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build Next.js project
+        run: npm run build
+
+      - name: Update stats via API
+        env:
+          CODOLIO_USER_KEY: ${{ secrets.CODOLIO_USER_KEY }}
+          CODOLIO_CRON_SECRET: ${{ secrets.CODOLIO_CRON_SECRET }}
+        run: |
+          # Start the dev server in the background
+          npm run dev &
+          DEV_PID=$!
+          sleep 5
+
+          # Call the POST endpoint to refresh stats
+          RESPONSE=$(curl -X POST http://localhost:3000/api/codolio \
+            -H "Authorization: Bearer $CODOLIO_CRON_SECRET" \
+            -H "Content-Type: application/json" \
+            -w "\n%{http_code}" 2>/dev/null)
+
+          # Extract status code (last line)
+          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
+          BODY=$(echo "$RESPONSE" | sed '$d')
+
+          # Stop the dev server
+          kill $DEV_PID 2>/dev/null || true
+
+          echo "API Response: $BODY"
+          echo "HTTP Status: $HTTP_CODE"
+
+          if [ "$HTTP_CODE" != "200" ]; then
+            echo "Failed to update stats. HTTP $HTTP_CODE"
+            exit 1
+          fi
+
+      - name: Check for changes
+        id: changes
+        run: |
+          if git diff --quiet public/data/codio-stats.json; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.changes.outputs.has_changes == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add public/data/codio-stats.json
+          git commit -m "chore: update codolio stats - $(date +'%Y-%m-%d %H:%M:%S UTC')"
+          git push
+
+      - name: Create Pull Request (optional)
+        if: steps.changes.outputs.has_changes == 'true' && github.ref == 'refs/heads/main'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore: update codolio stats"
+          title: "chore: update codolio stats - $(date +'%Y-%m-%d')"
+          body: "Automatic stats update from Codolio API\n\nUpdated files: `public/data/codio-stats.json`"
+          branch: "update-stats-${{ github.run_number }}"
+          delete-branch: true
