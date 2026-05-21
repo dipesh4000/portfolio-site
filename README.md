@@ -91,7 +91,14 @@ Replace `$CODOLIO_CRON_SECRET` with your actual secret from GitHub Secrets.
 ```bash
 curl -X POST http://localhost:3000/api/codolio
 ```
+``` Powershell
+# Without auth"
+Invoke-RestMethod -Method POST -Uri "http://localhost:3000/api/codolio
 
+# With auth
+Invoke-RestMethod -Method POST -Uri "http://localhost:3000/api/codolio" `
+  -Headers @{ "Authorization" = "Bearer YOUR_SECRET_HERE" }
+```
 ### How It Works
 
 1. **Codolio API Integration** (`lib/codolio-stats.ts`)
