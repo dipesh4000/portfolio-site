@@ -31,7 +31,9 @@ export const metadata: Metadata = {
   
   // Canonical URL for SEO
   metadataBase: new URL(baseUrl),
-  canonical: `${baseUrl}/`,
+  alternates: {
+    canonical: './',
+  },
   
   // Keywords for search
   keywords: [

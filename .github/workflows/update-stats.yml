@@ -1,0 +1,39 @@
+name: Update Codolio Stats
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Runs daily at 12:00 AM UTC
+  workflow_dispatch: # Allows manual trigger from the GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci || npm install
+
+      - name: Fetch and Write Stats
+        env:
+          CODOLIO_USER_KEY: ${{ secrets.CODOLIO_USER_KEY }}
+          CODOLIO_CRON_SECRET: ${{ secrets.CODOLIO_CRON_SECRET }}
+        run: npx tsx scripts/update-stats.ts
+
+      - name: Commit and Push Changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/codio-stats.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update Codolio stats [skip ci]" && git push)
