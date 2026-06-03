@@ -1,16 +1,16 @@
 {
-  "totalQuestions": 218,
-  "totalActiveDays": 124,
-  "submissions": 477,
+  "totalQuestions": 224,
+  "totalActiveDays": 126,
+  "submissions": 489,
   "maxStreak": 24,
-  "currentStreak": 1,
+  "currentStreak": 2,
   "awards": 2,
   "dsa": {
-    "total": 218,
-    "easy": 94,
-    "medium": 88,
+    "total": 224,
+    "easy": 95,
+    "medium": 89,
     "hard": 9,
-    "other": 27
+    "other": 31
   },
   "fundamentals": {
     "total": 50,
@@ -51,5 +51,5 @@
     "issues": 2,
     "activeDays": 114
   },
-  "lastUpdated": "2026-06-02T04:45:41.902Z"
+  "lastUpdated": "2026-06-03T04:55:06.835Z"
 }
