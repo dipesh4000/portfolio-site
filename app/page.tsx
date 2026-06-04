@@ -2,7 +2,6 @@ import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
 import { CodingStats } from "@/components/stats";
-import { ContestStats } from "@/components/ContestStats";
 import { BentoGrid } from "@/components/bento-grid";
 import {
   ProjectsSection,
@@ -17,7 +16,6 @@ export default function Home() {
       <Hero />
       <BentoGrid />
       <CodingStats />
-      <ContestStats />
       <ProjectsSection />
       <ExperienceSection />
       <ContactSection />

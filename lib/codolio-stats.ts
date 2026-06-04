@@ -23,6 +23,28 @@ export type CodioSiteStats = {
     issues: number;
     activeDays: number;
   };
+  /** Competitive-programming contest stats synced from Codolio platform profiles. */
+  contest: {
+    rating: number;
+    maxRating: number;
+    contests: number;
+    bestRank: number | null;
+    platforms: {
+      platform: string;
+      handle: string | null;
+      rating: number;
+      maxRating: number;
+      contests: number;
+      bestRank: number | null;
+    }[];
+    recent: {
+      platform: string;
+      contestName: string;
+      rating: number;
+      contestDate: number;
+      rank: number | null;
+    }[];
+  };
   lastUpdated: string;
 };
 
@@ -174,6 +196,81 @@ function mergeSubmissionCalendars(
   return Object.keys(merged).length > 0 ? merged : undefined;
 }
 
+function platformTypes(platform: Record<string, unknown>): string[] {
+  const types = (platform.platformDetails as { types?: unknown[] } | undefined)?.types;
+  return Array.isArray(types)
+    ? types.filter((type): type is string => typeof type === "string")
+    : [];
+}
+
+function platformContestList(platform: Record<string, unknown>): Record<string, unknown>[] {
+  const list = (platform.contestActivityStats as { contestActivityList?: unknown[] } | undefined)
+    ?.contestActivityList;
+  return Array.isArray(list)
+    ? list.filter((contest): contest is Record<string, unknown> => !!contest && typeof contest === "object")
+    : [];
+}
+
+function aggregateContestStats(platforms: Record<string, unknown>[]): CodioSiteStats["contest"] {
+  const platformRows: CodioSiteStats["contest"]["platforms"] = [];
+  const recent: CodioSiteStats["contest"]["recent"] = [];
+
+  for (const platform of platforms) {
+    const platformName = String(platform.platform ?? "");
+    if (!platformName) continue;
+
+    const userStats = platform.userStats as Record<string, unknown> | undefined;
+    const contests = platformContestList(platform);
+    const rating = nint(userStats?.currentRating);
+    const maxRating = nint(userStats?.maxRating);
+    const bestRank =
+      contests
+        .map((contest) => nint(contest.rank))
+        .filter((rank) => rank > 0)
+        .sort((a, b) => a - b)[0] ?? null;
+    const isContestPlatform = contests.length > 0 || rating > 0 || maxRating > 0;
+
+    if (!isContestPlatform) continue;
+
+    platformRows.push({
+      platform: platformName,
+      handle: typeof userStats?.handle === "string" ? userStats.handle : null,
+      rating,
+      maxRating,
+      contests: contests.length,
+      bestRank,
+    });
+
+    for (const contest of contests) {
+      const contestName = typeof contest.contestName === "string" ? contest.contestName : "";
+      if (!contestName) continue;
+      recent.push({
+        platform: platformName,
+        contestName,
+        rating: nint(contest.rating),
+        contestDate: nint(contest.contestDate),
+        rank: nint(contest.rank) > 0 ? nint(contest.rank) : null,
+      });
+    }
+  }
+
+  platformRows.sort((a, b) => Math.max(b.rating, b.maxRating) - Math.max(a.rating, a.maxRating));
+  recent.sort((a, b) => b.contestDate - a.contestDate);
+
+  return {
+    rating: Math.max(0, ...platformRows.map((platform) => platform.rating || platform.maxRating)),
+    maxRating: Math.max(0, ...platformRows.map((platform) => platform.maxRating || platform.rating)),
+    contests: platformRows.reduce((sum, platform) => sum + platform.contests, 0),
+    bestRank:
+      platformRows
+        .map((platform) => platform.bestRank)
+        .filter((rank): rank is number => typeof rank === "number" && rank > 0)
+        .sort((a, b) => a - b)[0] ?? null,
+    platforms: platformRows,
+    recent: recent.slice(0, 4),
+  };
+}
+
 async function fetchJson<T>(url: string): Promise<T> {
   const res = await fetch(url, {
     cache: "no-store",
@@ -282,6 +379,7 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
       issues: nint(gh?.issues),
       activeDays: nint(gh?.totalActiveDays),
     },
+    contest: aggregateContestStats(platformList),
     lastUpdated: new Date().toISOString(),
   };
 

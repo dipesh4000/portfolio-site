@@ -15,8 +15,6 @@ const nextConfig = {
   compress: true,
   // Enable React strict mode for development
   reactStrictMode: true,
-  // SWR caching
-  swcMinify: true,
   // PoweredBy header removal for security
   poweredByHeader: false,
   // Generate ETags for caching

@@ -48,6 +48,14 @@ const FALLBACK_STATS = {
     issues: 0,
     activeDays: 0,
   },
+  contest: {
+    rating: 0,
+    maxRating: 0,
+    contests: 0,
+    bestRank: null,
+    platforms: [],
+    recent: [],
+  },
   lastUpdated: new Date().toISOString(),
 };
 

@@ -1,7 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion } from "framer-motion";
 
 const techStack = {
   front: ["Python", "SQL", "Java", "C++"],
@@ -13,30 +12,6 @@ const techStack = {
 };
 
 export function TechCube() {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [isHovered, setIsHovered] = useState(false);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  const rotateX = useSpring(useTransform(mouseY, [-1, 1], [30, -30]), { stiffness: 100, damping: 30 });
-  const rotateY = useSpring(useTransform(mouseX, [-1, 1], [-30, 30]), { stiffness: 100, damping: 30 });
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!containerRef.current) return;
-    const rect = containerRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    mouseX.set((e.clientX - centerX) / (rect.width / 2));
-    mouseY.set((e.clientY - centerY) / (rect.height / 2));
-  };
-
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-    setIsHovered(false);
-  };
-
   const FaceContent = ({ skills, label }: { skills: string[]; label: string }) => (
     <div className="w-full h-full bg-[#111111] border border-white/10 rounded-xl p-4 flex flex-col justify-center items-center gap-2">
       <span className="text-[10px] text-white/30 uppercase tracking-widest mb-2">{label}</span>
@@ -52,22 +27,16 @@ export function TechCube() {
 
   return (
     <div
-      ref={containerRef}
-      className="relative w-[280px] h-[280px] cursor-grab active:cursor-grabbing"
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
+      className="relative w-[280px] h-[280px]"
       style={{ perspective: "1000px" }}
     >
       <motion.div
         className="w-full h-full relative"
         style={{
           transformStyle: "preserve-3d",
-          rotateX: isHovered ? rotateX : 0,
-          rotateY: isHovered ? rotateY : 0,
         }}
-        animate={!isHovered ? { rotateY: 360 } : {}}
-        transition={!isHovered ? { duration: 20, repeat: Infinity, ease: "linear" } : {}}
+        animate={{ rotateY: 360 }}
+        transition={{ duration: 28, repeat: Infinity, ease: "linear" }}
       >
         {/* Front face */}
         <div

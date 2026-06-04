@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 218,
-  "totalActiveDays": 124,
-  "submissions": 477,
+  "totalQuestions": 230,
+  "totalActiveDays": 128,
+  "submissions": 498,
   "maxStreak": 24,
-  "currentStreak": 1,
+  "currentStreak": 2,
   "awards": 2,
   "dsa": {
-    "total": 218,
-    "easy": 94,
-    "medium": 88,
+    "total": 230,
+    "easy": 95,
+    "medium": 91,
     "hard": 9,
-    "other": 27
+    "other": 35
   },
   "fundamentals": {
-    "total": 50,
-    "gfg": 41,
+    "total": 51,
+    "gfg": 42,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 92
+      "count": 94
     },
     {
       "name": "Binary Search",
@@ -45,16 +45,73 @@
   ],
   "github": {
     "stars": 10,
-    "commits": 421,
-    "contributions": 453,
+    "commits": 432,
+    "contributions": 467,
     "pullRequests": 3,
     "issues": 2,
-    "activeDays": 112
+    "activeDays": 116
   },
   "contest": {
-    "rating": 1850,
-    "contests": 42,
-    "bestRank": "#12"
+    "rating": 1500,
+    "maxRating": 1500,
+    "contests": 7,
+    "bestRank": 3132,
+    "platforms": [
+      {
+        "platform": "leetcode",
+        "handle": "dipesh4000",
+        "rating": 0,
+        "maxRating": 1500,
+        "contests": 3,
+        "bestRank": null
+      },
+      {
+        "platform": "codechef",
+        "handle": "dipesh4000",
+        "rating": 1190,
+        "maxRating": 1190,
+        "contests": 2,
+        "bestRank": 3132
+      },
+      {
+        "platform": "atcoder",
+        "handle": "dipesh4000",
+        "rating": 33,
+        "maxRating": 33,
+        "contests": 2,
+        "bestRank": 8973
+      }
+    ],
+    "recent": [
+      {
+        "platform": "codechef",
+        "contestName": "Starters 241 (Rated)",
+        "rating": 1190,
+        "contestDate": 1780444800,
+        "rank": 4580
+      },
+      {
+        "platform": "leetcode",
+        "contestName": "Weekly Contest 504",
+        "rating": 1500,
+        "contestDate": 1780194600,
+        "rank": null
+      },
+      {
+        "platform": "atcoder",
+        "contestName": "AtCoder Beginner Contest 460",
+        "rating": 33,
+        "contestDate": 1780148400,
+        "rank": 8973
+      },
+      {
+        "platform": "codechef",
+        "contestName": "Starters 240 (Rated)",
+        "rating": 1114,
+        "contestDate": 1779840000,
+        "rank": 3132
+      }
+    ]
   },
-  "lastUpdated": "2026-05-29T08:54:21.885Z"
+  "lastUpdated": "2026-06-04T06:43:24.905Z"
 }

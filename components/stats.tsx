@@ -17,6 +17,9 @@ import {
   Layers,
   GitPullRequest,
   CircleDot,
+  Trophy,
+  Medal,
+  Swords,
 } from "lucide-react";
 
 // Stats from public/data/codio-stats.json — refresh: POST /api/codolio (writes this file). Optional: CODOLIO_CRON_SECRET + Authorization: Bearer …
@@ -320,6 +323,152 @@ function GithubViaCodolioCard() {
   );
 }
 
+function formatPlatformName(platform: string) {
+  return platform
+    .split(/[-_ ]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
+
+function formatContestDate(ts: number) {
+  if (!ts) return "Recent";
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  }).format(new Date(ts * 1000));
+}
+
+function ContestOverviewCard() {
+  const reduced = useReducedMotionPreference();
+  const contest = stats.contest as {
+    rating?: number;
+    maxRating?: number;
+    contests?: number;
+    bestRank?: number | string | null;
+    platforms?: {
+      platform: string;
+      handle?: string | null;
+      rating?: number;
+      maxRating?: number;
+      contests?: number;
+      bestRank?: number | string | null;
+    }[];
+    recent?: {
+      platform: string;
+      contestName: string;
+      rating?: number;
+      contestDate?: number;
+      rank?: number | null;
+    }[];
+  };
+
+  const platforms = contest.platforms ?? [];
+  const recent = contest.recent ?? [];
+  const bestRank = contest.bestRank ? `#${String(contest.bestRank).replace(/^#/, "")}` : "-";
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: reduced ? 0 : 0.45 }}
+      className="mb-8 rounded-2xl border border-white/5 bg-[#111111] p-6"
+    >
+      <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+        <div>
+          <h3 className="text-sm font-medium text-white/60 flex items-center gap-2">
+            <Trophy className="w-4 h-4" />
+            Contest performance
+          </h3>
+          <p className="mt-1 text-xs text-white/35">Synced from Codolio competitive programming profiles</p>
+        </div>
+        <a
+          href="https://codolio.com/profile/dipesh4000"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-teal-300/90 transition-colors"
+        >
+          Codolio
+          <ExternalLink className="h-3 w-3" />
+        </a>
+      </div>
+
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid grid-cols-3 gap-3">
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <Trophy className="mb-3 h-4 w-4 text-white/35" />
+            <div className="text-2xl font-semibold text-white tabular-nums">
+              <Counter value={contest.rating ?? 0} duration={1.2} />
+            </div>
+            <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Top rating</div>
+          </div>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <Swords className="mb-3 h-4 w-4 text-white/35" />
+            <div className="text-2xl font-semibold text-white tabular-nums">
+              <Counter value={contest.contests ?? 0} duration={1.2} />
+            </div>
+            <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Contests</div>
+          </div>
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <Medal className="mb-3 h-4 w-4 text-white/35" />
+            <div className="text-2xl font-semibold text-white tabular-nums">{bestRank}</div>
+            <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Best rank</div>
+          </div>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-2">
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="mb-4 text-[10px] font-semibold uppercase tracking-wide text-white/35">Platforms</div>
+            <div className="space-y-3">
+              {platforms.length > 0 ? (
+                platforms.map((platform) => (
+                  <div key={platform.platform} className="flex items-center justify-between gap-3">
+                    <div className="min-w-0">
+                      <div className="truncate text-sm text-white/70">{formatPlatformName(platform.platform)}</div>
+                      <div className="text-xs text-white/30">{platform.contests ?? 0} contests</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm font-semibold text-white tabular-nums">
+                        {platform.rating || platform.maxRating || "-"}
+                      </div>
+                      <div className="text-xs text-white/30">
+                        {platform.bestRank ? `#${String(platform.bestRank).replace(/^#/, "")}` : "No rank"}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-white/35">No contest platforms connected yet.</p>
+              )}
+            </div>
+          </div>
+
+          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
+            <div className="mb-4 text-[10px] font-semibold uppercase tracking-wide text-white/35">Recent contests</div>
+            <div className="space-y-3">
+              {recent.length > 0 ? (
+                recent.slice(0, 3).map((item) => (
+                  <div key={`${item.platform}-${item.contestName}`} className="border-b border-white/5 pb-3 last:border-0 last:pb-0">
+                    <div className="line-clamp-1 text-sm text-white/70">{item.contestName}</div>
+                    <div className="mt-1 flex items-center justify-between gap-3 text-xs text-white/30">
+                      <span>{formatPlatformName(item.platform)} · {formatContestDate(item.contestDate ?? 0)}</span>
+                      <span>{item.rank ? `#${item.rank}` : "Rank pending"}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-sm text-white/35">Recent contest history will appear after Codolio syncs it.</p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
 export function CodingStats() {
   const reduced = usePrefersReducedMotion();
   const maxTopic = Math.max(1, ...stats.topics.map((t) => t.count));
@@ -350,6 +499,8 @@ export function CodingStats() {
           </div>
 
           <GithubViaCodolioCard />
+
+          <ContestOverviewCard />
 
           <div className="grid lg:grid-cols-2 gap-6 mb-8">
             <motion.div

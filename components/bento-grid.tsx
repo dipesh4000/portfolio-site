@@ -6,6 +6,8 @@ import { Github, ExternalLink, MapPin, GraduationCap, Briefcase, Code2, Database
 import { TechCube } from "./tech-cube";
 import Image from "next/image";
 
+const RESUME_URL = "https://presio.me/dipesh4000/resume";
+
 const skills = {
   languages: ["Python", "SQL", "JavaScript", "C++"],
   ml: ["PyTorch", "TensorFlow", "Scikit-learn", "YOLOv8", "OpenCV"],
@@ -361,7 +363,7 @@ export function BentoGrid() {
 
           {/* Resume Download */}
           <BentoCard className="md:col-span-1 group cursor-pointer" delay={10}>
-            <a href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa" download className="flex flex-col h-full items-center justify-center text-center">
+            <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col h-full items-center justify-center text-center">
               <div className="p-3 bg-white/5 rounded-xl mb-3 group-hover:bg-white/10 transition-colors">
                 <Download className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />
               </div>

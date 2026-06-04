@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
-import { motion, AnimatePresence, useMotionValue, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown, Github, Linkedin, Mail, ExternalLink } from "lucide-react";
 
 const greetings = [
@@ -11,6 +11,8 @@ const greetings = [
   { text: "안녕", lang: "ko" },
   { text: "你好", lang: "zh" },
 ];
+
+const RESUME_URL = "https://presio.me/dipesh4000/resume";
 
 /** Deterministic layout so SSR/CSR match (avoids random() per render). */
 function particleLayout(i: number) {
@@ -25,12 +27,6 @@ export function Hero() {
   const [phase, setPhase] = useState(1);
   const [mounted, setMounted] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-  const springX = useSpring(mouseX, { stiffness: 50, damping: 20 });
-  const springY = useSpring(mouseY, { stiffness: 50, damping: 20 });
 
   useEffect(() => {
     setMounted(true);
@@ -40,21 +36,6 @@ export function Hero() {
     mq.addEventListener("change", onChange);
     return () => mq.removeEventListener("change", onChange);
   }, []);
-
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        mouseX.set((e.clientX - centerX) / 50);
-        mouseY.set((e.clientY - centerY) / 50);
-      }
-    };
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [mouseX, mouseY, prefersReducedMotion]);
 
   useEffect(() => {
     // Same phase timing as before when motion is preferred
@@ -70,7 +51,6 @@ export function Hero() {
   return (
     <section
       id="top"
-      ref={containerRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ backgroundColor: "#0a0a0a" }}
     >
@@ -106,10 +86,7 @@ export function Hero() {
         }}
       />
 
-      <motion.div
-        className="relative z-10 text-center px-6 max-w-5xl"
-        style={prefersReducedMotion ? undefined : { x: springX, y: springY }}
-      >
+      <motion.div className="relative z-10 text-center px-6 max-w-5xl">
         <AnimatePresence mode="wait">
           {phase === 1 && (
             <motion.div
@@ -240,7 +217,7 @@ export function Hero() {
                   </motion.a>
 
                   <motion.a
-                    href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa"
+                    href={RESUME_URL}
                     target="_blank"
                     rel="noopener noreferrer"
                     initial={{ opacity: 0 }}
