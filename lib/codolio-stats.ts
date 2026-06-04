@@ -14,6 +14,8 @@ export type CodioSiteStats = {
   dsa: { total: number; easy: number; medium: number; hard: number; other: number };
   fundamentals: { total: number; gfg: number; hackerrank: number };
   topics: { name: string; count: number }[];
+  /** Repository language distribution synced from Codolio GitHub integration. */
+  languages: { name: string; bytes: number; percentage: number; color: string }[];
   /** Synced from Codolio GitHub integration (not the public GitHub API). */
   github: {
     stars: number;
