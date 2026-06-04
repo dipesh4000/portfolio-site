@@ -1,16 +1,16 @@
 {
-  "totalQuestions": 224,
-  "totalActiveDays": 126,
-  "submissions": 489,
+  "totalQuestions": 228,
+  "totalActiveDays": 127,
+  "submissions": 496,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 1,
   "awards": 2,
   "dsa": {
-    "total": 224,
+    "total": 228,
     "easy": 95,
     "medium": 89,
     "hard": 9,
-    "other": 31
+    "other": 35
   },
   "fundamentals": {
     "total": 50,
@@ -45,11 +45,11 @@
   ],
   "github": {
     "stars": 10,
-    "commits": 427,
-    "contributions": 461,
+    "commits": 430,
+    "contributions": 465,
     "pullRequests": 3,
     "issues": 2,
-    "activeDays": 114
+    "activeDays": 115
   },
-  "lastUpdated": "2026-06-03T04:55:06.835Z"
+  "lastUpdated": "2026-06-04T04:48:46.669Z"
 }
