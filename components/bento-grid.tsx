@@ -130,22 +130,25 @@ function LanguageDistribution() {
 function BentoCard({
   children,
   className = "",
-  delay = 0
+  delay = 0,
+  id,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
+  id?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
 
   return (
     <motion.div
+      id={id}
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: delay * 0.1 }}
-      className={`bg-[#111111] border border-white/5 rounded-2xl p-6 hover:border-white/10 transition-all duration-500 ${className}`}
+      className={`scroll-mt-24 bg-[#111111] border border-white/5 rounded-2xl p-5 sm:p-6 hover:border-white/10 transition-all duration-500 ${className}`}
     >
       {children}
     </motion.div>
@@ -154,7 +157,7 @@ function BentoCard({
 
 export function BentoGrid() {
   return (
-    <section id="about" className="py-32 px-6" style={{ backgroundColor: "#0a0a0a" }}>
+    <section id="about" className="px-4 py-20 sm:px-6 lg:py-24" style={{ backgroundColor: "#0a0a0a" }}>
       <div className="max-w-6xl mx-auto">
         {/* Section header */}
         <motion.div
@@ -162,7 +165,7 @@ export function BentoGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-16"
+          className="mb-10 sm:mb-14"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">About Me</h2>
           <p className="text-white/40 text-lg max-w-2xl">
@@ -171,20 +174,20 @@ export function BentoGrid() {
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[180px]">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[180px] lg:grid-cols-4">
 
           {/* Profile Photo Card */}
-          <BentoCard className="md:col-span-1 md:row-span-2 overflow-hidden p-0" delay={0}>
-            <div className="relative w-full h-full group">
+          <BentoCard className="min-h-[360px] overflow-hidden p-0 sm:min-h-[420px] md:col-span-1 md:row-span-2 md:min-h-0" delay={0}>
+            <div className="relative h-full min-h-[360px] w-full group sm:min-h-[420px] md:min-h-0">
               <Image
                 src="/dipesh.jpg"
                 alt="Dipesh Kumar"
                 fill
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
+                className="object-cover brightness-110 contrast-105 saturate-110 transition-transform duration-700 group-hover:scale-105"
                 style={{ objectPosition: "center 20%" }}
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
               <div className="absolute bottom-4 left-4 right-4">
                 <h3 className="text-white font-bold text-lg">Dipesh Kumar</h3>
                 <p className="text-white/60 text-sm">ML Engineer</p>
@@ -194,7 +197,7 @@ export function BentoGrid() {
 
           {/* Bio card */}
           <BentoCard className="md:col-span-2 md:row-span-1" delay={1}>
-            <div className="h-full flex flex-col justify-between">
+            <div className="flex h-full min-h-[150px] flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-white/40 text-sm mb-3">
                   <MapPin className="w-4 h-4" />
@@ -216,7 +219,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* ASCII Cat Card */}
-          <BentoCard className="md:col-span-1 flex items-center justify-center" delay={2}>
+          <BentoCard className="hidden items-center justify-center md:flex" delay={2}>
             <div className="text-center">
               <ASCIICat />
               <p className="text-[10px] text-white/30 mt-2">meow, hire me!</p>
@@ -224,7 +227,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* 3D Tech Cube */}
-          <BentoCard className="md:col-span-2 md:row-span-2 flex items-center justify-center" delay={3}>
+          <BentoCard className="hidden items-center justify-center md:col-span-2 md:row-span-2 md:flex" delay={3}>
             <TechCube />
           </BentoCard>
 
@@ -332,7 +335,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Featured Projects */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={8}>
+          <BentoCard id="projects" className="md:col-span-2 md:row-span-2" delay={8}>
             <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Terminal className="w-4 h-4 text-white/60" />
               Featured Projects

@@ -36,14 +36,14 @@ function SectionWrapper({
     <section
       id={id}
       ref={ref}
-      className="py-32 px-6"
+      className="px-4 py-20 sm:px-6 lg:py-24"
       style={{ backgroundColor: bg }}
     >
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="max-w-6xl mx-auto"
+        className="mx-auto max-w-6xl"
       >
         {children}
       </motion.div>
@@ -94,13 +94,13 @@ export function ProjectsSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-16"
+        className="mb-10 sm:mb-14"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
         <p className="text-white/40 text-lg">Things I&apos;ve built</p>
       </motion.div>
 
-      <div className="grid md:grid-cols-2 gap-6">
+      <div className="grid gap-4 md:grid-cols-2 lg:gap-6">
         {projects.map((project, index) => (
           <motion.a
             key={project.title}
@@ -111,7 +111,7 @@ export function ProjectsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group block p-6 rounded-2xl bg-[#111111] border border-white/5 hover:border-teal-500/20 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/35"
+            className="group block rounded-2xl border border-white/5 bg-[#111111] p-5 transition-all hover:border-teal-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/35 sm:p-6"
           >
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
@@ -213,13 +213,13 @@ export function ExperienceSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-16"
+        className="mb-10 sm:mb-14"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
         <p className="text-white/40 text-lg">Professional experience and academic background</p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-12">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
         {/* ── Left Column: Work Experience Timeline ── */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
@@ -306,12 +306,12 @@ export function ExperienceSection() {
                   viewport={{ once: true }}
                   className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 transition-all"
                 >
-                  <div className="flex justify-between items-start mb-1">
+                  <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <h4 className="font-bold text-white">{edu.degree}</h4>
                       <p className="text-sm text-teal-400/70">{edu.school}</p>
                     </div>
-                    <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest whitespace-nowrap">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 sm:whitespace-nowrap">
                       {edu.period}
                     </span>
                   </div>
@@ -359,7 +359,7 @@ export function ExperienceSection() {
 export function ContactSection() {
   return (
     <SectionWrapper id="contact">
-      <div className="max-w-2xl mx-auto text-center">
+      <div className="mx-auto max-w-2xl text-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}

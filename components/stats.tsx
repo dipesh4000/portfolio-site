@@ -167,13 +167,13 @@ function StatCard({ icon: Icon, label, value, suffix = "", delay = 0 }: { icon: 
       initial={{ opacity: 0, y: 20 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ delay: reduced ? 0 : delay, duration: reduced ? 0 : 0.4 }}
-      className="p-6 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 transition-all"
+      className="rounded-2xl border border-white/5 bg-[#111111] p-4 transition-all hover:border-white/10 sm:p-6"
     >
       <div className="flex items-center gap-2 mb-3">
         <Icon className="w-4 h-4 text-white/40" />
         <span className="text-sm text-white/40">{label}</span>
       </div>
-      <div className="text-4xl font-bold text-white">
+      <div className="text-3xl font-bold text-white sm:text-4xl">
         <Counter value={value} />
         {suffix && <span className="text-lg text-white/40">{suffix}</span>}
       </div>
@@ -374,7 +374,7 @@ function ContestOverviewCard() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: reduced ? 0 : 0.45 }}
-      className="mb-8 rounded-2xl border border-white/5 bg-[#111111] p-6"
+      className="mb-6 rounded-2xl border border-white/5 bg-[#111111] p-5 sm:mb-8 sm:p-6"
     >
       <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
         <div>
@@ -396,7 +396,7 @@ function ContestOverviewCard() {
       </div>
 
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[0.9fr_1.1fr]">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
           <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
             <Trophy className="mb-3 h-4 w-4 text-white/35" />
             <div className="text-2xl font-semibold text-white tabular-nums">
@@ -475,20 +475,20 @@ export function CodingStats() {
 
   return (
     <ReducedMotionContext.Provider value={reduced}>
-      <section id="coding-stats" className="py-32 px-6" style={{ backgroundColor: "#0c0c0c" }}>
+      <section id="coding-stats" className="px-4 py-20 sm:px-6 lg:py-24" style={{ backgroundColor: "#0c0c0c" }}>
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: reduced ? 0 : 0.4 }}
-            className="mb-16"
+            className="mb-10 sm:mb-14"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Coding Stats</h2>
             <p className="text-white/40 text-lg">My problem-solving journey</p>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-3">
+          <div className="mb-3 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 md:grid-cols-4">
             <StatCard icon={Target} label="Total questions" value={stats.totalQuestions} delay={0} />
             <StatCard icon={Calendar} label="Active days" value={stats.totalActiveDays} delay={0.1} />
             <StatCard icon={Flame} label="Max streak" value={stats.maxStreak} suffix=" days" delay={0.2} />
@@ -502,13 +502,13 @@ export function CodingStats() {
 
           <ContestOverviewCard />
 
-          <div className="grid lg:grid-cols-2 gap-6 mb-8">
+          <div className="mb-8 grid gap-6 lg:grid-cols-2">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: reduced ? 0 : 0.4 }}
-              className="p-6 rounded-2xl bg-[#111111] border border-white/5"
+              className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6"
             >
               <div className="mb-8 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="text-sm font-medium text-white/60 flex items-center gap-2">
@@ -517,7 +517,7 @@ export function CodingStats() {
                 </h3>
               </div>
 
-              <div className="flex flex-wrap justify-center gap-12">
+              <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
                 <div className="flex flex-col items-center">
                   <CircularProgress
                     value={stats.dsa.total}
@@ -567,7 +567,7 @@ export function CodingStats() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: reduced ? 0 : 0.4 }}
-              className="p-6 rounded-2xl bg-[#111111] border border-white/5"
+              className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6"
             >
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-white/60 flex items-center gap-2">

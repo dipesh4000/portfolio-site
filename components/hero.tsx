@@ -51,7 +51,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden px-4"
       style={{ backgroundColor: "#0a0a0a" }}
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -86,7 +86,7 @@ export function Hero() {
         }}
       />
 
-      <motion.div className="relative z-10 text-center px-6 max-w-5xl">
+      <motion.div className="relative z-10 w-full max-w-5xl px-2 text-center sm:px-6">
         <AnimatePresence mode="wait">
           {phase === 1 && (
             <motion.div
@@ -95,7 +95,7 @@ export function Hero() {
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[10rem] md:text-[14rem] font-black text-white leading-none tracking-tighter"
+              className="text-[clamp(5.5rem,28vw,14rem)] font-black text-white leading-none tracking-tighter"
             >
               Hi
             </motion.div>
@@ -121,7 +121,7 @@ export function Hero() {
                     stiffness: 100,
                     damping: 15,
                   }}
-                  className="text-5xl md:text-7xl lg:text-8xl font-bold text-white"
+                  className="text-[clamp(2.5rem,12vw,5.5rem)] font-bold text-white"
                   style={{ textShadow: "0 0 60px rgba(255,255,255,0.3)" }}
                 >
                   {g.text}
@@ -131,12 +131,12 @@ export function Hero() {
           )}
 
           {phase >= 3 && (
-            <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
+            <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-7 sm:space-y-8">
               <motion.p
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-4xl md:text-6xl font-light text-white/40"
+                className="text-[clamp(2rem,8vw,3.75rem)] font-light text-white/40"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: "italic" }}
               >
 
@@ -149,7 +149,7 @@ export function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.8, ease: "easeOut" }}
                 >
-                  <h1 className="text-6xl md:text-9xl font-black tracking-tight">
+                  <h1 className="text-[clamp(3rem,13vw,8rem)] font-black tracking-tight">
                     <span className="text-white/60">I&apos;m </span>
                     <span className="text-white relative inline-block">
                       Dipesh Kumar
@@ -171,17 +171,19 @@ export function Hero() {
                   transition={{ duration: 0.8 }}
                   className="space-y-10"
                 >
-                  <p className="text-xl md:text-3xl text-white/50 font-light tracking-wide">
-                    ML Engineer <span className="text-white/20 mx-3">|</span>
-                    Data Science <span className="text-white/20 mx-3">|</span>
-                    Backend
+                  <p className="mx-auto flex max-w-2xl flex-wrap justify-center gap-x-3 gap-y-2 text-lg font-light text-white/50 sm:text-2xl md:text-3xl">
+                    <span>ML Engineer</span>
+                    <span className="text-white/20">|</span>
+                    <span>Data Science</span>
+                    <span className="text-white/20">|</span>
+                    <span>Backend</span>
                   </p>
 
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="flex items-center justify-center gap-12"
+                    className="flex items-center justify-center gap-5 sm:gap-8 md:gap-12"
                   >
                     {[
                       { icon: Github, href: "https://github.com/dipesh4000", label: "GitHub" },
@@ -210,7 +212,7 @@ export function Hero() {
                     transition={{ delay: 0.5 }}
                     whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-                                        className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] mr-8"
+                    className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:mb-0 sm:mr-8"
                   >
                     <Mail className="w-4 h-4" />
                     Hire Me
@@ -240,7 +242,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="absolute left-1/2 -translate-x-1/2 bottom-[-140px] flex flex-col items-center gap-2 text-white/20 hover:text-teal-300/70 transition-colors cursor-pointer group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-md focus-visible:py-1"
+            className="absolute bottom-[-112px] left-1/2 flex -translate-x-1/2 cursor-pointer flex-col items-center gap-2 rounded-md text-white/20 transition-colors hover:text-teal-300/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:py-1 sm:bottom-[-140px]"
           >
             <span className="text-[10px] tracking-[0.3em] uppercase font-medium">Scroll</span>
             <motion.div

@@ -4,7 +4,6 @@ import { Footer } from "@/components/footer";
 import { CodingStats } from "@/components/stats";
 import { BentoGrid } from "@/components/bento-grid";
 import {
-  ProjectsSection,
   ExperienceSection,
   ContactSection,
 } from "@/components/sections";
@@ -16,7 +15,6 @@ export default function Home() {
       <Hero />
       <BentoGrid />
       <CodingStats />
-      <ProjectsSection />
       <ExperienceSection />
       <ContactSection />
       <Footer />
