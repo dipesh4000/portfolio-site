@@ -40,6 +40,7 @@ const FALLBACK_STATS = {
     { name: "String", count: 25 },
     { name: "Linked Lists", count: 23 },
   ],
+  languages: [],
   github: {
     stars: 0,
     commits: 0,

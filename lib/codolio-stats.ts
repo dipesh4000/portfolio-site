@@ -198,13 +198,6 @@ function mergeSubmissionCalendars(
   return Object.keys(merged).length > 0 ? merged : undefined;
 }
 
-function platformTypes(platform: Record<string, unknown>): string[] {
-  const types = (platform.platformDetails as { types?: unknown[] } | undefined)?.types;
-  return Array.isArray(types)
-    ? types.filter((type): type is string => typeof type === "string")
-    : [];
-}
-
 function platformContestList(platform: Record<string, unknown>): Record<string, unknown>[] {
   const list = (platform.contestActivityStats as { contestActivityList?: unknown[] } | undefined)
     ?.contestActivityList;
@@ -271,6 +264,39 @@ function aggregateContestStats(platforms: Record<string, unknown>[]): CodioSiteS
     platforms: platformRows,
     recent: recent.slice(0, 4),
   };
+}
+
+const LANGUAGE_COLORS: Record<string, string> = {
+  TypeScript: "#ff5a3d",
+  JavaScript: "#f7df1e",
+  Python: "#2ecc71",
+  "Jupyter Notebook": "#35506b",
+  CSS: "#2fbf5b",
+  HTML: "#e34c26",
+  Java: "#b07219",
+  TSQL: "#9b59b6",
+  Solidity: "#6b7280",
+};
+
+function aggregateLanguageDistribution(raw: unknown): CodioSiteStats["languages"] {
+  if (!raw || typeof raw !== "object") return [];
+
+  const rows = Object.entries(raw as Record<string, unknown>)
+    .map(([name, bytes]) => ({ name, bytes: nint(bytes) }))
+    .filter((row) => row.bytes > 0)
+    .sort((a, b) => b.bytes - a.bytes);
+  const total = rows.reduce((sum, row) => sum + row.bytes, 0);
+  if (total <= 0) return [];
+
+  const top = rows.slice(0, 5);
+  const otherBytes = rows.slice(5).reduce((sum, row) => sum + row.bytes, 0);
+  const withOther = otherBytes > 0 ? [...top, { name: "Others", bytes: otherBytes }] : top;
+
+  return withOther.map((row) => ({
+    ...row,
+    percentage: Math.max(1, Math.round((row.bytes / total) * 100)),
+    color: LANGUAGE_COLORS[row.name] ?? "#94a3b8",
+  }));
 }
 
 async function fetchJson<T>(url: string): Promise<T> {
@@ -350,6 +376,7 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
         pushRequestsCount?: unknown;
         issues?: unknown;
         totalActiveDays?: unknown;
+        languageDistributions?: unknown;
       }
     | undefined;
 
@@ -381,6 +408,7 @@ export async function fetchCodolioSiteStats(userKey: string): Promise<CodioSiteS
       issues: nint(gh?.issues),
       activeDays: nint(gh?.totalActiveDays),
     },
+    languages: aggregateLanguageDistribution(gh?.languageDistributions),
     contest: aggregateContestStats(platformList),
     lastUpdated: new Date().toISOString(),
   };

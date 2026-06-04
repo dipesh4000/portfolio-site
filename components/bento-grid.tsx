@@ -5,8 +5,10 @@ import { useRef, useState, useEffect } from "react";
 import { Github, ExternalLink, MapPin, GraduationCap, Briefcase, Code2, Database, Brain, Terminal, Download } from "lucide-react";
 import { TechCube } from "./tech-cube";
 import Image from "next/image";
+import statsData from "@/public/data/codio-stats.json";
 
 const RESUME_URL = "https://presio.me/dipesh4000/resume";
+const stats = statsData as typeof statsData;
 
 const skills = {
   languages: ["Python", "SQL", "JavaScript", "C++"],
@@ -14,14 +16,6 @@ const skills = {
   backend: ["FastAPI", "Flask", "PostgreSQL", "REST APIs"],
   tools: ["Git", "Docker", "Pandas", "NumPy", "Matplotlib"],
 };
-
-// Top languages from Codolio
-const topLanguages = [
-  { name: "Python", percentage: 65, color: "bg-[#3572A5]" },
-  { name: "SQL", percentage: 20, color: "bg-[#e38c00]" },
-  { name: "JavaScript", percentage: 10, color: "bg-[#f7df1e]" },
-  { name: "C++", percentage: 5, color: "bg-[#f34b7d]" },
-];
 
 const projects = [
   {
@@ -86,30 +80,50 @@ function ASCIICat() {
   );
 }
 
-function LanguageBar({ name, percentage, color, delay }: { name: string; percentage: number; color: string; delay: number }) {
+function LanguageDistribution() {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const languages =
+    (stats as { languages?: { name: string; percentage: number; color: string }[] }).languages ?? [];
 
   return (
-    <motion.div
-      ref={ref}
-      className="flex items-center gap-3"
-      initial={{ opacity: 0, x: -10 }}
-      animate={isInView ? { opacity: 1, x: 0 } : {}}
-      transition={{ delay: delay * 0.1 }}
-    >
-      <div className={`w-3 h-3 rounded-full ${color}`} />
-      <span className="text-xs text-white/60 w-20">{name}</span>
-      <div className="flex-1 h-1.5 bg-white/5 rounded-full overflow-hidden">
-        <motion.div
-          className={`h-full rounded-full ${color}`}
-          initial={{ width: 0 }}
-          animate={isInView ? { width: `${percentage}%` } : { width: 0 }}
-          transition={{ duration: 0.8, delay: delay * 0.1, ease: "easeOut" }}
-        />
+    <div ref={ref} className="space-y-6">
+      <div className="flex h-7 overflow-hidden rounded-full border border-white/5 bg-white/[0.03] p-1">
+        {languages.map((language, index) => (
+          <motion.div
+            key={language.name}
+            className="h-full first:rounded-l-full last:rounded-r-full"
+            style={{ backgroundColor: language.color }}
+            initial={{ width: 0 }}
+            animate={isInView ? { width: `${language.percentage}%` } : { width: 0 }}
+            transition={{ duration: 0.7, delay: index * 0.08, ease: "easeOut" }}
+            title={`${language.name}: ${language.percentage}%`}
+          />
+        ))}
       </div>
-      <span className="text-xs text-white/40 w-8 text-right">{percentage}%</span>
-    </motion.div>
+
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+        {languages.length > 0 ? (
+          languages.map((language, index) => (
+            <motion.div
+              key={language.name}
+              initial={{ opacity: 0, y: 8 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ delay: 0.15 + index * 0.05 }}
+              className="flex items-center justify-between gap-3 rounded-xl border border-white/5 bg-white/[0.02] px-3 py-2"
+            >
+              <div className="flex min-w-0 items-center gap-2">
+                <span className="h-3 w-3 shrink-0 rounded-full" style={{ backgroundColor: language.color }} />
+                <span className="truncate text-sm text-white/65">{language.name}</span>
+              </div>
+              <span className="text-sm font-medium tabular-nums text-white/80">{language.percentage}%</span>
+            </motion.div>
+          ))
+        ) : (
+          <p className="text-sm text-white/35">Language distribution will appear after the next Codolio sync.</p>
+        )}
+      </div>
+    </div>
   );
 }
 
@@ -301,16 +315,20 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Top Languages from GitHub */}
-          <BentoCard className="md:col-span-2" delay={7}>
-            <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
-              <Code2 className="w-4 h-4 text-white/60" />
-              Top Languages
-            </h3>
-            <div className="space-y-3">
-              {topLanguages.map((lang, i) => (
-                <LanguageBar key={lang.name} name={lang.name} percentage={lang.percentage} color={lang.color} delay={i} />
-              ))}
+          <BentoCard className="md:col-span-2 md:row-span-2" delay={7}>
+            <div className="mb-7 flex items-start justify-between gap-4">
+              <div>
+                <h3 className="text-white font-semibold flex items-center gap-2">
+                  <Code2 className="w-4 h-4 text-white/60" />
+                  Top Languages
+                </h3>
+                <p className="mt-1 text-xs text-white/35">Live repository distribution from Codolio</p>
+              </div>
+              <span className="rounded-full border border-white/10 px-2.5 py-1 text-[10px] font-medium uppercase tracking-wide text-white/35">
+                GitHub
+              </span>
             </div>
+            <LanguageDistribution />
           </BentoCard>
 
           {/* Featured Projects */}
