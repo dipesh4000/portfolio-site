@@ -41,9 +41,8 @@ export function Hero() {
     // Same phase timing as before when motion is preferred
     const timers = [
       setTimeout(() => setPhase(2), 2000),
-      setTimeout(() => setPhase(3), 5000),
-      setTimeout(() => setPhase(4), 7000),
-      setTimeout(() => setPhase(5), 9000),
+      setTimeout(() => setPhase(4), 5000),
+      setTimeout(() => setPhase(5), 7000),
     ];
     return () => timers.forEach(clearTimeout);
   }, []);
@@ -61,7 +60,7 @@ export function Hero() {
             return (
               <motion.div
                 key={i}
-                className="absolute w-1 h-1 bg-white/20 rounded-full"
+                className="hero-particle absolute h-1 w-1 rounded-full"
                 style={{ left, top }}
                 animate={{
                   y: [0, -100, 0],
@@ -78,13 +77,7 @@ export function Hero() {
           })}
       </div>
 
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)`,
-          backgroundSize: "100px 100px",
-        }}
-      />
+      <div className="hero-grid absolute inset-0" />
 
       <motion.div className="relative z-10 w-full max-w-5xl px-2 text-center sm:px-6">
         <AnimatePresence mode="wait">
@@ -130,39 +123,26 @@ export function Hero() {
             </motion.div>
           )}
 
-          {phase >= 3 && (
+          {phase >= 4 && (
             <motion.div key="main" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-7 sm:space-y-8">
-              <motion.p
+              <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, ease: "easeOut" }}
-                className="text-[clamp(2rem,8vw,3.75rem)] font-light text-white/40"
-                style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: "italic" }}
               >
-
-                               Hi! there
-              </motion.p>
-
-              {phase >= 4 && (
-                <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                >
-                  <h1 className="text-[clamp(3rem,13vw,8rem)] font-black tracking-tight">
-                    <span className="text-white/60">I&apos;m </span>
-                    <span className="text-white relative inline-block">
-                      Dipesh Kumar
-                      <motion.span
-                        className="absolute -bottom-2 left-0 h-1 bg-white"
-                        initial={{ width: 0 }}
-                        animate={{ width: "100%" }}
-                        transition={{ delay: 0.5, duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
-                      />
-                    </span>
-                  </h1>
-                </motion.div>
-              )}
+                <h1 className="text-[clamp(3rem,13vw,8rem)] font-black tracking-tight">
+                  <span className="text-white/60">I&apos;m </span>
+                  <span className="text-white relative inline-block">
+                    Dipesh Kumar
+                    <motion.span
+                      className="hero-name-underline absolute -bottom-2 left-0 h-1"
+                      initial={{ width: 0 }}
+                      animate={{ width: "100%" }}
+                      transition={{ delay: 0.5, duration: prefersReducedMotion ? 0 : 0.8, ease: "easeOut" }}
+                    />
+                  </span>
+                </h1>
+              </motion.div>
 
               {phase >= 5 && (
                 <motion.div

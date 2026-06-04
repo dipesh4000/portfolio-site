@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, Moon, Sun, X } from "lucide-react";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const navLinks = [
   { href: "#about", label: "About" },
@@ -19,7 +20,13 @@ const navBtnClass =
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const mobileMenuRef = useRef<HTMLDivElement>(null);
+  const { resolvedTheme, setTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,6 +73,25 @@ export function Navbar() {
     element?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const isDarkTheme = mounted && resolvedTheme === "dark";
+  const nextTheme = isDarkTheme ? "light" : "dark";
+  const ThemeIcon = isDarkTheme ? Sun : Moon;
+
+  const handleThemeToggle = () => {
+    setTheme(resolvedTheme === "dark" ? "light" : "dark");
+  };
+
+  const themeToggle = (
+    <button
+      type="button"
+      onClick={handleThemeToggle}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/55 transition-colors hover:border-teal-400/35 hover:text-teal-300/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+      aria-label="Toggle color mode"
+    >
+      {mounted && <ThemeIcon className="h-4 w-4" />}
+    </button>
+  );
+
   return (
     <>
       <motion.nav
@@ -91,6 +117,7 @@ export function Navbar() {
                   src="/dipesh.jpg"
                   alt="Dipesh Kumar"
                   fill
+                  sizes="32px"
                   className="object-cover"
                   style={{ objectPosition: "center 20%" }}
                 />
@@ -111,6 +138,7 @@ export function Navbar() {
                   {link.label}
                 </button>
               ))}
+              {themeToggle}
               <a
                 href="https://github.com/dipesh4000"
                 target="_blank"
@@ -121,16 +149,19 @@ export function Navbar() {
               </a>
             </div>
 
-            <button
-              type="button"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="md:hidden p-2 text-white cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
-              aria-expanded={isMobileMenuOpen}
-              aria-controls="mobile-nav-menu"
-              aria-label="Toggle menu"
-            >
-              {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-            </button>
+            <div className="flex items-center gap-2 md:hidden">
+              {themeToggle}
+              <button
+                type="button"
+                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                className="p-2 text-white cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+                aria-expanded={isMobileMenuOpen}
+                aria-controls="mobile-nav-menu"
+                aria-label="Toggle menu"
+              >
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
           </div>
         </div>
       </motion.nav>
@@ -174,6 +205,17 @@ export function Navbar() {
               >
                 GitHub
               </motion.a>
+              <motion.button
+                type="button"
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: (navLinks.length + 1) * 0.05 }}
+                onClick={handleThemeToggle}
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 py-4 text-lg font-medium text-white/70 transition-colors hover:text-teal-300/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+              >
+                {mounted && <ThemeIcon className="h-5 w-5" />}
+                {mounted ? (nextTheme === "light" ? "Light mode" : "Dark mode") : "Color mode"}
+              </motion.button>
             </div>
           </motion.div>
         )}

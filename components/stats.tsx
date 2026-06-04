@@ -91,18 +91,19 @@ function CircularProgress({
   const isInView = useInView(ref, { once: true });
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
-  const percentage = (value / max) * 100;
+  const percentage = Math.min(100, (value / max) * 100);
 
   return (
-    <div className="relative" style={{ width: size, height: size }}>
-      <svg ref={ref} className="transform -rotate-90" width={size} height={size}>
+    <div className="relative shrink-0" style={{ width: size, height: size }}>
+      <svg ref={ref} className="overflow-visible -rotate-90 transform" width={size} height={size}>
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
           strokeWidth={strokeWidth}
           fill="none"
-          className="stroke-white/5"
+          className="progress-ring-track"
+          style={{ stroke: "var(--progress-ring-track)" }}
         />
         <motion.circle
           cx={size / 2}
@@ -111,14 +112,15 @@ function CircularProgress({
           strokeWidth={strokeWidth}
           fill="none"
           strokeLinecap="round"
-          className="stroke-white"
+          className="progress-ring-fill"
+          style={{ stroke: "var(--progress-ring-fill)" }}
           initial={{ strokeDasharray: circumference, strokeDashoffset: circumference }}
           animate={isInView ? { strokeDashoffset: circumference - (percentage / 100) * circumference } : {}}
           transition={{ duration: reduced ? 0 : 1.5, ease: "easeOut" }}
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-3xl font-bold text-white">
+        <span className="text-2xl font-bold text-white sm:text-3xl">
           <Counter value={value} />
         </span>
         {label && <span className="text-xs text-white/40 mt-1">{label}</span>}
@@ -144,12 +146,12 @@ function TopicBar({ topic, count, maxCount, delay = 0 }: { topic: string; count:
         <span className="text-white/60">{topic}</span>
         <span className="text-white/40">{count}</span>
       </div>
-      <div className="h-1.5 bg-white/5 rounded-full overflow-hidden">
+      <div className="topic-progress-track h-1.5 rounded-full overflow-hidden">
         <motion.div
           initial={{ width: 0 }}
           animate={isInView ? { width: `${percentage}%` } : {}}
           transition={{ delay: reduced ? 0 : delay + 0.1, duration: reduced ? 0 : 0.6, ease: "easeOut" }}
-          className="h-full bg-white rounded-full"
+          className="topic-progress-fill h-full rounded-full"
         />
       </div>
     </motion.div>
@@ -195,7 +197,7 @@ function ContributionHeatmap() {
   }, []);
 
   const getColor = (level: number) => {
-    const colors = ["bg-white/5", "bg-white/15", "bg-white/30", "bg-white/50", "bg-white/80"];
+    const colors = ["heatmap-cell-0", "heatmap-cell-1", "heatmap-cell-2", "heatmap-cell-3", "heatmap-cell-4"];
     return colors[level];
   };
 
@@ -395,25 +397,25 @@ function ContestOverviewCard() {
         </a>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid grid-cols-1 items-start gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-            <Trophy className="mb-3 h-4 w-4 text-white/35" />
-            <div className="text-2xl font-semibold text-white tabular-nums">
+          <div className="contest-metric-card rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <Trophy className="mb-5 h-8 w-8 text-white/35" />
+            <div className="text-3xl font-semibold text-white tabular-nums">
               <Counter value={contest.rating ?? 0} duration={1.2} />
             </div>
             <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Top rating</div>
           </div>
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-            <Swords className="mb-3 h-4 w-4 text-white/35" />
-            <div className="text-2xl font-semibold text-white tabular-nums">
+          <div className="contest-metric-card rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <Swords className="mb-5 h-8 w-8 text-white/35" />
+            <div className="text-3xl font-semibold text-white tabular-nums">
               <Counter value={contest.contests ?? 0} duration={1.2} />
             </div>
             <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Contests</div>
           </div>
-          <div className="rounded-xl border border-white/5 bg-white/[0.02] p-4">
-            <Medal className="mb-3 h-4 w-4 text-white/35" />
-            <div className="text-2xl font-semibold text-white tabular-nums">{bestRank}</div>
+          <div className="contest-metric-card rounded-xl border border-white/5 bg-white/[0.02] p-5">
+            <Medal className="mb-5 h-8 w-8 text-white/35" />
+            <div className="text-3xl font-semibold text-white tabular-nums">{bestRank}</div>
             <div className="mt-1 text-[10px] uppercase tracking-wide text-white/35">Best rank</div>
           </div>
         </div>
@@ -502,86 +504,96 @@ export function CodingStats() {
 
           <ContestOverviewCard />
 
-          <div className="mb-8 grid gap-6 lg:grid-cols-2">
-            <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: reduced ? 0 : 0.4 }}
-              className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6"
-            >
-              <div className="mb-8 flex flex-wrap items-baseline justify-between gap-2">
-                <h3 className="text-sm font-medium text-white/60 flex items-center gap-2">
-                  <TrendingUp className="w-4 h-4" />
-                  Problems solved
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: reduced ? 0 : 0.4 }}
+            className="mb-8 rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6"
+          >
+            <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+              <div>
+                <h3 className="flex items-center gap-2 text-sm font-medium text-white/60">
+                  <TrendingUp className="h-4 w-4" />
+                  Problem-solving signal
                 </h3>
+                <p className="mt-1 max-w-2xl text-sm text-white/35">
+                  A quick read on consistency, fundamentals, and breadth across coding platforms.
+                </p>
               </div>
+              <div className="flex flex-wrap gap-2 text-[10px] font-medium uppercase tracking-wide text-white/45">
+                <span className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1">DSA breadth</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1">Fundamentals</span>
+                <span className="rounded-full border border-white/10 bg-white/[0.02] px-3 py-1">Practice rhythm</span>
+              </div>
+            </div>
 
-              <div className="flex flex-wrap justify-center gap-8 sm:gap-12">
+            <div className="grid gap-8 lg:grid-cols-[0.9fr_0.7fr_1.1fr] lg:items-center">
+              <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
                 <div className="flex flex-col items-center">
                   <CircularProgress
                     value={stats.dsa.total}
                     max={Math.max(250, Math.ceil(stats.dsa.total / 50) * 50)}
+                    size={132}
                     label="All platforms"
                   />
-                  <div className="mt-4 space-y-2 text-sm w-32">
-                    <div className="flex justify-between">
-                      <span className="text-green-400/80">Easy</span>
-                      <span className="text-white/70">{stats.dsa.easy}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-yellow-400/80">Medium</span>
-                      <span className="text-white/70">{stats.dsa.medium}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-red-400/80">Hard</span>
-                      <span className="text-white/70">{stats.dsa.hard}</span>
-                    </div>
-                    {"other" in stats.dsa && stats.dsa.other > 0 && (
-                      <div className="flex justify-between border-t border-white/5 pt-2">
-                        <span className="text-white/45">Other</span>
-                        <span className="text-white/70">{stats.dsa.other}</span>
-                      </div>
-                    )}
-                  </div>
                 </div>
 
                 <div className="flex flex-col items-center">
-                  <CircularProgress value={stats.fundamentals.total} max={20} size={120} label="Fundamentals" />
-                  <div className="mt-4 space-y-2 text-sm w-28">
-                    <div className="flex justify-between">
-                      <span className="text-white/50">GFG</span>
-                      <span className="text-white/70">{stats.fundamentals.gfg}</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-white/50">HackerRank</span>
-                      <span className="text-white/70">{stats.fundamentals.hackerrank}</span>
-                    </div>
+                  <CircularProgress
+                    value={stats.fundamentals.total}
+                    max={Math.max(60, Math.ceil(stats.fundamentals.total / 10) * 10)}
+                    size={116}
+                    strokeWidth={7}
+                    label="Fundamentals"
+                  />
+                </div>
+              </div>
+
+              <div className="mx-auto w-full max-w-[220px] space-y-2 text-sm lg:mx-0">
+                <div className="flex justify-between">
+                  <span className="text-green-400/80">Easy</span>
+                  <span className="text-white/70">{stats.dsa.easy}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-yellow-400/80">Medium</span>
+                  <span className="text-white/70">{stats.dsa.medium}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-red-400/80">Hard</span>
+                  <span className="text-white/70">{stats.dsa.hard}</span>
+                </div>
+                {"other" in stats.dsa && stats.dsa.other > 0 && (
+                  <div className="flex justify-between border-t border-white/5 pt-2">
+                    <span className="text-white/45">Other</span>
+                    <span className="text-white/70">{stats.dsa.other}</span>
+                  </div>
+                )}
+                <div className="mt-4 grid grid-cols-2 gap-2 border-t border-white/5 pt-4 text-xs">
+                  <div>
+                    <div className="text-white/35">GFG</div>
+                    <div className="text-base font-semibold text-white">{stats.fundamentals.gfg}</div>
+                  </div>
+                  <div>
+                    <div className="text-white/35">HackerRank</div>
+                    <div className="text-base font-semibold text-white">{stats.fundamentals.hackerrank}</div>
                   </div>
                 </div>
               </div>
-            </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: reduced ? 0 : 0.4 }}
-              className="rounded-2xl border border-white/5 bg-[#111111] p-5 sm:p-6"
-            >
-              <div className="mb-6">
-                <h3 className="text-sm font-medium text-white/60 flex items-center gap-2">
-                  <Zap className="w-4 h-4" />
-                  Topic analysis
-                </h3>
+              <div className="min-w-0">
+                <div className="mb-4 flex items-center gap-2 text-sm font-medium text-white/60">
+                  <Zap className="h-4 w-4" />
+                  Strongest topics
+                </div>
+                <div className="space-y-4">
+                  {stats.topics.slice(0, 5).map((topic, i) => (
+                    <TopicBar key={topic.name} topic={topic.name} count={topic.count} maxCount={maxTopic} delay={i * 0.08} />
+                  ))}
+                </div>
               </div>
-              <div className="space-y-5">
-                {stats.topics.map((topic, i) => (
-                  <TopicBar key={topic.name} topic={topic.name} count={topic.count} maxCount={maxTopic} delay={i * 0.08} />
-                ))}
-              </div>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}

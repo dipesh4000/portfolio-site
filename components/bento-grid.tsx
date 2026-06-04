@@ -178,20 +178,16 @@ export function BentoGrid() {
 
           {/* Profile Photo Card */}
           <BentoCard className="min-h-[360px] overflow-hidden p-0 sm:min-h-[420px] md:col-span-1 md:row-span-2 md:min-h-0" delay={0}>
-            <div className="relative h-full min-h-[360px] w-full group sm:min-h-[420px] md:min-h-0">
+            <div className="relative h-full min-h-[360px] w-full sm:min-h-[420px] md:min-h-0">
               <Image
                 src="/dipesh.jpg"
                 alt="Dipesh Kumar"
                 fill
-                className="object-cover brightness-110 contrast-105 saturate-110 transition-transform duration-700 group-hover:scale-105"
+                sizes="(min-width: 1024px) 280px, (min-width: 768px) 33vw, 100vw"
+                className="object-cover"
                 style={{ objectPosition: "center 20%" }}
                 priority
               />
-              <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-black/55 via-black/15 to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4">
-                <h3 className="text-white font-bold text-lg">Dipesh Kumar</h3>
-                <p className="text-white/60 text-sm">ML Engineer</p>
-              </div>
             </div>
           </BentoCard>
 

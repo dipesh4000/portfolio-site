@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import { JsonLdScript } from '@/components/json-ld-script'
+import { ThemeProvider } from '@/components/theme-provider'
 
 import './globals.css'
 
@@ -131,7 +132,7 @@ export const viewport: Viewport = {
   minimumScale: 1,
   userScalable: true,
   viewportFit: 'cover',
-  colorScheme: 'dark',
+  colorScheme: 'dark light',
 }
 
 export default function RootLayout({
@@ -140,18 +141,20 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="bg-background scroll-smooth">
+    <html lang="en" className="bg-background scroll-smooth" suppressHydrationWarning>
       <head>
         <JsonLdScript />
       </head>
-      <body className="font-sans antialiased">
+      <body className="font-sans antialiased" suppressHydrationWarning>
         <a
           href="#main-content"
           className="absolute left-[-10000px] top-auto z-[100] h-px w-px overflow-hidden focus:fixed focus:left-4 focus:top-4 focus:h-auto focus:w-auto focus:overflow-visible focus:rounded-md focus:bg-white focus:px-4 focus:py-2 focus:text-sm focus:text-black focus:outline-none focus:ring-2 focus:ring-white/80"
         >
           Skip to main content
         </a>
-        {children}
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+        </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>
     </html>
