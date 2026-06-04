@@ -171,13 +171,19 @@ export function ExperienceSection() {
       title: "Product Quality Intern",
       company: "LearnQ.ai",
       period: "Oct 2025 - Dec 2025",
-      description: "Analyzed production issues with engineering teams and implemented technical fixes reducing recurring bugs. Structured product workflows and testing documentation improving team clarity and execution.",
+      bullets: [
+        "Analyzed production issues with engineering teams and implemented technical fixes reducing recurring bugs",
+        "Structured product workflows and testing documentation improving team clarity and execution",
+      ],
     },
     {
       title: "Implementation Intern",
       company: "LearnQ.ai",
       period: "Apr 2025 - Jun 2025",
-      description: "Built technical documentation systems enabling faster onboarding and consistent implementation processes. Executed technical deliverables within fast-paced startup environment, improving cross-team coordination.",
+      bullets: [
+        "Built technical documentation systems enabling faster onboarding and consistent implementation processes",
+        "Executed technical deliverables within fast-paced startup environment",
+      ],
     },
   ];
 
@@ -187,14 +193,12 @@ export function ExperienceSection() {
       school: "IIT Madras",
       period: "2024 - 2028",
       gpa: "7.80 / 10",
-      relevantCourses: ["Data Structures and Algorithms", "Database Management Systems", "Machine Learning", "Probability and Statistics", "Calculus", "Linear Algebra"]
     },
     {
       degree: "B.Tech Computer Science",
       school: "Maharaja Surajmal Institute of Technology",
       period: "2024 - 2028",
       gpa: "8.25 / 10",
-      relevantCourses: ["Object Oriented Programming", "Software Engineering", "Operating Systems", "Computer Networks"]
     },
   ];
 
@@ -212,71 +216,82 @@ export function ExperienceSection() {
         className="mb-16"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
-        <p className="text-white/40 text-lg">My journey so far</p>
+        <p className="text-white/40 text-lg">Professional experience and academic background</p>
       </motion.div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Work Experience */}
+      <div className="grid lg:grid-cols-2 gap-12">
+        {/* ── Left Column: Work Experience Timeline ── */}
         <motion.div
           initial={{ opacity: 0, x: -20 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          className="space-y-6 flex flex-col h-full"
         >
-          <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider flex items-center gap-2">
+          <h3 className="text-xs font-semibold text-white/40 uppercase tracking-[0.2em] flex items-center gap-2 mb-8">
             <Briefcase className="w-4 h-4" />
-            Past Experience
+            Work Experience
           </h3>
 
-          <div className="space-y-6">
+          {/* Timeline */}
+          <div className="relative pl-6 border-l border-white/10">
             {experiences.map((exp, index) => (
               <motion.div
                 key={exp.title}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
+                transition={{ delay: index * 0.15 }}
                 viewport={{ once: true }}
-                whileHover={{ x: 4 }}
-                className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group relative overflow-hidden flex flex-col justify-between min-h-[180px]"
+                className="relative mb-10 last:mb-8"
               >
-                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
-                  <Briefcase className="w-12 h-12" />
-                </div>
-                <div className="flex items-start justify-between mb-2">
-                  <div>
-                    <h4 className="font-bold text-white text-lg">{exp.title}</h4>
-                    <p className="text-sm text-white/60 font-medium">{exp.company}</p>
-                  </div>
-                                      <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest whitespace-nowrap bg-white/5 px-2 py-1 rounded-md">{exp.period}</span>
-                </div>
-                <ul className="list-disc list-inside text-sm text-white/40 leading-relaxed max-w-[90%] space-y-1">{exp.description.split('. ').filter(Boolean).map((item, i) => (<li key={i}>{item.trim()}</li>))}</ul>
+                {/* Timeline dot */}
+                <div className="absolute -left-[calc(1.5rem+4px)] top-1 w-2.5 h-2.5 rounded-full bg-white/60 border-2 border-[#0c0c0c]" />
+
+                {/* Date badge */}
+                <span className="inline-block mb-3 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-[11px] font-mono text-white/50 tracking-wide">
+                  {exp.period}
+                </span>
+
+                <h4 className="text-lg font-bold text-white">{exp.title}</h4>
+                <p className="text-sm text-white/50 mb-3">{exp.company}</p>
+
+                <ul className="space-y-2">
+                  {exp.bullets.map((b, i) => (
+                    <li key={i} className="flex gap-2 text-sm text-white/40 leading-relaxed">
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-white/30 flex-shrink-0" />
+                      {b}
+                    </li>
+                  ))}
+                </ul>
               </motion.div>
             ))}
-          </div>
 
-          {/* Currently */}
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="p-5 rounded-2xl bg-[#111111] border border-white/5 flex-1 flex flex-col"
-          >
-            <div className="flex items-center gap-2 mb-2">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-white">Currently</span>
-            </div>
-            <p className="text-sm text-white/50">Contributing to Open Source & Building ML Projects</p>
-          </motion.div>
+            {/* Present / Open Source */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="relative"
+            >
+              <div className="absolute -left-[calc(1.5rem+4px)] top-1 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#0c0c0c]" />
+
+              <span className="inline-block mb-3 px-3 py-1 rounded-md bg-green-500/10 border border-green-500/25 text-[11px] font-semibold text-green-400 tracking-wide">
+                Present
+              </span>
+
+              <h4 className="text-lg font-bold text-white">Open Source &amp; Projects</h4>
+              <p className="text-sm text-white/50">Contributing to open source and building ML projects</p>
+            </motion.div>
+          </div>
         </motion.div>
 
-        {/* Education & Roles */}
-        <div className="space-y-6 flex flex-col h-full">
+        {/* ── Right Column: Education + Leadership ── */}
+        <div className="space-y-8">
+          {/* Education */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
           >
-            <h3 className="text-sm font-medium text-white/40 uppercase tracking-wider flex items-center gap-2 mb-6">
+            <h3 className="text-xs font-semibold text-white/40 uppercase tracking-[0.2em] flex items-center gap-2 mb-8">
               <GraduationCap className="w-4 h-4" />
               Education
             </h3>
@@ -289,61 +304,47 @@ export function ExperienceSection() {
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.1 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -4 }}
-                  className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 hover:bg-white/[0.02] transition-all group flex flex-col justify-between min-h-[180px]"
+                  className="p-5 rounded-2xl bg-[#111111] border border-white/5 hover:border-white/10 transition-all"
                 >
-                  <div className="flex justify-between items-start mb-3">
+                  <div className="flex justify-between items-start mb-1">
                     <div>
-                      <h4 className="font-bold text-white group-hover:text-white transition-colors">{edu.degree}</h4>
-                      <p className="text-sm text-white/50">{edu.school}</p>
+                      <h4 className="font-bold text-white">{edu.degree}</h4>
+                      <p className="text-sm text-teal-400/70">{edu.school}</p>
                     </div>
-                    <div className="text-right">
-                      <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest">{edu.period}</span>
-                    </div>
+                    <span className="text-[10px] text-white/30 font-bold uppercase tracking-widest whitespace-nowrap">
+                      {edu.period}
+                    </span>
                   </div>
-
-                  {edu.relevantCourses && (
-                    <div className="mt-4 flex flex-wrap gap-1.5">
-                      {edu.relevantCourses.map((course: string) => (
-                        <span 
-                          key={course} 
-                          className="text-[10px] px-2.5 py-1 rounded-full bg-white/[0.03] text-white/40 border border-white/5 hover:border-white/10 hover:text-white/60 transition-all"
-                        >
-                          {course}
-                        </span>
-                      ))}
+                  <div className="flex justify-end mt-4 pt-3 border-t border-white/5">
+                    <div className="px-3 py-1 rounded-md bg-white/5 border border-white/10">
+                      <span className="text-[11px] text-white/60 font-mono tracking-wider">
+                        CGPA: {edu.gpa}
+                      </span>
                     </div>
-                  )}
-
-                  <div className="flex justify-end mt-4 pt-4 border-t border-white/5">
-                    {edu.gpa && (
-                      <div className="px-2 py-1 rounded-md bg-white/5 border border-white/10">
-                        <span className="text-[10px] text-white/60 font-semibold uppercase tracking-wider">CGPA: {edu.gpa}</span>
-                      </div>
-                    )}
                   </div>
                 </motion.div>
               ))}
             </div>
           </motion.div>
 
-          {/* Leadership */}
+          {/* Leadership & Activities */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="p-6 rounded-2xl bg-[#111111] border border-white/5"
           >
-            <h4 className="text-sm font-medium text-white/40 uppercase tracking-wider mb-6 flex items-center gap-2">
+            <h4 className="text-xs font-semibold text-white/40 uppercase tracking-[0.2em] mb-6 flex items-center gap-2">
               <Award className="w-4 h-4" />
-              Leadership & Activities
+              Leadership &amp; Activities
             </h4>
-            <div className="space-y-4">
+            <div className="space-y-3">
               {roles.map((role, i) => (
-                <div key={i} className="flex gap-4 p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors">
-                  <div className="p-2 bg-white/5 rounded-lg h-fit">
-                    <Star className="w-3 h-3 text-white/60" />
-                  </div>
+                <div
+                  key={i}
+                  className="flex gap-3 items-start p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors"
+                >
+                  <Star className="w-4 h-4 text-white/40 flex-shrink-0 mt-0.5" />
                   <p className="text-sm text-white/70 leading-snug">{role}</p>
                 </div>
               ))}

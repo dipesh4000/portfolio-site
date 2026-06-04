@@ -369,20 +369,6 @@ export function BentoGrid() {
             </a>
           </BentoCard>
 
-          {/* Positions */}
-          <BentoCard className="md:col-span-2" delay={11}>
-            <div className="flex items-start gap-4">
-              <div className="p-2 bg-white/5 rounded-xl">
-                <Database className="w-4 h-4 text-white/60" />
-              </div>
-              <div>
-                <h3 className="text-white font-semibold text-sm mb-1">Leadership</h3>
-                <p className="text-xs text-white/50">Deputy Head PR, Microsoft Student Chapter</p>
-                <p className="text-xs text-white/50">Member, AI ML Dept, GeekRoom</p>
-              </div>
-            </div>
-          </BentoCard>
-
         </div>
       </div>
     </section>

@@ -162,7 +162,8 @@ export function Hero() {
                 className="text-4xl md:text-6xl font-light text-white/40"
                 style={{ fontFamily: "Georgia, 'Times New Roman', serif", fontStyle: "italic" }}
               >
-                Welcome
+
+                               Hi! there
               </motion.p>
 
               {phase >= 4 && (
@@ -173,7 +174,7 @@ export function Hero() {
                 >
                   <h1 className="text-6xl md:text-9xl font-black tracking-tight">
                     <span className="text-white/60">I&apos;m </span>
-                    <span className="text-white relative">
+                    <span className="text-white relative inline-block">
                       Dipesh Kumar
                       <motion.span
                         className="absolute -bottom-2 left-0 h-1 bg-white"
@@ -203,7 +204,7 @@ export function Hero() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="flex items-center justify-center gap-4"
+                    className="flex items-center justify-center gap-12"
                   >
                     {[
                       { icon: Github, href: "https://github.com/dipesh4000", label: "GitHub" },
@@ -226,12 +227,25 @@ export function Hero() {
                   </motion.div>
 
                   <motion.a
+                    href="mailto:dipeshkumar0853822@gmail.com"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.5 }}
+                    whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
+                    whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
+                                        className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-white text-black font-semibold text-sm hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] mr-8"
+                  >
+                    <Mail className="w-4 h-4" />
+                    Hire Me
+                  </motion.a>
+
+                  <motion.a
                     href="https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=ATvEHa"
                     target="_blank"
                     rel="noopener noreferrer"
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    transition={{ delay: 0.6 }}
+                    transition={{ delay: 0.7 }}
                     className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-teal-300/90 transition-colors border-b border-white/20 hover:border-teal-400/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
                   >
                     View Resume

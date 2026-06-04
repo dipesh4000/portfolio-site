@@ -51,5 +51,10 @@
     "issues": 2,
     "activeDays": 112
   },
+  "contest": {
+    "rating": 1850,
+    "contests": 42,
+    "bestRank": "#12"
+  },
   "lastUpdated": "2026-05-29T08:54:21.885Z"
 }
