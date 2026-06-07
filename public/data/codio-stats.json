@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 230,
-  "totalActiveDays": 128,
-  "submissions": 498,
+  "totalQuestions": 233,
+  "totalActiveDays": 130,
+  "submissions": 508,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 4,
   "awards": 2,
   "dsa": {
-    "total": 230,
-    "easy": 95,
-    "medium": 91,
+    "total": 233,
+    "easy": 97,
+    "medium": 92,
     "hard": 9,
     "other": 35
   },
   "fundamentals": {
-    "total": 51,
-    "gfg": 42,
+    "total": 52,
+    "gfg": 43,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 94
+      "count": 100
     },
     {
       "name": "Binary Search",
@@ -28,15 +28,15 @@
     },
     {
       "name": "HashMap and Set",
+      "count": 31
+    },
+    {
+      "name": "Two Pointers",
       "count": 29
     },
     {
       "name": "String",
-      "count": 28
-    },
-    {
-      "name": "Two Pointers",
-      "count": 27
+      "count": 29
     },
     {
       "name": "Linked Lists",
@@ -45,8 +45,8 @@
   ],
   "github": {
     "stars": 10,
-    "commits": 448,
-    "contributions": 483,
+    "commits": 452,
+    "contributions": 487,
     "pullRequests": 3,
     "issues": 2,
     "activeDays": 117
@@ -72,7 +72,7 @@
     },
     {
       "name": "Python",
-      "bytes": 116878,
+      "bytes": 117720,
       "percentage": 5,
       "color": "#2ecc71"
     },
@@ -92,7 +92,7 @@
   "contest": {
     "rating": 1500,
     "maxRating": 1500,
-    "contests": 7,
+    "contests": 8,
     "bestRank": 3132,
     "platforms": [
       {
@@ -114,19 +114,26 @@
       {
         "platform": "atcoder",
         "handle": "dipesh4000",
-        "rating": 33,
-        "maxRating": 33,
-        "contests": 2,
-        "bestRank": 8973
+        "rating": 103,
+        "maxRating": 103,
+        "contests": 3,
+        "bestRank": 5941
       }
     ],
     "recent": [
+      {
+        "platform": "atcoder",
+        "contestName": "AtCoder Beginner Contest 461",
+        "rating": 103,
+        "contestDate": 1780753200,
+        "rank": 5941
+      },
       {
         "platform": "codechef",
         "contestName": "Starters 241 (Rated)",
         "rating": 1190,
         "contestDate": 1780444800,
-        "rank": 4580
+        "rank": 4230
       },
       {
         "platform": "leetcode",
@@ -141,15 +148,8 @@
         "rating": 33,
         "contestDate": 1780148400,
         "rank": 8973
-      },
-      {
-        "platform": "codechef",
-        "contestName": "Starters 240 (Rated)",
-        "rating": 1114,
-        "contestDate": 1779840000,
-        "rank": 3132
       }
     ]
   },
-  "lastUpdated": "2026-06-06T04:05:52.614Z"
+  "lastUpdated": "2026-06-07T04:42:25.988Z"
 }
