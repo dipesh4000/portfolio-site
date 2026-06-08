@@ -19,6 +19,7 @@ export function JsonLdScript() {
       dangerouslySetInnerHTML={{
         __html: JSON.stringify(combinedSchema),
       }}
+      suppressHydrationWarning
     />
   )
 }

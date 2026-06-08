@@ -30,7 +30,7 @@ function SectionWrapper({
 }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const bg = variant === "surface-alt" ? "#0c0c0c" : "#0a0a0a";
+  const bg = variant === "surface-alt" ? "#050505" : "#000000";
 
   return (
     <section
@@ -56,34 +56,29 @@ export function ProjectsSection() {
     {
       title: "Spacestation Object Detection",
       description:
-        "Trained YOLOv8 model for multi-class object detection on synthetic and real space imagery with production inference pipeline. Implemented data augmentation and precision-recall analysis.",
-      tags: ["YOLOv8", "Python", "Computer Vision", "Deep Learning"],
-      icon: Rocket,
-      featured: true,
+        "Trained YOLOv8 model for multi-class object detection on synthetic and real space imagery with production inference pipeline.",
+      tags: ["YOLOv8", "Computer Vision", "Deep Learning", "Python"],
       github: "https://github.com/dipesh4000/Spacestation_objects_detection_duality",
     },
     {
       title: "SQL Data Warehouse",
       description:
-        "Designed Bronze-Silver-Gold data warehouse (Medallion architecture) with ETL pipelines transforming raw data into analytics-ready star schema with data validation.",
-      tags: ["PostgreSQL", "ETL", "Medallion", "Data Engineering"],
-      icon: Database,
+        "Designed Bronze-Silver-Gold Medallion architecture with ETL pipelines transforming raw data into analytics-ready star schema.",
+      tags: ["PostgreSQL", "ETL", "Data Engineering", "Medallion"],
       github: "https://github.com/dipesh4000/Database_Projects/tree/main/sql-data-warehouse",
     },
     {
       title: "FastAPI CRUD Application",
       description:
-        "Built production RESTful API with FastAPI, PostgreSQL, and Pydantic validation demonstrating clean architecture best practices.",
-      tags: ["FastAPI", "PostgreSQL", "Pydantic", "REST API"],
-      icon: Server,
+        "Production RESTful API with FastAPI, PostgreSQL, and Pydantic validation demonstrating clean architecture best practices.",
+      tags: ["FastAPI", "PostgreSQL", "REST API", "Pydantic"],
       github: "https://github.com/dipesh4000/Database_Projects/tree/main/fastapi-crud-app",
     },
     {
       title: "Reddit-like REST API",
       description:
-        "Full-featured REST API with JWT authentication, role-based access control, owner-only edit/delete, and secure password hashing.",
+        "Full-featured REST API with JWT authentication, role-based access control, and secure password hashing.",
       tags: ["FastAPI", "JWT", "PostgreSQL", "Auth"],
-      icon: MessageSquare,
       github: "https://github.com/dipesh4000/redditAPI",
     },
   ];
@@ -94,13 +89,13 @@ export function ProjectsSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-10 sm:mb-14"
+        className="mb-12 text-center"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
-        <p className="text-white/40 text-lg">Things I&apos;ve built</p>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">Projects</h2>
+        <p className="text-white/40 text-sm">Things I&apos;ve built &amp; shipped</p>
       </motion.div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:gap-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {projects.map((project, index) => (
           <motion.a
             key={project.title}
@@ -109,34 +104,25 @@ export function ProjectsSection() {
             rel="noopener noreferrer"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            transition={{ delay: index * 0.1 }}
+            transition={{ delay: index * 0.08 }}
             viewport={{ once: true }}
-            className="group block rounded-2xl border border-white/5 bg-[#111111] p-5 transition-all hover:border-teal-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/35 sm:p-6"
+            className="group flex flex-col rounded-xl border border-white/8 bg-[#0f0f0f] p-5 transition-all hover:border-white/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
           >
-            <div className="flex items-start justify-between gap-4 mb-4">
-              <div className="flex items-center gap-3">
-                <div className="p-3 rounded-xl bg-white/5">
-                  <project.icon className="w-5 h-5 text-white/60" />
-                </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-white group-hover:text-white/90">{project.title}</h3>
-                  {project.featured && (
-                    <span className="inline-block mt-1 px-2 py-0.5 rounded text-[10px] font-medium bg-white/10 text-white/60">
-                      Featured
-                    </span>
-                  )}
-                </div>
-              </div>
-              <Github className="w-5 h-5 text-white/20 group-hover:text-white/60 transition-colors" />
+            <div className="flex-1">
+              <h3 className="text-base font-semibold text-white mb-3 group-hover:text-white/90 leading-snug">
+                {project.title}
+              </h3>
+              <p className="text-white/45 text-xs leading-relaxed">
+                {project.description}
+              </p>
             </div>
 
-            <p className="text-white/50 text-sm leading-relaxed mb-4">
-              {project.description}
-            </p>
-
-            <div className="flex flex-wrap gap-2">
-              {project.tags.map((tag) => (
-                <span key={tag} className="px-2 py-1 rounded text-xs bg-white/5 text-white/40">
+            <div className="flex flex-wrap gap-2 mt-5 pt-4 border-t border-white/6">
+              {project.tags.slice(0, 2).map((tag) => (
+                <span
+                  key={tag}
+                  className="px-3 py-1 rounded-md text-xs border border-white/12 text-white/50 bg-white/2"
+                >
                   {tag}
                 </span>
               ))}
@@ -149,13 +135,13 @@ export function ProjectsSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="text-center mt-12"
+        className="text-center mt-10"
       >
         <a
           href="https://github.com/dipesh4000"
           target="_blank"
           rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-teal-300/90 transition-colors border-b border-white/20 hover:border-teal-400/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:rounded-sm"
+          className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-white/80 transition-colors border-b border-white/20 hover:border-white/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:rounded-sm"
         >
           View all projects on GitHub
           <ExternalLink className="w-3 h-3" />
@@ -213,10 +199,10 @@ export function ExperienceSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-10 sm:mb-14"
+        className="mb-12 text-center"
       >
-        <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
-        <p className="text-white/40 text-lg">Professional experience and academic background</p>
+        <h2 className="text-4xl md:text-5xl font-bold text-white mb-3">Experience</h2>
+        <p className="text-white/40 text-sm">Professional experience and academic background</p>
       </motion.div>
 
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-12">
@@ -243,7 +229,7 @@ export function ExperienceSection() {
                 className="relative mb-10 last:mb-8"
               >
                 {/* Timeline dot */}
-                <div className="absolute -left-[calc(1.5rem+4px)] top-1 w-2.5 h-2.5 rounded-full bg-white/60 border-2 border-[#0c0c0c]" />
+                <div className="absolute -left-7 top-1 w-2.5 h-2.5 rounded-full bg-white/60 border-2 border-[#050505]" />
 
                 {/* Date badge */}
                 <span className="inline-block mb-3 px-3 py-1 rounded-md bg-white/5 border border-white/10 text-[11px] font-mono text-white/50 tracking-wide">
@@ -256,7 +242,7 @@ export function ExperienceSection() {
                 <ul className="space-y-2">
                   {exp.bullets.map((b, i) => (
                     <li key={i} className="flex gap-2 text-sm text-white/40 leading-relaxed">
-                      <span className="mt-1.5 w-1 h-1 rounded-full bg-white/30 flex-shrink-0" />
+                      <span className="mt-1.5 w-1 h-1 rounded-full bg-white/30 shrink-0" />
                       {b}
                     </li>
                   ))}
@@ -271,9 +257,9 @@ export function ExperienceSection() {
               viewport={{ once: true }}
               className="relative"
             >
-              <div className="absolute -left-[calc(1.5rem+4px)] top-1 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#0c0c0c]" />
+              <div className="absolute -left-7 top-1 w-2.5 h-2.5 rounded-full bg-white/70 border-2 border-[#050505]" />
 
-              <span className="inline-block mb-3 px-3 py-1 rounded-md bg-green-500/10 border border-green-500/25 text-[11px] font-semibold text-green-400 tracking-wide">
+              <span className="inline-block mb-3 px-3 py-1 rounded-md bg-white/5 border border-white/15 text-[11px] font-semibold text-white/60 tracking-wide">
                 Present
               </span>
 
@@ -309,7 +295,7 @@ export function ExperienceSection() {
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <h4 className="font-bold text-white">{edu.degree}</h4>
-                      <p className="text-sm text-teal-400/70">{edu.school}</p>
+                      <p className="text-sm text-white/55">{edu.school}</p>
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 sm:whitespace-nowrap">
                       {edu.period}
@@ -342,9 +328,9 @@ export function ExperienceSection() {
               {roles.map((role, i) => (
                 <div
                   key={i}
-                  className="flex gap-3 items-start p-3 rounded-xl bg-white/[0.02] border border-white/5 hover:bg-white/[0.04] transition-colors"
+                  className="flex gap-3 items-start p-3 rounded-xl bg-white/2 border border-white/5 hover:bg-white/4 transition-colors"
                 >
-                  <Star className="w-4 h-4 text-white/40 flex-shrink-0 mt-0.5" />
+                  <Star className="w-4 h-4 text-white/40 shrink-0 mt-0.5" />
                   <p className="text-sm text-white/70 leading-snug">{role}</p>
                 </div>
               ))}
@@ -379,7 +365,7 @@ export function ContactSection() {
               href="mailto:dipeshkumar0853822@gmail.com"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white text-black font-medium hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
             >
               <Mail className="w-5 h-5" />
               Send Email
@@ -392,7 +378,7 @@ export function ContactSection() {
               rel="noopener noreferrer"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/20 text-white font-medium hover:bg-white/5 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full border border-white/15 text-white font-medium hover:bg-white/5 hover:border-white/30 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
             >
               LinkedIn
               <ExternalLink className="w-4 h-4" />
@@ -404,7 +390,7 @@ export function ContactSection() {
               href="https://github.com/dipesh4000"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+              className="hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 rounded-sm"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -412,7 +398,7 @@ export function ContactSection() {
               href="https://codolio.com/profile/dipesh4000"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+              className="hover:text-white/80 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 rounded-sm"
             >
               <Code2 className="w-5 h-5" />
             </a>

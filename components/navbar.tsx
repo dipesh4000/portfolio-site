@@ -7,15 +7,15 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 
 const navLinks = [
-  { href: "#about", label: "About" },
-  { href: "#coding-stats", label: "Stats" },
+  { href: "#top", label: "Home" },
   { href: "#projects", label: "Projects" },
+  { href: "#about", label: "About" },
+  { href: "#skills", label: "Skills" },
   { href: "#experience", label: "Experience" },
-  { href: "#contact", label: "Contact" },
 ];
 
 const navBtnClass =
-  "px-4 py-2 text-sm text-white/50 hover:text-teal-300/90 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]";
+  "px-4 py-2 text-sm text-white/50 hover:text-white transition-colors cursor-pointer rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-black";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -85,7 +85,7 @@ export function Navbar() {
     <button
       type="button"
       onClick={handleThemeToggle}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/55 transition-colors hover:border-teal-400/35 hover:text-teal-300/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 text-white/55 transition-colors hover:border-white/30 hover:text-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
       aria-label="Toggle color mode"
     >
       {mounted && <ThemeIcon className="h-4 w-4" />}
@@ -99,7 +99,7 @@ export function Navbar() {
         animate={{ y: 0 }}
         transition={{ duration: 0.5, delay: 5.5 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+          isScrolled ? "bg-black/90 backdrop-blur-md border-b border-white/6" : "bg-transparent"
         }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -110,9 +110,9 @@ export function Navbar() {
                 e.preventDefault();
                 window.scrollTo({ top: 0, behavior: "smooth" });
               }}
-              className="group flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+              className="group flex items-center gap-3 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
             >
-              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-teal-400/35 transition-colors">
+              <div className="relative w-8 h-8 rounded-full overflow-hidden border border-white/20 group-hover:border-white/50 transition-colors">
                 <Image
                   src="/dipesh.jpg"
                   alt="Dipesh Kumar"
@@ -123,30 +123,31 @@ export function Navbar() {
                 />
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="text-lg font-bold text-white group-hover:text-teal-200/90 transition-colors tracking-tight">
+                <span className="text-lg font-bold text-white tracking-tight">
                   dipesh
                 </span>
-                <span className="text-lg font-light text-white/40 group-hover:text-white/50 transition-colors">
+                <span className="text-lg font-light text-white/40">
                   kumar
                 </span>
               </div>
             </a>
 
-            <div className="hidden md:flex items-center gap-1">
-              {navLinks.map((link) => (
-                <button key={link.href} type="button" onClick={() => handleNavClick(link.href)} className={navBtnClass}>
-                  {link.label}
-                </button>
-              ))}
+            <div className="hidden md:flex items-center gap-3">
+              <div className="flex items-center border border-white/10 rounded-full bg-white/3 px-1 py-1">
+                {navLinks.map((link) => (
+                  <button key={link.href} type="button" onClick={() => handleNavClick(link.href)} className={navBtnClass}>
+                    {link.label}
+                  </button>
+                ))}
+              </div>
               {themeToggle}
-              <a
-                href="https://github.com/dipesh4000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+              <button
+                type="button"
+                onClick={() => handleNavClick("#contact")}
+                className="px-5 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               >
-                GitHub
-              </a>
+                Let&apos;s Talk
+              </button>
             </div>
 
             <div className="flex items-center gap-2 md:hidden">
@@ -154,7 +155,7 @@ export function Navbar() {
               <button
                 type="button"
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="p-2 text-white cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+                className="p-2 text-white cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                 aria-expanded={isMobileMenuOpen}
                 aria-controls="mobile-nav-menu"
                 aria-label="Toggle menu"
@@ -178,7 +179,7 @@ export function Navbar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             className="fixed inset-0 z-40 md:hidden"
-            style={{ backgroundColor: "#0a0a0a" }}
+            style={{ backgroundColor: "#000000" }}
           >
             <div className="pt-20 px-6 flex flex-col items-center gap-2">
               {navLinks.map((link, index) => (
@@ -189,29 +190,28 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: index * 0.05 }}
                   onClick={() => handleNavClick(link.href)}
-                  className="w-full py-4 text-lg text-white/70 hover:text-teal-300/90 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+                  className="w-full py-4 text-lg text-white/70 hover:text-white transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
                 >
                   {link.label}
                 </motion.button>
               ))}
-              <motion.a
+              <motion.button
+                type="button"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: navLinks.length * 0.05 }}
-                href="https://github.com/dipesh4000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                onClick={() => handleNavClick("#contact")}
+                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full hover:bg-white/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-black"
               >
-                GitHub
-              </motion.a>
+                Let&apos;s Talk
+              </motion.button>
               <motion.button
                 type="button"
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: (navLinks.length + 1) * 0.05 }}
                 onClick={handleThemeToggle}
-                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 py-4 text-lg font-medium text-white/70 transition-colors hover:text-teal-300/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+                className="mt-3 inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/10 py-4 text-lg font-medium text-white/70 transition-colors hover:text-white hover:border-white/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/25"
               >
                 {mounted && <ThemeIcon className="h-5 w-5" />}
                 {mounted ? (nextTheme === "light" ? "Light mode" : "Dark mode") : "Color mode"}
