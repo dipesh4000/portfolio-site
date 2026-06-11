@@ -1,14 +1,14 @@
 {
-  "totalQuestions": 237,
-  "totalActiveDays": 132,
-  "submissions": 511,
+  "totalQuestions": 241,
+  "totalActiveDays": 133,
+  "submissions": 521,
   "maxStreak": 24,
-  "currentStreak": 6,
+  "currentStreak": 1,
   "awards": 2,
   "dsa": {
-    "total": 237,
+    "total": 241,
     "easy": 99,
-    "medium": 94,
+    "medium": 98,
     "hard": 9,
     "other": 35
   },
@@ -20,7 +20,7 @@
   "topics": [
     {
       "name": "Arrays",
-      "count": 100
+      "count": 103
     },
     {
       "name": "Binary Search",
@@ -32,11 +32,11 @@
     },
     {
       "name": "Two Pointers",
-      "count": 29
+      "count": 30
     },
     {
       "name": "String",
-      "count": 29
+      "count": 30
     },
     {
       "name": "Linked Lists",
@@ -45,47 +45,47 @@
   ],
   "github": {
     "stars": 10,
-    "commits": 474,
-    "contributions": 513,
+    "commits": 475,
+    "contributions": 515,
     "pullRequests": 3,
     "issues": 2,
-    "activeDays": 119
+    "activeDays": 120
   },
   "languages": [
     {
+      "name": "Python",
+      "bytes": 2608987,
+      "percentage": 51,
+      "color": "#2ecc71"
+    },
+    {
       "name": "TypeScript",
-      "bytes": 1500340,
-      "percentage": 62,
+      "bytes": 1642281,
+      "percentage": 32,
       "color": "#ff5a3d"
     },
     {
       "name": "Jupyter Notebook",
       "bytes": 552879,
-      "percentage": 23,
+      "percentage": 11,
       "color": "#35506b"
     },
     {
       "name": "JavaScript",
-      "bytes": 124828,
-      "percentage": 5,
+      "bytes": 125070,
+      "percentage": 2,
       "color": "#f7df1e"
     },
     {
-      "name": "Python",
-      "bytes": 120796,
-      "percentage": 5,
-      "color": "#2ecc71"
-    },
-    {
       "name": "CSS",
-      "bytes": 59452,
-      "percentage": 2,
+      "bytes": 59864,
+      "percentage": 1,
       "color": "#2fbf5b"
     },
     {
       "name": "Others",
-      "bytes": 66378,
-      "percentage": 3,
+      "bytes": 96535,
+      "percentage": 2,
       "color": "#94a3b8"
     }
   ],
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-06-10T04:20:33.475Z"
+  "lastUpdated": "2026-06-11T04:43:14.365Z"
 }
