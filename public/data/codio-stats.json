@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 243,
-  "totalActiveDays": 134,
-  "submissions": 526,
+  "totalQuestions": 246,
+  "totalActiveDays": 135,
+  "submissions": 529,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 3,
   "awards": 2,
   "dsa": {
-    "total": 243,
-    "easy": 99,
+    "total": 246,
+    "easy": 101,
     "medium": 99,
-    "hard": 10,
+    "hard": 11,
     "other": 35
   },
   "fundamentals": {
-    "total": 54,
-    "gfg": 45,
+    "total": 56,
+    "gfg": 47,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 104
+      "count": 107
     },
     {
       "name": "Binary Search",
@@ -46,33 +46,33 @@
   "github": {
     "stars": 10,
     "commits": 479,
-    "contributions": 523,
+    "contributions": 524,
     "pullRequests": 3,
     "issues": 2,
-    "activeDays": 121
+    "activeDays": 122
   },
   "languages": [
     {
       "name": "Python",
       "bytes": 2610475,
-      "percentage": 51,
+      "percentage": 47,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 1642281,
-      "percentage": 32,
+      "bytes": 2149179,
+      "percentage": 38,
       "color": "#ff5a3d"
     },
     {
       "name": "Jupyter Notebook",
       "bytes": 552879,
-      "percentage": 11,
+      "percentage": 10,
       "color": "#35506b"
     },
     {
       "name": "JavaScript",
-      "bytes": 125070,
+      "bytes": 129035,
       "percentage": 2,
       "color": "#f7df1e"
     },
@@ -84,7 +84,7 @@
     },
     {
       "name": "Others",
-      "bytes": 96535,
+      "bytes": 106353,
       "percentage": 2,
       "color": "#94a3b8"
     }
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-06-12T04:45:52.733Z"
+  "lastUpdated": "2026-06-13T04:24:33.564Z"
 }
