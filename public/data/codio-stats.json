@@ -1,14 +1,14 @@
 {
-  "totalQuestions": 249,
-  "totalActiveDays": 136,
-  "submissions": 533,
+  "totalQuestions": 253,
+  "totalActiveDays": 138,
+  "submissions": 545,
   "maxStreak": 24,
-  "currentStreak": 4,
+  "currentStreak": 6,
   "awards": 2,
   "dsa": {
-    "total": 249,
-    "easy": 101,
-    "medium": 102,
+    "total": 253,
+    "easy": 102,
+    "medium": 105,
     "hard": 11,
     "other": 35
   },
@@ -20,19 +20,19 @@
   "topics": [
     {
       "name": "Arrays",
-      "count": 108
+      "count": 110
     },
     {
       "name": "Binary Search",
-      "count": 39
+      "count": 40
     },
     {
       "name": "HashMap and Set",
-      "count": 33
+      "count": 35
     },
     {
       "name": "String",
-      "count": 32
+      "count": 33
     },
     {
       "name": "Two Pointers",
@@ -45,16 +45,16 @@
   ],
   "github": {
     "stars": 12,
-    "commits": 495,
-    "contributions": 542,
+    "commits": 512,
+    "contributions": 560,
     "pullRequests": 4,
     "issues": 2,
-    "activeDays": 124
+    "activeDays": 125
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 2686401,
+      "bytes": 2708930,
       "percentage": 47,
       "color": "#2ecc71"
     },
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-06-15T05:08:22.427Z"
+  "lastUpdated": "2026-06-16T05:11:02.133Z"
 }
