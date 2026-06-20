@@ -12,7 +12,7 @@ const greetings = [
   { text: "你好", lang: "zh" },
 ];
 
-const RESUME_URL = "https://presio.me/dipesh4000/resume";
+const RESUME_URL = "https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=eSVbcv";
 
 /** Deterministic layout so SSR/CSR match (avoids random() per render). */
 function particleLayout(i: number) {
