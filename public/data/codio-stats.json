@@ -1,34 +1,34 @@
 {
-  "totalQuestions": 262,
-  "totalActiveDays": 143,
-  "submissions": 562,
+  "totalQuestions": 270,
+  "totalActiveDays": 147,
+  "submissions": 581,
   "maxStreak": 24,
   "currentStreak": 4,
   "awards": 2,
   "dsa": {
-    "total": 262,
-    "easy": 103,
-    "medium": 110,
-    "hard": 14,
+    "total": 270,
+    "easy": 106,
+    "medium": 114,
+    "hard": 15,
     "other": 35
   },
   "fundamentals": {
-    "total": 58,
-    "gfg": 49,
+    "total": 62,
+    "gfg": 53,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 115
+      "count": 120
     },
     {
       "name": "HashMap and Set",
-      "count": 40
+      "count": 41
     },
     {
       "name": "Binary Search",
-      "count": 40
+      "count": 41
     },
     {
       "name": "String",
@@ -40,22 +40,22 @@
     },
     {
       "name": "Linked Lists",
-      "count": 24
+      "count": 25
     }
   ],
   "github": {
     "stars": 13,
-    "commits": 593,
-    "contributions": 646,
+    "commits": 601,
+    "contributions": 654,
     "pullRequests": 4,
     "issues": 2,
-    "activeDays": 135
+    "activeDays": 137
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 2714975,
-      "percentage": 44,
+      "bytes": 2717744,
+      "percentage": 45,
       "color": "#2ecc71"
     },
     {
@@ -90,18 +90,18 @@
     }
   ],
   "contest": {
-    "rating": 1500,
-    "maxRating": 1500,
-    "contests": 11,
+    "rating": 1539,
+    "maxRating": 1539,
+    "contests": 12,
     "bestRank": 3132,
     "platforms": [
       {
         "platform": "leetcode",
         "handle": "dipesh4000",
-        "rating": 0,
-        "maxRating": 1500,
-        "contests": 5,
-        "bestRank": null
+        "rating": 1539,
+        "maxRating": 1539,
+        "contests": 6,
+        "bestRank": 8075
       },
       {
         "platform": "codechef",
@@ -122,6 +122,13 @@
     ],
     "recent": [
       {
+        "platform": "leetcode",
+        "contestName": "Biweekly Contest 185",
+        "rating": 1539,
+        "contestDate": 1781965800,
+        "rank": 8075
+      },
+      {
         "platform": "atcoder",
         "contestName": "CodeQUEEN 2026 -qual- (AtCoder Beginner Contest 462)",
         "rating": 120,
@@ -141,15 +148,8 @@
         "rating": 1500,
         "contestDate": 1780756200,
         "rank": null
-      },
-      {
-        "platform": "atcoder",
-        "contestName": "AtCoder Beginner Contest 461",
-        "rating": 103,
-        "contestDate": 1780753200,
-        "rank": 5941
       }
     ]
   },
-  "lastUpdated": "2026-06-26T04:17:05.828Z"
+  "lastUpdated": "2026-06-27T04:03:09.956Z"
 }
