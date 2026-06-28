@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 270,
+  "totalQuestions": 272,
   "totalActiveDays": 147,
-  "submissions": 581,
+  "submissions": 583,
   "maxStreak": 24,
   "currentStreak": 4,
   "awards": 2,
   "dsa": {
-    "total": 270,
-    "easy": 106,
-    "medium": 114,
+    "total": 272,
+    "easy": 107,
+    "medium": 115,
     "hard": 15,
     "other": 35
   },
   "fundamentals": {
-    "total": 62,
-    "gfg": 53,
+    "total": 64,
+    "gfg": 55,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 120
+      "count": 121
     },
     {
       "name": "HashMap and Set",
@@ -39,8 +39,8 @@
       "count": 30
     },
     {
-      "name": "Linked Lists",
-      "count": 25
+      "name": "Algorithms",
+      "count": 26
     }
   ],
   "github": {
@@ -92,7 +92,7 @@
   "contest": {
     "rating": 1539,
     "maxRating": 1539,
-    "contests": 12,
+    "contests": 13,
     "bestRank": 3132,
     "platforms": [
       {
@@ -114,13 +114,20 @@
       {
         "platform": "atcoder",
         "handle": "dipesh4000",
-        "rating": 120,
-        "maxRating": 120,
-        "contests": 4,
-        "bestRank": 5941
+        "rating": 166,
+        "maxRating": 166,
+        "contests": 5,
+        "bestRank": 5922
       }
     ],
     "recent": [
+      {
+        "platform": "atcoder",
+        "contestName": "Japanese Student Championship 2026 -Advance- Qualification (AtCoder Beginner Contest 464)",
+        "rating": 166,
+        "contestDate": 1782567600,
+        "rank": 5922
+      },
       {
         "platform": "leetcode",
         "contestName": "Biweekly Contest 185",
@@ -141,15 +148,8 @@
         "rating": 1500,
         "contestDate": 1780799400,
         "rank": null
-      },
-      {
-        "platform": "leetcode",
-        "contestName": "Biweekly Contest 184",
-        "rating": 1500,
-        "contestDate": 1780756200,
-        "rank": null
       }
     ]
   },
-  "lastUpdated": "2026-06-27T04:03:09.956Z"
+  "lastUpdated": "2026-06-28T04:25:32.483Z"
 }
