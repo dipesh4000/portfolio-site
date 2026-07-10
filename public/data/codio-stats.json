@@ -1,30 +1,30 @@
 {
-  "totalQuestions": 272,
-  "totalActiveDays": 147,
-  "submissions": 583,
+  "totalQuestions": 278,
+  "totalActiveDays": 150,
+  "submissions": 589,
   "maxStreak": 24,
-  "currentStreak": 4,
+  "currentStreak": 1,
   "awards": 2,
   "dsa": {
-    "total": 272,
+    "total": 278,
     "easy": 107,
-    "medium": 115,
+    "medium": 121,
     "hard": 15,
     "other": 35
   },
   "fundamentals": {
-    "total": 64,
-    "gfg": 55,
+    "total": 65,
+    "gfg": 56,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 121
+      "count": 125
     },
     {
       "name": "HashMap and Set",
-      "count": 41
+      "count": 45
     },
     {
       "name": "Binary Search",
@@ -32,76 +32,76 @@
     },
     {
       "name": "String",
-      "count": 35
+      "count": 36
     },
     {
       "name": "Two Pointers",
-      "count": 30
+      "count": 31
     },
     {
       "name": "Algorithms",
-      "count": 26
+      "count": 27
     }
   ],
   "github": {
     "stars": 13,
-    "commits": 601,
-    "contributions": 654,
-    "pullRequests": 4,
-    "issues": 2,
-    "activeDays": 137
+    "commits": 623,
+    "contributions": 678,
+    "pullRequests": 5,
+    "issues": 3,
+    "activeDays": 145
   },
   "languages": [
     {
-      "name": "Python",
-      "bytes": 2717744,
-      "percentage": 45,
-      "color": "#2ecc71"
-    },
-    {
       "name": "TypeScript",
-      "bytes": 2511581,
-      "percentage": 41,
+      "bytes": 4497922,
+      "percentage": 51,
       "color": "#ff5a3d"
     },
     {
+      "name": "Python",
+      "bytes": 3419153,
+      "percentage": 38,
+      "color": "#2ecc71"
+    },
+    {
       "name": "Jupyter Notebook",
-      "bytes": 552879,
-      "percentage": 9,
+      "bytes": 564744,
+      "percentage": 6,
       "color": "#35506b"
     },
     {
       "name": "JavaScript",
-      "bytes": 144524,
+      "bytes": 168426,
       "percentage": 2,
       "color": "#f7df1e"
     },
     {
       "name": "CSS",
-      "bytes": 69488,
+      "bytes": 82816,
       "percentage": 1,
       "color": "#2fbf5b"
     },
     {
       "name": "Others",
-      "bytes": 108398,
+      "bytes": 154032,
       "percentage": 2,
       "color": "#94a3b8"
     }
   ],
   "contest": {
-    "rating": 1539,
-    "maxRating": 1539,
-    "contests": 13,
+    "rating": 1585,
+    "maxRating": 1585,
+    "contests": 14,
     "bestRank": 3132,
     "platforms": [
       {
         "platform": "leetcode",
         "handle": "dipesh4000",
-        "rating": 1539,
-        "maxRating": 1539,
-        "contests": 6,
-        "bestRank": 8075
+        "rating": 1585,
+        "maxRating": 1585,
+        "contests": 7,
+        "bestRank": 6127
       },
       {
         "platform": "codechef",
@@ -122,6 +122,13 @@
     ],
     "recent": [
       {
+        "platform": "leetcode",
+        "contestName": "Weekly Contest 508",
+        "rating": 1585,
+        "contestDate": 1782613800,
+        "rank": 6127
+      },
+      {
         "platform": "atcoder",
         "contestName": "Japanese Student Championship 2026 -Advance- Qualification (AtCoder Beginner Contest 464)",
         "rating": 166,
@@ -141,15 +148,8 @@
         "rating": 120,
         "contestDate": 1781358000,
         "rank": 8881
-      },
-      {
-        "platform": "leetcode",
-        "contestName": "Weekly Contest 505",
-        "rating": 1500,
-        "contestDate": 1780799400,
-        "rank": null
       }
     ]
   },
-  "lastUpdated": "2026-07-09T03:55:47.047Z"
+  "lastUpdated": "2026-07-10T03:56:24.281Z"
 }
