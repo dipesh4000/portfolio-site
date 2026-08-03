@@ -122,6 +122,7 @@ export const metadata: Metadata = {
   // Prefers reduced motion
   other: {
     'format-detection': 'telephone=no',
+    'darkreader-lock': '',
   },
 }
 

@@ -132,11 +132,13 @@ function BentoCard({
   className = "",
   delay = 0,
   id,
+  signalLabel,
 }: {
   children: React.ReactNode;
   className?: string;
   delay?: number;
   id?: string;
+  signalLabel?: string;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -144,11 +146,12 @@ function BentoCard({
   return (
     <motion.div
       id={id}
+      data-signal-label={signalLabel}
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
       transition={{ duration: 0.6, delay: delay * 0.1 }}
-      className={`scroll-mt-24 bg-[#111111] border border-white/5 rounded-2xl p-5 sm:p-6 hover:border-white/10 transition-all duration-500 ${className}`}
+      className={`signal-bento-card scroll-mt-24 bg-[#111111] border border-white/5 rounded-2xl p-5 sm:p-6 hover:border-white/10 transition-all duration-500 ${className}`}
     >
       {children}
     </motion.div>
@@ -165,7 +168,7 @@ export function BentoGrid() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="mb-10 sm:mb-14"
+          className="signal-section-intro mb-10 sm:mb-14"
         >
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">About Me</h2>
           <p className="text-white/40 text-lg max-w-2xl">
@@ -174,10 +177,10 @@ export function BentoGrid() {
         </motion.div>
 
         {/* Bento Grid */}
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[180px] lg:grid-cols-4">
+        <div className="signal-about-grid grid grid-cols-1 gap-4 md:grid-cols-3 md:auto-rows-[180px] lg:grid-cols-4">
 
           {/* Profile Photo Card */}
-          <BentoCard className="min-h-[360px] overflow-hidden p-0 sm:min-h-[420px] md:col-span-1 md:row-span-2 md:min-h-0" delay={0}>
+          <BentoCard signalLabel="01 / Profile" className="signal-profile-card min-h-[360px] overflow-hidden p-0 sm:min-h-[420px] md:col-span-1 md:row-span-2 md:min-h-0" delay={0}>
             <div className="relative h-full min-h-[360px] w-full sm:min-h-[420px] md:min-h-0">
               <Image
                 src="/dipesh.jpg"
@@ -192,7 +195,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Bio card */}
-          <BentoCard className="md:col-span-2 md:row-span-1" delay={1}>
+          <BentoCard signalLabel="02 / Field note" className="signal-bio-card md:col-span-2 md:row-span-1" delay={1}>
             <div className="flex h-full min-h-[150px] flex-col justify-between">
               <div>
                 <div className="flex items-center gap-2 text-white/40 text-sm mb-3">
@@ -215,7 +218,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* ASCII Cat Card */}
-          <BentoCard className="hidden items-center justify-center md:flex" delay={2}>
+          <BentoCard signalLabel="03 / Companion" className="signal-cat-card hidden items-center justify-center md:flex" delay={2}>
             <div className="text-center">
               <ASCIICat />
               <p className="text-[10px] text-white/30 mt-2">meow, hire me!</p>
@@ -223,12 +226,12 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* 3D Tech Cube */}
-          <BentoCard className="hidden items-center justify-center md:col-span-2 md:row-span-2 md:flex" delay={3}>
+          <BentoCard signalLabel="04 / Stack model" className="signal-cube-card hidden items-center justify-center md:col-span-2 md:row-span-2 md:flex" delay={3}>
             <TechCube />
           </BentoCard>
 
           {/* Education */}
-          <BentoCard className="md:col-span-1 md:row-span-2" delay={4}>
+          <BentoCard signalLabel="03 / Education" className="signal-education-card md:col-span-1 md:row-span-2" delay={4}>
             <div className="flex flex-col h-full">
               <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
                 <GraduationCap className="w-4 h-4 text-white/60" />
@@ -260,7 +263,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Current Status */}
-          <BentoCard className="md:col-span-1" delay={5}>
+          <BentoCard signalLabel="04 / Availability" className="signal-status-card md:col-span-1" delay={5}>
             <div className="flex flex-col h-full">
               <div className="flex items-center gap-2 mb-3">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
@@ -272,7 +275,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Skills with tags */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={6}>
+          <BentoCard signalLabel="05 / Capability matrix" className="signal-skills-card md:col-span-2 md:row-span-2" delay={6}>
             <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Brain className="w-4 h-4 text-white/60" />
               Skills
@@ -314,7 +317,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Top Languages from GitHub */}
-          <BentoCard className="md:col-span-2 md:row-span-2" delay={7}>
+          <BentoCard signalLabel="06 / Language telemetry" className="signal-languages-card md:col-span-2 md:row-span-2" delay={7}>
             <div className="mb-7 flex items-start justify-between gap-4">
               <div>
                 <h3 className="text-white font-semibold flex items-center gap-2">
@@ -331,7 +334,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Featured Projects */}
-          <BentoCard id="projects" className="md:col-span-2 md:row-span-2" delay={8}>
+          <BentoCard signalLabel="07 / Selected work" id="projects" className="signal-projects-card md:col-span-2 md:row-span-2" delay={8}>
             <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
               <Terminal className="w-4 h-4 text-white/60" />
               Featured Projects
@@ -367,7 +370,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Experience */}
-          <BentoCard className="md:col-span-1" delay={9}>
+          <BentoCard signalLabel="08 / Previous post" className="signal-past-card md:col-span-1" delay={9}>
             <div className="flex flex-col h-full">
               <div className="p-2 bg-white/5 rounded-xl w-fit mb-3">
                 <Briefcase className="w-4 h-4 text-white/60" />
@@ -379,7 +382,7 @@ export function BentoGrid() {
           </BentoCard>
 
           {/* Resume Download */}
-          <BentoCard className="md:col-span-1 group cursor-pointer" delay={10}>
+          <BentoCard signalLabel="09 / Resume" className="signal-resume-card md:col-span-1 group cursor-pointer" delay={10}>
             <a href={RESUME_URL} target="_blank" rel="noopener noreferrer" className="flex flex-col h-full items-center justify-center text-center">
               <div className="p-3 bg-white/5 rounded-xl mb-3 group-hover:bg-white/10 transition-colors">
                 <Download className="w-5 h-5 text-white/60 group-hover:text-white transition-colors" />

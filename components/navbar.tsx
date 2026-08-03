@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, Moon, Sun, X } from "lucide-react";
+import { Menu, Moon, Palette, Sun, X } from "lucide-react";
 import Image from "next/image";
 import { useTheme } from "next-themes";
 
@@ -17,7 +17,12 @@ const navLinks = [
 const navBtnClass =
   "px-4 py-2 text-sm text-white/50 hover:text-teal-300/90 transition-colors cursor-pointer rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]";
 
-export function Navbar() {
+type NavbarProps = {
+  onPortfolioThemeToggle: () => void;
+  nextPortfolioThemeLabel: string;
+};
+
+export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -92,6 +97,19 @@ export function Navbar() {
     </button>
   );
 
+  const portfolioThemeToggle = (
+    <button
+      type="button"
+      onClick={onPortfolioThemeToggle}
+      className="inline-flex h-10 items-center justify-center gap-2 rounded-full border border-white/10 px-3 text-xs font-medium text-white/55 transition-colors hover:border-teal-400/35 hover:text-teal-300/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+      aria-label={`Switch portfolio theme to ${nextPortfolioThemeLabel}`}
+      title={`Switch to ${nextPortfolioThemeLabel} theme`}
+    >
+      <Palette className="h-4 w-4" />
+      <span className="hidden lg:inline">{nextPortfolioThemeLabel}</span>
+    </button>
+  );
+
   return (
     <>
       <motion.nav
@@ -138,6 +156,7 @@ export function Navbar() {
                   {link.label}
                 </button>
               ))}
+              {portfolioThemeToggle}
               {themeToggle}
               <a
                 href="https://github.com/dipesh4000"
@@ -150,6 +169,7 @@ export function Navbar() {
             </div>
 
             <div className="flex items-center gap-2 md:hidden">
+              {portfolioThemeToggle}
               {themeToggle}
               <button
                 type="button"

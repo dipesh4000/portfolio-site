@@ -21,7 +21,7 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/5 py-12 px-6" style={{ backgroundColor: "#0a0a0a" }}>
+    <footer className="portfolio-footer border-t border-white/5 py-12 px-6" style={{ backgroundColor: "#0a0a0a" }}>
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row items-center justify-between gap-6">
           {/* Brand */}
@@ -38,7 +38,7 @@ export function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="p-2.5 rounded-full border border-white/10 text-white/40 hover:text-teal-300/90 hover:border-teal-400/35 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45"
+                className="p-2.5 rounded-full border border-white/10 text-white/40 hover:text-red-400/90 hover:border-red-500/35 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/45"
                 aria-label={link.label}
               >
                 <link.icon className="w-4 h-4" />

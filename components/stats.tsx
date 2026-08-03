@@ -45,7 +45,7 @@ function usePrefersReducedMotion() {
   return reduced;
 }
 
-function Counter({ value, duration = 2 }: { value: number; duration?: number }) {
+export function Counter({ value, duration = 2 }: { value: number; duration?: number }) {
   const reduced = useReducedMotionPreference();
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
@@ -311,7 +311,7 @@ function GithubViaCodolioCard() {
         {cells.map(({ icon: Icon, label, value }) => (
           <div
             key={label}
-            className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-3 text-center transition-colors hover:border-teal-500/15"
+            className="rounded-xl border border-white/5 bg-white/[0.02] px-3 py-3 text-center transition-colors hover:border-red-500/15"
           >
             <Icon className="mx-auto mb-2 h-4 w-4 text-white/35" aria-hidden />
             <div className="text-lg font-semibold text-white tabular-nums">
@@ -390,7 +390,7 @@ function ContestOverviewCard() {
           href="https://codolio.com/profile/dipesh4000"
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-teal-300/90 transition-colors"
+          className="inline-flex items-center gap-1.5 text-xs text-white/40 hover:text-red-400/90 transition-colors"
         >
           Codolio
           <ExternalLink className="h-3 w-3" />
@@ -477,20 +477,20 @@ export function CodingStats() {
 
   return (
     <ReducedMotionContext.Provider value={reduced}>
-      <section id="coding-stats" className="px-4 py-20 sm:px-6 lg:py-24" style={{ backgroundColor: "#0c0c0c" }}>
+      <section id="coding-stats" className="signal-stats-section px-4 py-20 sm:px-6 lg:py-24" style={{ backgroundColor: "#0c0c0c" }}>
         <div className="max-w-6xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: reduced ? 0 : 0.4 }}
-            className="mb-10 sm:mb-14"
+            className="signal-section-intro mb-10 sm:mb-14"
           >
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Coding Stats</h2>
             <p className="text-white/40 text-lg">My problem-solving journey</p>
           </motion.div>
 
-          <div className="mb-3 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 md:grid-cols-4">
+          <div className="signal-metric-strip mb-3 grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 md:grid-cols-4">
             <StatCard icon={Target} label="Total questions" value={stats.totalQuestions} delay={0} />
             <StatCard icon={Calendar} label="Active days" value={stats.totalActiveDays} delay={0.1} />
             <StatCard icon={Flame} label="Max streak" value={stats.maxStreak} suffix=" days" delay={0.2} />
@@ -606,7 +606,7 @@ export function CodingStats() {
               href="https://codolio.com/profile/dipesh4000"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0c]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-black font-medium hover:bg-red-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0c]"
             >
               View Codolio Profile
               <ExternalLink className="w-4 h-4" />
@@ -615,7 +615,7 @@ export function CodingStats() {
               href="https://leetcode.com/u/dipesh4000/"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/20 text-white font-medium hover:border-teal-400/35 hover:bg-teal-500/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0c]"
+              className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-transparent border border-white/20 text-white font-medium hover:border-red-500/35 hover:bg-red-500/5 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/45 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0c0c0c]"
             >
               <Code2 className="w-4 h-4" />
               LeetCode Profile

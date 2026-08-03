@@ -36,7 +36,7 @@ function SectionWrapper({
     <section
       id={id}
       ref={ref}
-      className="px-4 py-20 sm:px-6 lg:py-24"
+      className="portfolio-section px-4 py-20 sm:px-6 lg:py-24"
       style={{ backgroundColor: bg }}
     >
       <motion.div
@@ -94,7 +94,7 @@ export function ProjectsSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-10 sm:mb-14"
+        className="signal-section-intro mb-10 sm:mb-14"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Projects</h2>
         <p className="text-white/40 text-lg">Things I&apos;ve built</p>
@@ -111,7 +111,7 @@ export function ProjectsSection() {
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ delay: index * 0.1 }}
             viewport={{ once: true }}
-            className="group block rounded-2xl border border-white/5 bg-[#111111] p-5 transition-all hover:border-teal-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/35 sm:p-6"
+            className="group block rounded-2xl border border-white/5 bg-[#111111] p-5 transition-all hover:border-red-500/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/35 sm:p-6"
           >
             <div className="flex items-start justify-between gap-4 mb-4">
               <div className="flex items-center gap-3">
@@ -155,7 +155,7 @@ export function ProjectsSection() {
           href="https://github.com/dipesh4000"
           target="_blank"
           rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-teal-300/90 transition-colors border-b border-white/20 hover:border-teal-400/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 focus-visible:rounded-sm"
+            className="inline-flex items-center gap-2 text-sm text-white/40 hover:text-red-400/90 transition-colors border-b border-white/20 hover:border-red-500/50 pb-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 focus-visible:rounded-sm"
         >
           View all projects on GitHub
           <ExternalLink className="w-3 h-3" />
@@ -168,21 +168,25 @@ export function ProjectsSection() {
 export function ExperienceSection() {
   const experiences = [
     {
-      title: "Product Quality Intern",
-      company: "LearnQ.ai",
-      period: "Oct 2025 - Dec 2025",
+      title: "Summer Trainee, AI and Data Engineering",
+      company: "AndGate Informatics Pvt. Ltd.",
+      location: "India",
+      period: "Jun 2026 - Aug 2026",
       bullets: [
-        "Analyzed production issues with engineering teams and implemented technical fixes reducing recurring bugs",
-        "Structured product workflows and testing documentation improving team clarity and execution",
+        "Reduced Django API latency by 77-85%, from 13 seconds to 2-3 seconds, by optimising parsing and JSON serialisation workflows.",
+        "Processed and validated 10,000+ hardware components using Pandas, NumPy, and lxml pipelines with missing-data checks, malformed-input handling, logging, and IP-XACT transformation.",
+        "Accelerated Excel-to-JSON conversion to approximately 2 seconds and end-to-end visual generation to approximately 5 seconds by integrating a Django API with React Flow.",
+        "Delivered two Generative AI prototypes: a document-grounded RAG chatbot and a job-description-driven candidate recommendation system using ingestion, vector retrieval, and LLM generation.",
       ],
     },
     {
-      title: "Implementation Intern",
+      title: "Product Quality and Implementation Intern",
       company: "LearnQ.ai",
-      period: "Apr 2025 - Jun 2025",
+      location: "Remote",
+      period: "Apr 2025 - Dec 2025",
       bullets: [
-        "Built technical documentation systems enabling faster onboarding and consistent implementation processes",
-        "Executed technical deliverables within fast-paced startup environment",
+        "Standardised and validated 2,000+ question records for ML-assisted workflows by enforcing consistent schemas, formatting rules, and data-quality checks.",
+        "Identified two major UI defects and improved product UX by coordinating fixes with the engineering team while mentoring two interns on testing and issue reporting.",
       ],
     },
   ];
@@ -213,7 +217,7 @@ export function ExperienceSection() {
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="mb-10 sm:mb-14"
+        className="signal-section-intro mb-10 sm:mb-14"
       >
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Experience</h2>
         <p className="text-white/40 text-lg">Professional experience and academic background</p>
@@ -235,7 +239,7 @@ export function ExperienceSection() {
           <div className="relative pl-6 border-l border-white/10">
             {experiences.map((exp, index) => (
               <motion.div
-                key={exp.title}
+                key={`${exp.company}-${exp.title}`}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.15 }}
@@ -251,7 +255,11 @@ export function ExperienceSection() {
                 </span>
 
                 <h4 className="text-lg font-bold text-white">{exp.title}</h4>
-                <p className="text-sm text-white/50 mb-3">{exp.company}</p>
+                <div className="mb-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-sm text-white/50">
+                  <span>{exp.company}</span>
+                  <span aria-hidden="true">·</span>
+                  <span>{exp.location}</span>
+                </div>
 
                 <ul className="space-y-2">
                   {exp.bullets.map((b, i) => (
@@ -309,7 +317,7 @@ export function ExperienceSection() {
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
                     <div>
                       <h4 className="font-bold text-white">{edu.degree}</h4>
-                      <p className="text-sm text-teal-400/70">{edu.school}</p>
+                      <p className="text-sm text-red-400/70">{edu.school}</p>
                     </div>
                     <span className="text-[10px] font-bold uppercase tracking-widest text-white/30 sm:whitespace-nowrap">
                       {edu.period}
@@ -364,7 +372,7 @@ export function ContactSection() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="space-y-8"
+          className="signal-contact-block space-y-8"
         >
           <h2 className="text-4xl md:text-6xl font-bold text-white">
             Let&apos;s Connect
@@ -404,7 +412,7 @@ export function ContactSection() {
               href="https://github.com/dipesh4000"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+              className="hover:text-red-400/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 rounded-sm"
             >
               <Github className="w-5 h-5" />
             </a>
@@ -412,7 +420,7 @@ export function ContactSection() {
               href="https://codolio.com/profile/dipesh4000"
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-teal-300/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400/40 rounded-sm"
+              className="hover:text-red-400/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-500/40 rounded-sm"
             >
               <Code2 className="w-5 h-5" />
             </a>
