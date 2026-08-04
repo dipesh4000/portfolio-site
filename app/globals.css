@@ -171,12 +171,12 @@
   --ring: #11120f;
   --site-bg: #f1f1ed;
   --site-bg-alt: #e9eae4;
-  --site-card: rgba(250, 250, 246, 0.9);
-  --site-card-soft: rgba(17, 18, 15, 0.035);
-  --site-border: rgba(17, 18, 15, 0.17);
+  --site-card: #fafaf6;
+  --site-card-soft: rgba(17, 18, 15, 0.055);
+  --site-border: rgba(17, 18, 15, 0.24);
   --site-text: #11120f;
-  --site-muted: rgba(17, 18, 15, 0.62);
-  --site-faint: rgba(17, 18, 15, 0.36);
+  --site-muted: rgba(17, 18, 15, 0.76);
+  --site-faint: rgba(17, 18, 15, 0.52);
   --site-shadow: none;
   --site-accent: #e15c3a;
   --site-accent-2: #656961;
@@ -205,12 +205,12 @@
   --ring: #eceee8;
   --site-bg: #10110f;
   --site-bg-alt: #151613;
-  --site-card: rgba(23, 24, 21, 0.92);
-  --site-card-soft: rgba(255, 255, 255, 0.035);
-  --site-border: rgba(236, 238, 232, 0.14);
+  --site-card: #171815;
+  --site-card-soft: rgba(255, 255, 255, 0.055);
+  --site-border: rgba(236, 238, 232, 0.22);
   --site-text: #eceee8;
-  --site-muted: rgba(236, 238, 232, 0.62);
-  --site-faint: rgba(236, 238, 232, 0.35);
+  --site-muted: rgba(236, 238, 232, 0.76);
+  --site-faint: rgba(236, 238, 232, 0.5);
   --site-accent: #f06b47;
   --site-accent-2: #a9ada4;
   --signal-dot: rgba(236, 238, 232, 0.18);
@@ -778,7 +778,7 @@ html:not(.dark) ::-webkit-scrollbar-thumb {
 
 /* Signal / dot-matrix identity */
 html[data-site-theme="signal"] body {
-  font-family: "Arial Narrow", "Roboto Condensed", "Helvetica Neue", sans-serif;
+  font-family: var(--font-sans), Inter, Geist, system-ui, sans-serif;
 }
 
 .signal-shell {
@@ -793,7 +793,7 @@ html[data-site-theme="signal"] body {
   z-index: 0;
   pointer-events: none;
   content: "";
-  opacity: 0.42;
+  opacity: 0.16;
   background-image: radial-gradient(circle, var(--signal-grid) 0.75px, transparent 0.9px);
   background-size: 13px 13px;
   mask-image: linear-gradient(to bottom, black, transparent 32%, transparent 70%, black);
@@ -879,8 +879,8 @@ html[data-site-theme="signal"] .signal-section-intro h2 {
   margin: 0;
   color: var(--site-text) !important;
   font-size: clamp(2.8rem, 7vw, 6.8rem);
-  font-weight: 500;
-  letter-spacing: -0.09em;
+  font-weight: 700;
+  letter-spacing: -0.075em;
   line-height: 0.82;
   text-transform: uppercase;
 }
@@ -911,9 +911,11 @@ html[data-site-theme="signal"] .signal-bento-card {
   border-width: 0 1px 1px 0 !important;
   border-color: var(--site-border) !important;
   border-radius: 0 !important;
-  background: color-mix(in srgb, var(--site-card) 62%, transparent) !important;
+  background: var(--site-card) !important;
   box-shadow: none !important;
   padding: 3.4rem 1.35rem 1.35rem;
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 html[data-site-theme="signal"] .signal-bento-card::before {
@@ -932,12 +934,12 @@ html[data-site-theme="signal"] .signal-bento-card::before {
 html[data-site-theme="signal"] .signal-profile-card { grid-column: span 4; grid-row: span 3; padding: 0; }
 html[data-site-theme="signal"] .signal-bio-card { grid-column: span 8; min-height: 13rem; }
 html[data-site-theme="signal"] .signal-education-card { grid-column: span 4; grid-row: span 2; }
-html[data-site-theme="signal"] .signal-status-card { grid-column: span 4; }
-html[data-site-theme="signal"] .signal-skills-card { grid-column: span 8; grid-row: span 2; }
+html[data-site-theme="signal"] .signal-status-card { grid-column: span 4; grid-row: span 2; }
+html[data-site-theme="signal"] .signal-skills-card { grid-column: span 12; grid-row: span 2; }
 html[data-site-theme="signal"] .signal-languages-card { grid-column: span 6; grid-row: span 2; }
 html[data-site-theme="signal"] .signal-projects-card { grid-column: span 6; grid-row: span 2; }
-html[data-site-theme="signal"] .signal-past-card { grid-column: span 3; }
-html[data-site-theme="signal"] .signal-resume-card { grid-column: span 3; }
+html[data-site-theme="signal"] .signal-past-card { grid-column: span 6; }
+html[data-site-theme="signal"] .signal-resume-card { grid-column: span 6; }
 html[data-site-theme="signal"] .signal-cat-card,
 html[data-site-theme="signal"] .signal-cube-card { display: none !important; }
 
@@ -949,13 +951,23 @@ html[data-site-theme="signal"] .signal-profile-card::before {
 }
 
 html[data-site-theme="signal"] .signal-profile-card img {
-  filter: grayscale(1) contrast(1.12) brightness(0.88);
+  filter: grayscale(0.85) contrast(1.08);
   transition: filter 400ms ease, scale 700ms ease;
 }
 
 html[data-site-theme="signal"] .signal-profile-card:hover img {
-  filter: grayscale(0.2) contrast(1.05) brightness(0.94);
+  filter: grayscale(0.15) contrast(1.04);
   scale: 1.02;
+}
+
+html[data-site-theme="signal"] .signal-status-card > div {
+  justify-content: center;
+}
+
+html[data-site-theme="signal"] .signal-section-intro,
+html[data-site-theme="signal"] .portfolio-section > div {
+  opacity: 1 !important;
+  transform: none !important;
 }
 
 html[data-site-theme="signal"] .signal-skills-card > div {
@@ -1013,7 +1025,7 @@ html[data-site-theme="signal"] .signal-metric-strip > * {
 html[data-site-theme="signal"] #coding-stats [class*="rounded-2xl"] {
   border-radius: 0 !important;
   border-color: var(--site-border) !important;
-  background: color-mix(in srgb, var(--site-card) 55%, transparent) !important;
+  background: var(--site-card) !important;
   box-shadow: none !important;
 }
 
@@ -1082,6 +1094,28 @@ html[data-site-theme="signal"] .portfolio-footer > div > div:first-child {
 
 html[data-site-theme="signal"] .portfolio-footer a {
   border-radius: 0.2rem !important;
+}
+
+html[data-site-theme="signal"] .signal-bio-card p,
+html[data-site-theme="signal"] .signal-skills-card span,
+html[data-site-theme="signal"] .signal-projects-card p,
+html[data-site-theme="signal"] #experience li,
+html[data-site-theme="signal"] #experience p,
+html[data-site-theme="signal"] #coding-stats p {
+  color: var(--site-muted) !important;
+  font-weight: 450;
+}
+
+html[data-site-theme="signal"] .signal-bio-card [class*="rounded-full"] {
+  border: 1px solid var(--site-border);
+  border-radius: 0.2rem !important;
+  background: var(--site-bg) !important;
+  color: var(--site-text) !important;
+}
+
+html[data-site-theme="signal"] .signal-section-intro p,
+html[data-site-theme="signal"] .signal-bento-card::before {
+  text-rendering: geometricPrecision;
 }
 
 .signal-nav {
@@ -1364,7 +1398,7 @@ html[data-site-theme="signal"] .portfolio-footer a {
   height: 7.5rem;
   pointer-events: none;
   color: var(--hummingbird-color);
-  opacity: 1;
+  opacity: 0.68;
   scale: 0.72;
   filter: none;
   mix-blend-mode: normal;
