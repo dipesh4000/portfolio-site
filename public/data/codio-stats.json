@@ -1,20 +1,20 @@
 {
-  "totalQuestions": 278,
-  "totalActiveDays": 150,
-  "submissions": 589,
+  "totalQuestions": 281,
+  "totalActiveDays": 152,
+  "submissions": 594,
   "maxStreak": 24,
-  "currentStreak": 1,
+  "currentStreak": 2,
   "awards": 2,
   "dsa": {
-    "total": 278,
-    "easy": 107,
-    "medium": 121,
+    "total": 281,
+    "easy": 108,
+    "medium": 123,
     "hard": 15,
     "other": 35
   },
   "fundamentals": {
-    "total": 65,
-    "gfg": 56,
+    "total": 66,
+    "gfg": 57,
     "hackerrank": 9
   },
   "topics": [
@@ -24,7 +24,7 @@
     },
     {
       "name": "HashMap and Set",
-      "count": 45
+      "count": 46
     },
     {
       "name": "Binary Search",
@@ -45,47 +45,47 @@
   ],
   "github": {
     "stars": 23,
-    "commits": 670,
-    "contributions": 745,
+    "commits": 686,
+    "contributions": 762,
     "pullRequests": 8,
     "issues": 4,
-    "activeDays": 162
+    "activeDays": 166
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 6686757,
+      "bytes": 6704457,
       "percentage": 44,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 6444114,
-      "percentage": 43,
+      "bytes": 6473979,
+      "percentage": 42,
       "color": "#ff5a3d"
     },
     {
       "name": "JavaScript",
-      "bytes": 809844,
+      "bytes": 801932,
       "percentage": 5,
       "color": "#f7df1e"
     },
     {
       "name": "Jupyter Notebook",
-      "bytes": 564744,
-      "percentage": 4,
+      "bytes": 736178,
+      "percentage": 5,
       "color": "#35506b"
     },
     {
       "name": "CSS",
-      "bytes": 351015,
-      "percentage": 2,
+      "bytes": 388417,
+      "percentage": 3,
       "color": "#2fbf5b"
     },
     {
       "name": "Others",
       "bytes": 227821,
-      "percentage": 2,
+      "percentage": 1,
       "color": "#94a3b8"
     }
   ],
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-09T02:07:51.824Z"
+  "lastUpdated": "2026-08-10T02:12:41.709Z"
 }
