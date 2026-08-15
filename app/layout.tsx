@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
+import { cookies } from 'next/headers'
 import { Analytics } from '@vercel/analytics/next'
 import { JsonLdScript } from '@/components/json-ld-script'
 import { ThemeProvider } from '@/components/theme-provider'
@@ -122,7 +123,6 @@ export const metadata: Metadata = {
   // Prefers reduced motion
   other: {
     'format-detection': 'telephone=no',
-    'darkreader-lock': '',
   },
 }
 
@@ -136,14 +136,24 @@ export const viewport: Viewport = {
   colorScheme: 'dark light',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const savedPortfolioTheme = cookieStore.get('portfolio-theme-v1')?.value
+  const initialPortfolioTheme = savedPortfolioTheme === 'signal' ? 'signal' : 'classic'
+
   return (
-    <html lang="en" className="bg-background scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="en"
+      className="bg-background scroll-smooth"
+      data-site-theme={initialPortfolioTheme}
+      suppressHydrationWarning
+    >
       <head>
+        <meta name="darkreader-lock" content="true" />
         <JsonLdScript />
       </head>
       <body className="font-sans antialiased" suppressHydrationWarning>
@@ -153,7 +163,13 @@ export default function RootLayout({
         >
           Skip to main content
         </a>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider
+          attribute="data-color-mode"
+          defaultTheme="system"
+          enableSystem
+          enableColorScheme
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}

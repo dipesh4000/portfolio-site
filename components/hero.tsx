@@ -13,6 +13,7 @@ const greetings = [
 ];
 
 const RESUME_URL = "https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=eSVbcv";
+const GMAIL_HIRE_URL = "https://mail.google.com/mail/?view=cm&fs=1&to=dipeshkumar0853822%40gmail.com&su=Portfolio%20opportunity";
 
 /** Deterministic layout so SSR/CSR match (avoids random() per render). */
 function particleLayout(i: number) {
@@ -50,8 +51,7 @@ export function Hero() {
   return (
     <section
       id="top"
-      className="relative min-h-[100svh] flex items-center justify-center overflow-hidden px-4"
-      style={{ backgroundColor: "#0a0a0a" }}
+      className="classic-hero relative min-h-[100svh] flex items-center justify-center overflow-hidden px-4"
     >
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         {mounted && !prefersReducedMotion &&
@@ -79,7 +79,7 @@ export function Hero() {
 
       <div className="hero-grid absolute inset-0" />
 
-      <motion.div className="relative z-10 w-full max-w-5xl px-2 text-center sm:px-6">
+      <motion.div className="classic-hero-content relative z-10 w-full max-w-5xl px-2 text-center sm:px-6">
         <AnimatePresence mode="wait">
           {phase === 1 && (
             <motion.div
@@ -88,7 +88,7 @@ export function Hero() {
               animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
               exit={{ opacity: 0, scale: 1.2, filter: "blur(10px)" }}
               transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-              className="text-[clamp(5.5rem,28vw,14rem)] font-black text-white leading-none tracking-tighter"
+              className="classic-hero-copy text-[clamp(5.5rem,28vw,14rem)] font-black text-white leading-none tracking-tighter"
             >
               Hi
             </motion.div>
@@ -114,7 +114,7 @@ export function Hero() {
                     stiffness: 100,
                     damping: 15,
                   }}
-                  className="text-[clamp(2.5rem,12vw,5.5rem)] font-bold text-white"
+                  className="classic-hero-copy text-[clamp(2.5rem,12vw,5.5rem)] font-bold text-white"
                   style={{ textShadow: "0 0 60px rgba(255,255,255,0.3)" }}
                 >
                   {g.text}
@@ -186,13 +186,15 @@ export function Hero() {
                   </motion.div>
 
                   <motion.a
-                    href="mailto:dipeshkumar0853822@gmail.com"
+                    href={GMAIL_HIRE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.5 }}
                     whileHover={prefersReducedMotion ? undefined : { scale: 1.03 }}
                     whileTap={prefersReducedMotion ? undefined : { scale: 0.97 }}
-                    className="mb-4 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:mb-0 sm:mr-8"
+                    className="classic-primary-action mb-4 inline-flex items-center gap-2 rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-black transition-colors hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] sm:mb-0 sm:mr-8"
                   >
                     <Mail className="w-4 h-4" />
                     Hire Me

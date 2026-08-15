@@ -86,13 +86,13 @@ export function SignalNavbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }
             <span>DK / 26</span>
           </a>
 
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => <button key={link.href} type="button" onClick={() => navigate(link.href)} className="signal-nav-link">{link.label}</button>)}
             <span className="mx-2 h-px w-8 bg-[var(--site-border)]" aria-hidden="true" />
             {controls}
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             {controls}
             <button type="button" onClick={() => setIsMobileMenuOpen((open) => !open)} className="signal-menu-button" aria-expanded={isMobileMenuOpen} aria-controls="signal-mobile-nav" aria-label="Toggle navigation">
               {isMobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -103,7 +103,7 @@ export function SignalNavbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }
 
       <AnimatePresence>
         {isMobileMenuOpen && (
-          <motion.div ref={mobileMenuRef} id="signal-mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="signal-mobile-menu fixed inset-0 z-40 grid place-items-center px-6 pt-16 md:hidden">
+          <motion.div ref={mobileMenuRef} id="signal-mobile-nav" role="dialog" aria-modal="true" aria-label="Site navigation" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="signal-mobile-menu fixed inset-0 z-40 grid place-items-center px-6 pt-16 lg:hidden">
             <div className="relative z-10 w-full max-w-sm border border-[var(--site-border)] bg-[var(--site-bg)] p-5">
               <p className="signal-kicker mb-4">INDEX / 01-05</p>
               {navLinks.map((link, index) => (

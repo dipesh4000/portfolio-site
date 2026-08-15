@@ -123,7 +123,7 @@ export function WashiNavbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }:
             <span>Dipesh Kumar</span>
           </a>
 
-          <div className="hidden items-center gap-1 md:flex">
+          <div className="hidden items-center gap-1 lg:flex">
             {navLinks.map((link) => (
               <button key={link.href} type="button" onClick={() => navigate(link.href)} className="washi-nav-link">
                 {link.label}
@@ -134,7 +134,7 @@ export function WashiNavbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }:
             {colorModeToggle}
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 lg:hidden">
             {portfolioThemeToggle}
             {colorModeToggle}
             <button type="button" onClick={() => setIsMobileMenuOpen((open) => !open)} className="menu-seal" aria-expanded={isMobileMenuOpen} aria-controls="mobile-nav" aria-label="Toggle navigation">
@@ -155,7 +155,7 @@ export function WashiNavbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }:
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="mobile-washi-menu fixed inset-0 z-40 grid place-items-center px-6 pt-16 md:hidden"
+            className="mobile-washi-menu fixed inset-0 z-40 grid place-items-center px-6 pt-16 lg:hidden"
           >
             <div className="paper-grain absolute inset-0" aria-hidden="true" />
             <div className="relative z-10 flex w-full max-w-sm flex-col">

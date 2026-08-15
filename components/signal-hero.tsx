@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import Image from "next/image";
 
 const RESUME_URL = "https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=eSVbcv";
 
@@ -37,7 +38,16 @@ export function SignalHero() {
 
           <motion.aside initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ delay: 0.55 }} className="signal-terminal">
             <div className="signal-terminal-head"><span>PROFILE.NODE</span><span>LIVE</span></div>
-            <div className="signal-avatar-mark" aria-hidden="true"><span>DK</span></div>
+            <div className="signal-avatar-mark">
+              <Image
+                src="/hire-me-cat.png"
+                alt="Hire me cat"
+                fill
+                sizes="(min-width: 1024px) 224px, 70vw"
+                className="object-cover"
+                priority
+              />
+            </div>
             <dl className="signal-specs">
               <div><dt>Role</dt><dd>ML Engineer</dd></div>
               <div><dt>Focus</dt><dd>GenAI / Data</dd></div>

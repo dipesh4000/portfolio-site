@@ -1,0 +1,16 @@
+
+> my-project@0.1.0 dev
+> next dev --port 3000
+
+▲ Next.js 16.2.4 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://172.16.2.7:3000
+✓ Ready in 690ms
+
+○ Compiling / ...
+ GET / 200 in 6.3s (next.js: 5.3s, application-code: 1018ms)
+ GET /grand-line 404 in 677ms (next.js: 615ms, application-code: 61ms)
+  Reload env: .env.local
+ GET / 200 in 438ms (next.js: 47ms, application-code: 390ms)
+ GET /grand-line 404 in 77ms (next.js: 10ms, application-code: 67ms)
+^C^C

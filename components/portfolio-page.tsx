@@ -3,8 +3,6 @@
 import { useEffect, useState } from "react";
 import { Hero } from "@/components/hero";
 import { Navbar } from "@/components/navbar";
-import { WashiHero } from "@/components/washi-hero";
-import { WashiNavbar } from "@/components/washi-navbar";
 import { SignalHero } from "@/components/signal-hero";
 import { SignalNavbar } from "@/components/signal-navbar";
 import { DottedHummingbird } from "@/components/dotted-hummingbird";
@@ -15,31 +13,24 @@ import { ContactSection, ExperienceSection } from "@/components/sections";
 
 const portfolioThemes = [
   { id: "classic", label: "Classic" },
-  { id: "washi", label: "Washi" },
   { id: "signal", label: "Signal" },
 ] as const;
 
 type PortfolioTheme = (typeof portfolioThemes)[number]["id"];
-const THEME_STORAGE_KEY = "portfolio-theme-v1";
+const THEME_COOKIE_KEY = "portfolio-theme-v1";
+const THEME_COOKIE_MAX_AGE = 60 * 60 * 24 * 365;
 
-export function PortfolioPage() {
-  const [portfolioTheme, setPortfolioTheme] = useState<PortfolioTheme>("classic");
-  const [themePreferenceLoaded, setThemePreferenceLoaded] = useState(false);
+type PortfolioPageProps = {
+  initialPortfolioTheme: PortfolioTheme;
+};
 
-  useEffect(() => {
-    const savedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
-    if (portfolioThemes.some(({ id }) => id === savedTheme)) {
-      setPortfolioTheme(savedTheme as PortfolioTheme);
-    }
-    setThemePreferenceLoaded(true);
-  }, []);
+export function PortfolioPage({ initialPortfolioTheme }: PortfolioPageProps) {
+  const [portfolioTheme, setPortfolioTheme] = useState<PortfolioTheme>(initialPortfolioTheme);
 
   useEffect(() => {
     document.documentElement.dataset.siteTheme = portfolioTheme;
-    if (themePreferenceLoaded) {
-      window.localStorage.setItem(THEME_STORAGE_KEY, portfolioTheme);
-    }
-  }, [portfolioTheme, themePreferenceLoaded]);
+    document.cookie = `${THEME_COOKIE_KEY}=${portfolioTheme}; Path=/; Max-Age=${THEME_COOKIE_MAX_AGE}; SameSite=Lax`;
+  }, [portfolioTheme]);
 
   const currentIndex = portfolioThemes.findIndex(({ id }) => id === portfolioTheme);
   const nextTheme = portfolioThemes[(currentIndex + 1) % portfolioThemes.length];
@@ -52,19 +43,13 @@ export function PortfolioPage() {
   return (
     <main
       id="main-content"
-      className={`${portfolioTheme === "washi" ? "site-shell" : ""} ${portfolioTheme === "signal" ? "signal-shell" : ""} relative min-h-screen overflow-hidden`}
-      style={portfolioTheme === "classic" ? { backgroundColor: "#0a0a0a" } : undefined}
+      className={`${portfolioTheme === "signal" ? "signal-shell" : ""} relative min-h-screen overflow-hidden`}
     >
       {portfolioTheme === "signal" ? (
         <>
           <SignalNavbar {...themeControlProps} />
           <SignalHero />
           <DottedHummingbird />
-        </>
-      ) : portfolioTheme === "washi" ? (
-        <>
-          <WashiNavbar {...themeControlProps} />
-          <WashiHero />
         </>
       ) : (
         <>

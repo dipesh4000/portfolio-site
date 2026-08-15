@@ -113,11 +113,12 @@ export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: Navb
   return (
     <>
       <motion.nav
+        id="site-navigation"
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.5, delay: 5.5 }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-          isScrolled ? "bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
+        className={`classic-navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? "is-scrolled bg-[#0a0a0a]/90 backdrop-blur-md border-b border-white/5" : "bg-transparent"
         }`}
       >
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -150,7 +151,7 @@ export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: Navb
               </div>
             </a>
 
-            <div className="hidden md:flex items-center gap-1">
+            <div className="hidden lg:flex items-center gap-1">
               {navLinks.map((link) => (
                 <button key={link.href} type="button" onClick={() => handleNavClick(link.href)} className={navBtnClass}>
                   {link.label}
@@ -162,13 +163,13 @@ export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: Navb
                 href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                className="classic-nav-primary ml-2 px-4 py-2 rounded-full bg-white text-black text-sm font-medium hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
               >
                 GitHub
               </a>
             </div>
 
-            <div className="flex items-center gap-2 md:hidden">
+            <div className="flex items-center gap-2 lg:hidden">
               {portfolioThemeToggle}
               {themeToggle}
               <button
@@ -197,8 +198,7 @@ export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: Navb
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-40 md:hidden"
-            style={{ backgroundColor: "#0a0a0a" }}
+            className="classic-mobile-menu fixed inset-0 z-40 lg:hidden"
           >
             <div className="pt-20 px-6 flex flex-col items-center gap-2">
               {navLinks.map((link, index) => (
@@ -221,7 +221,7 @@ export function Navbar({ onPortfolioThemeToggle, nextPortfolioThemeLabel }: Navb
                 href="https://github.com/dipesh4000"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
+                className="classic-nav-primary w-full py-4 mt-4 text-lg font-medium text-black text-center bg-white rounded-full hover:bg-teal-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a]"
               >
                 GitHub
               </motion.a>
