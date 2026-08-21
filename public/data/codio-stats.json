@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 288,
-  "totalActiveDays": 156,
-  "submissions": 605,
+  "totalQuestions": 291,
+  "totalActiveDays": 158,
+  "submissions": 613,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 4,
   "awards": 2,
   "dsa": {
-    "total": 288,
-    "easy": 110,
+    "total": 291,
+    "easy": 113,
     "medium": 127,
     "hard": 16,
     "other": 35
   },
   "fundamentals": {
-    "total": 69,
-    "gfg": 60,
+    "total": 70,
+    "gfg": 61,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 130
+      "count": 132
     },
     {
       "name": "HashMap and Set",
@@ -36,11 +36,11 @@
     },
     {
       "name": "Two Pointers",
-      "count": 32
+      "count": 33
     },
     {
       "name": "Sorting",
-      "count": 30
+      "count": 31
     }
   ],
   "github": {
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-16T00:51:46.184Z"
+  "lastUpdated": "2026-08-21T00:51:53.001Z"
 }
