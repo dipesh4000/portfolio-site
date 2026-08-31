@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 295,
-  "totalActiveDays": 162,
-  "submissions": 618,
+  "totalQuestions": 301,
+  "totalActiveDays": 166,
+  "submissions": 625,
   "maxStreak": 24,
-  "currentStreak": 8,
+  "currentStreak": 2,
   "awards": 3,
   "dsa": {
-    "total": 295,
-    "easy": 114,
-    "medium": 130,
-    "hard": 16,
+    "total": 301,
+    "easy": 115,
+    "medium": 134,
+    "hard": 17,
     "other": 35
   },
   "fundamentals": {
-    "total": 72,
-    "gfg": 63,
+    "total": 75,
+    "gfg": 66,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 134
+      "count": 138
     },
     {
       "name": "HashMap and Set",
@@ -28,40 +28,40 @@
     },
     {
       "name": "Binary Search",
-      "count": 41
+      "count": 42
     },
     {
       "name": "String",
       "count": 37
     },
     {
-      "name": "Two Pointers",
-      "count": 33
+      "name": "Sorting",
+      "count": 34
     },
     {
-      "name": "Sorting",
-      "count": 32
+      "name": "Two Pointers",
+      "count": 33
     }
   ],
   "github": {
-    "stars": 24,
-    "commits": 708,
-    "contributions": 787,
+    "stars": 26,
+    "commits": 717,
+    "contributions": 798,
     "pullRequests": 9,
     "issues": 4,
-    "activeDays": 175
+    "activeDays": 181
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 6968717,
-      "percentage": 44,
+      "bytes": 7037453,
+      "percentage": 43,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 6812210,
-      "percentage": 43,
+      "bytes": 6843973,
+      "percentage": 42,
       "color": "#ff5a3d"
     },
     {
@@ -73,19 +73,19 @@
     {
       "name": "Jupyter Notebook",
       "bytes": 736178,
-      "percentage": 5,
+      "percentage": 4,
       "color": "#35506b"
     },
     {
-      "name": "CSS",
-      "bytes": 400770,
+      "name": "HTML",
+      "bytes": 455805,
       "percentage": 3,
-      "color": "#2fbf5b"
+      "color": "#e34c26"
     },
     {
       "name": "Others",
-      "bytes": 227821,
-      "percentage": 1,
+      "bytes": 599209,
+      "percentage": 4,
       "color": "#94a3b8"
     }
   ],
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-08-26T00:51:21.140Z"
+  "lastUpdated": "2026-08-31T02:41:46.269Z"
 }
