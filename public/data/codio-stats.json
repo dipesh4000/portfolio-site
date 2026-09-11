@@ -1,26 +1,26 @@
 {
-  "totalQuestions": 301,
-  "totalActiveDays": 166,
-  "submissions": 625,
+  "totalQuestions": 310,
+  "totalActiveDays": 171,
+  "submissions": 636,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 3,
   "awards": 3,
   "dsa": {
-    "total": 301,
-    "easy": 115,
-    "medium": 134,
-    "hard": 17,
+    "total": 310,
+    "easy": 121,
+    "medium": 136,
+    "hard": 18,
     "other": 35
   },
   "fundamentals": {
-    "total": 75,
-    "gfg": 66,
+    "total": 76,
+    "gfg": 67,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 138
+      "count": 139
     },
     {
       "name": "HashMap and Set",
@@ -28,7 +28,7 @@
     },
     {
       "name": "Binary Search",
-      "count": 42
+      "count": 43
     },
     {
       "name": "String",
@@ -45,47 +45,47 @@
   ],
   "github": {
     "stars": 26,
-    "commits": 717,
-    "contributions": 798,
+    "commits": 733,
+    "contributions": 813,
     "pullRequests": 9,
     "issues": 4,
-    "activeDays": 181
+    "activeDays": 186
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 7037453,
+      "bytes": 6777170,
       "percentage": 43,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 6843973,
-      "percentage": 42,
+      "bytes": 6505677,
+      "percentage": 41,
       "color": "#ff5a3d"
     },
     {
       "name": "JavaScript",
-      "bytes": 803182,
+      "bytes": 874642,
       "percentage": 5,
       "color": "#f7df1e"
     },
     {
       "name": "Jupyter Notebook",
       "bytes": 736178,
-      "percentage": 4,
+      "percentage": 5,
       "color": "#35506b"
     },
     {
       "name": "HTML",
-      "bytes": 455805,
+      "bytes": 485487,
       "percentage": 3,
       "color": "#e34c26"
     },
     {
       "name": "Others",
-      "bytes": 599209,
-      "percentage": 4,
+      "bytes": 541387,
+      "percentage": 3,
       "color": "#94a3b8"
     }
   ],
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-09-06T02:12:36.525Z"
+  "lastUpdated": "2026-09-11T02:19:11.102Z"
 }
