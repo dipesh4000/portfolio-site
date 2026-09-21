@@ -1,30 +1,30 @@
 {
-  "totalQuestions": 310,
-  "totalActiveDays": 171,
-  "submissions": 636,
+  "totalQuestions": 326,
+  "totalActiveDays": 181,
+  "submissions": 656,
   "maxStreak": 24,
-  "currentStreak": 3,
+  "currentStreak": 4,
   "awards": 3,
   "dsa": {
-    "total": 310,
-    "easy": 121,
-    "medium": 136,
-    "hard": 18,
-    "other": 35
+    "total": 326,
+    "easy": 125,
+    "medium": 145,
+    "hard": 19,
+    "other": 37
   },
   "fundamentals": {
-    "total": 76,
-    "gfg": 67,
+    "total": 80,
+    "gfg": 71,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 139
+      "count": 140
     },
     {
       "name": "HashMap and Set",
-      "count": 47
+      "count": 48
     },
     {
       "name": "Binary Search",
@@ -32,11 +32,11 @@
     },
     {
       "name": "String",
-      "count": 37
+      "count": 38
     },
     {
       "name": "Sorting",
-      "count": 34
+      "count": 35
     },
     {
       "name": "Two Pointers",
@@ -45,16 +45,16 @@
   ],
   "github": {
     "stars": 28,
-    "commits": 755,
-    "contributions": 835,
+    "commits": 766,
+    "contributions": 847,
     "pullRequests": 9,
     "issues": 4,
-    "activeDays": 191
+    "activeDays": 196
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 6940390,
+      "bytes": 6942087,
       "percentage": 43,
       "color": "#2ecc71"
     },
@@ -66,7 +66,7 @@
     },
     {
       "name": "JavaScript",
-      "bytes": 939159,
+      "bytes": 948613,
       "percentage": 6,
       "color": "#f7df1e"
     },
@@ -78,13 +78,13 @@
     },
     {
       "name": "HTML",
-      "bytes": 486150,
+      "bytes": 501213,
       "percentage": 3,
       "color": "#e34c26"
     },
     {
       "name": "Others",
-      "bytes": 570127,
+      "bytes": 589492,
       "percentage": 4,
       "color": "#94a3b8"
     }
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-09-16T02:39:51.772Z"
+  "lastUpdated": "2026-09-21T02:38:36.298Z"
 }
