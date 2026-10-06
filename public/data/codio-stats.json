@@ -1,14 +1,14 @@
 {
-  "totalQuestions": 328,
-  "totalActiveDays": 183,
-  "submissions": 660,
+  "totalQuestions": 329,
+  "totalActiveDays": 184,
+  "submissions": 661,
   "maxStreak": 24,
-  "currentStreak": 2,
+  "currentStreak": 1,
   "awards": 3,
   "dsa": {
-    "total": 328,
+    "total": 329,
     "easy": 125,
-    "medium": 147,
+    "medium": 148,
     "hard": 19,
     "other": 37
   },
@@ -20,15 +20,15 @@
   "topics": [
     {
       "name": "Arrays",
-      "count": 140
+      "count": 142
     },
     {
       "name": "HashMap and Set",
-      "count": 48
+      "count": 49
     },
     {
       "name": "Binary Search",
-      "count": 43
+      "count": 45
     },
     {
       "name": "String",
@@ -36,7 +36,7 @@
     },
     {
       "name": "Sorting",
-      "count": 35
+      "count": 37
     },
     {
       "name": "Two Pointers",
@@ -45,46 +45,46 @@
   ],
   "github": {
     "stars": 28,
-    "commits": 787,
-    "contributions": 870,
-    "pullRequests": 9,
+    "commits": 790,
+    "contributions": 874,
+    "pullRequests": 10,
     "issues": 5,
-    "activeDays": 202
+    "activeDays": 204
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 7435053,
-      "percentage": 43,
+      "bytes": 7745392,
+      "percentage": 44,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 6610942,
+      "bytes": 6693782,
       "percentage": 38,
       "color": "#ff5a3d"
     },
     {
       "name": "JavaScript",
-      "bytes": 1277477,
+      "bytes": 1292665,
       "percentage": 7,
       "color": "#f7df1e"
     },
     {
       "name": "Jupyter Notebook",
       "bytes": 789278,
-      "percentage": 5,
+      "percentage": 4,
       "color": "#35506b"
     },
     {
       "name": "CSS",
-      "bytes": 621847,
+      "bytes": 631288,
       "percentage": 4,
       "color": "#2fbf5b"
     },
     {
       "name": "Others",
-      "bytes": 642254,
+      "bytes": 641778,
       "percentage": 4,
       "color": "#94a3b8"
     }
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-01T03:24:26.449Z"
+  "lastUpdated": "2026-10-06T04:07:43.440Z"
 }
