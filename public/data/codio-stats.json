@@ -44,47 +44,47 @@
     }
   ],
   "github": {
-    "stars": 29,
-    "commits": 831,
-    "contributions": 921,
+    "stars": 27,
+    "commits": 835,
+    "contributions": 925,
     "pullRequests": 11,
     "issues": 7,
-    "activeDays": 216
+    "activeDays": 218
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 7898585,
-      "percentage": 43,
+      "bytes": 8016248,
+      "percentage": 47,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 6873836,
-      "percentage": 38,
+      "bytes": 5184340,
+      "percentage": 31,
       "color": "#ff5a3d"
     },
     {
       "name": "JavaScript",
-      "bytes": 1541175,
-      "percentage": 8,
+      "bytes": 1584565,
+      "percentage": 9,
       "color": "#f7df1e"
     },
     {
       "name": "CSS",
-      "bytes": 700006,
-      "percentage": 4,
+      "bytes": 809368,
+      "percentage": 5,
       "color": "#2fbf5b"
     },
     {
       "name": "Jupyter Notebook",
       "bytes": 617844,
-      "percentage": 3,
+      "percentage": 4,
       "color": "#35506b"
     },
     {
       "name": "Others",
-      "bytes": 675815,
+      "bytes": 675402,
       "percentage": 4,
       "color": "#94a3b8"
     }
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-21T02:44:52.001Z"
+  "lastUpdated": "2026-10-26T02:33:17.618Z"
 }
