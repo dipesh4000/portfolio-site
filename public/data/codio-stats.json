@@ -1,30 +1,30 @@
 {
-  "totalQuestions": 332,
-  "totalActiveDays": 188,
-  "submissions": 665,
+  "totalQuestions": 334,
+  "totalActiveDays": 190,
+  "submissions": 667,
   "maxStreak": 24,
   "currentStreak": 1,
   "awards": 3,
   "dsa": {
-    "total": 332,
+    "total": 334,
     "easy": 125,
-    "medium": 150,
+    "medium": 152,
     "hard": 20,
     "other": 37
   },
   "fundamentals": {
-    "total": 82,
-    "gfg": 73,
+    "total": 83,
+    "gfg": 74,
     "hackerrank": 9
   },
   "topics": [
     {
       "name": "Arrays",
-      "count": 142
+      "count": 143
     },
     {
       "name": "HashMap and Set",
-      "count": 49
+      "count": 50
     },
     {
       "name": "Binary Search",
@@ -44,48 +44,48 @@
     }
   ],
   "github": {
-    "stars": 27,
-    "commits": 835,
-    "contributions": 925,
+    "stars": 28,
+    "commits": 853,
+    "contributions": 944,
     "pullRequests": 11,
-    "issues": 7,
-    "activeDays": 218
+    "issues": 8,
+    "activeDays": 222
   },
   "languages": [
     {
       "name": "Python",
-      "bytes": 8016248,
-      "percentage": 47,
+      "bytes": 8983166,
+      "percentage": 50,
       "color": "#2ecc71"
     },
     {
       "name": "TypeScript",
-      "bytes": 5184340,
+      "bytes": 5593543,
       "percentage": 31,
       "color": "#ff5a3d"
     },
     {
       "name": "JavaScript",
-      "bytes": 1584565,
+      "bytes": 1534316,
       "percentage": 9,
       "color": "#f7df1e"
     },
     {
       "name": "CSS",
-      "bytes": 809368,
+      "bytes": 835042,
       "percentage": 5,
       "color": "#2fbf5b"
     },
     {
       "name": "Jupyter Notebook",
-      "bytes": 617844,
+      "bytes": 659361,
       "percentage": 4,
       "color": "#35506b"
     },
     {
       "name": "Others",
-      "bytes": 675402,
-      "percentage": 4,
+      "bytes": 318050,
+      "percentage": 2,
       "color": "#94a3b8"
     }
   ],
@@ -151,5 +151,5 @@
       }
     ]
   },
-  "lastUpdated": "2026-10-26T02:33:17.618Z"
+  "lastUpdated": "2026-10-31T03:30:44.746Z"
 }
