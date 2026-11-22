@@ -12,7 +12,7 @@ export const portfolio = {
   headline: 'Intelligence, engineered.',
   description: 'I turn complex data into dependable products. Building at the intersection of machine learning, thoughtful engineering, and a little curiosity.',
   email: 'dipeshkumar0853822@gmail.com',
-  resume: 'https://presio.me/dipesh4000/resume',
+  resume: 'https://1drv.ms/b/c/17a0e8e57ec0559b/IQBzXkKgN731TI6FVjefkaSqAQ73ET6JOSFyhAfLJDDdKK0?e=f0jGLD',
   heroImage: './assets/hero-cutout.png',
   portrait: './assets/dipesh.jpg',
   accent: '#ed080d',
